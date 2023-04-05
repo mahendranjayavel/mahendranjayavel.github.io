@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% if jekyll.environment == "production" %}
+{% unless site.output == "pdf" %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116062606-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-116062606-1');
+</script>
+<!-- End of Global site tag (gtag.js) - Google Analytics -->
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5NK2868');</script>
+<!-- End Google Tag Manager -->
+{% endunless %}
+{% endif %}
+
+    {% include head.html %}
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+        });
+    </script>
+    
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    
+        <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+
+    {% if page.datatable == true %}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css"></link>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+        <script>
+        $(document).ready(function () {
+
+            $('table.display').DataTable( {
+                paging: false,
+                stateSave: true,
+                searching: true
+            } );
+        } ); 
+        </script>
+    {% endif %}
+
+    <script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+    </script>
+</head>
+
+<body>
+{% if jekyll.environment == "production" %}
+{% unless site.output == "pdf" %}
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NK2868"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+{% endunless %}
+{% endif %}
+
+{% if jekyll.environment == "production" %}
+{% include topnav_prod.html %}
+{% else %}
+{% include topnav_stage.html %}
+{% endif %}
+<br>
+<br>
+
+<!-- Search Tips Modal -->
+<!-- <div class="modal fade bd-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+<h4 class="modal-title" id="myLargeModalLabel">Search Tips</h4>
+</div>
+<div class="modal-body">
+<p>This site's search function is powered by <a href="https://lunrjs.com" target="_blank">LUNR</a>.</p>
+<h5>Search as You Type</h5>
+<p>
+To search for a topic of interest:
+<ol>
+<li>Just start typing your search keywords and search results (topic titles) show up instantly.
+<ul>
+<li>You can use <a href="https://lunrjs.com/guides/searching.html#wildcards" target="_blank">wildcards</a> in your search.</li>
+<li>You can also <a href="https://lunrjs.com/guides/searching.html#boosts" target="_blank">boost</a> a single term in your multi-term searches.</li>
+<li>Lunr also supports <a href="https://lunrjs.com/guides/searching.html#fuzzy-matches" target="_blank">fuzzy matching</a> search terms.</li>
+</ul>
+</li>
+<li>Look for the topic you are searching for from the search results drop-down list and click a topic title to go to the page.</li>
+</ol>
+You can also use the tags listed in the <b>Tag Archive Pages</b> section on all the pages to view the list of topics tagged with a particular tag.
+</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div> -->
+<!-- Search Tips Modal -->
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        {% assign content_col_size = "col-md-12" %}
+        {% unless page.hide_sidebar %}
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                {% unless site.output == "pdf" %}
+                {% include sidebar.html %}
+                {% endunless %}
+            </div>
+            {% assign content_col_size = "col-md-9" %}
+        {% endunless %}
+
+        <!-- Content Column -->
+        <div class="{{content_col_size}}" id="tg-sb-content">
+            {{content}}
+        </div>
+    <!-- /.row -->
+    </div>
+    </div>
+<!-- /.container -->
+</div>
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: '36c1d5b68adefd00b74d34b41ded1e91',
+indexName: 'collab',
+inputSelector: '#docsearch-query',
+algoliaOptions: { 'facetFilters': ["tags:teamforge221"] },
+debug: true // Set debug to true if you want to inspect the dropdown
+});
+</script>
+
+</body>
+{% if site.google_analytics %}
+{% include google_analytics.html %}
+{% endif %}
+</html>

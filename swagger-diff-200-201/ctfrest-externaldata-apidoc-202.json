@@ -1,0 +1,615 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.2.556",
+    "title" : "External Data API"
+  },
+  "basePath" : "/ctfrest/externaldata/v1",
+  "tags" : [ {
+    "name" : "ExternalData"
+  } ],
+  "paths" : {
+    "/builddata" : {
+      "post" : {
+        "tags" : [ "ExternalData" ],
+        "summary" : "Creates external data build details",
+        "description" : "",
+        "operationId" : "createBuild",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "ExternalData Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostBuild"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "External Data for Build created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/GetBuild"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/builddata/{buildId}/{jobName}" : {
+      "get" : {
+        "tags" : [ "ExternalData" ],
+        "summary" : "Gets externaldata Jenkins build details",
+        "description" : "",
+        "operationId" : "getBuild",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "buildId",
+          "in" : "path",
+          "description" : "Jenkins build id",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "jobName",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned build details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetBuild"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid build id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/customdata" : {
+      "post" : {
+        "tags" : [ "ExternalData" ],
+        "summary" : "Creates custom data",
+        "description" : "",
+        "operationId" : "createCustomData",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Custom Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostCustomData"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Custom data created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/GetCustomData"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/customdata/{customDataId}" : {
+      "get" : {
+        "tags" : [ "ExternalData" ],
+        "summary" : "Gets Custom data details",
+        "description" : "",
+        "operationId" : "getCustomData",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "customDataId",
+          "in" : "path",
+          "description" : "CustomData id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Custom data details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetCustomData"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid custom data id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/workItem" : {
+      "post" : {
+        "tags" : [ "ExternalData" ],
+        "summary" : "Creates work item details",
+        "description" : "",
+        "operationId" : "createWorkItem",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "WorkItem Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostWorkItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Work item created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/GetWorkItem"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/workItem/{workItemId}" : {
+      "get" : {
+        "tags" : [ "ExternalData" ],
+        "summary" : "Gets WorkItem details",
+        "description" : "",
+        "operationId" : "getWorkItem",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workItemId",
+          "in" : "path",
+          "description" : "WorkItem id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned WorkItem details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetWorkItem"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid workitem id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "BuildRepository" : {
+      "type" : "object",
+      "required" : [ "revisions", "type", "url" ],
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "description" : "Repository Type",
+          "readOnly" : true
+        },
+        "url" : {
+          "type" : "string",
+          "description" : "Url of repository",
+          "readOnly" : true
+        },
+        "revisions" : {
+          "type" : "array",
+          "description" : "List of revisions",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to describe respository details used by build"
+    },
+    "GetBuild" : {
+      "type" : "object",
+      "properties" : {
+        "buildId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "eventTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "duration" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "buildUrl" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "testResult" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/TestResult"
+        },
+        "repository" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/BuildRepository"
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing Build details"
+    },
+    "GetCustomData" : {
+      "type" : "object",
+      "properties" : {
+        "remoteId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "eventTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "associatedRemoteId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "customData" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing Custom data details"
+    },
+    "GetWorkItem" : {
+      "type" : "object",
+      "properties" : {
+        "remoteId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "trackerTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "remoteUrl" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "isClosed" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "iconUrl" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing WorkItem details"
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PostBuild" : {
+      "type" : "object",
+      "required" : [ "buildId", "buildUrl", "createdBy", "duration", "eventTime", "repository", "status" ],
+      "properties" : {
+        "buildId" : {
+          "type" : "string",
+          "description" : "BuildId",
+          "readOnly" : true
+        },
+        "eventTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "EventTime",
+          "readOnly" : true
+        },
+        "duration" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Duration",
+          "readOnly" : true
+        },
+        "buildUrl" : {
+          "type" : "string",
+          "description" : "BuildUrl",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "CreatedBy",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "testResult" : {
+          "description" : "TestResult",
+          "readOnly" : true,
+          "$ref" : "#/definitions/TestResult"
+        },
+        "repository" : {
+          "description" : "Repository",
+          "readOnly" : true,
+          "$ref" : "#/definitions/BuildRepository"
+        }
+      },
+      "description" : "Model for creating build"
+    },
+    "PostCustomData" : {
+      "type" : "object",
+      "required" : [ "associatedRemoteId", "customData", "eventTime", "remoteId" ],
+      "properties" : {
+        "remoteId" : {
+          "type" : "string",
+          "description" : "RemoteId",
+          "readOnly" : true
+        },
+        "eventTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "EventTime",
+          "readOnly" : true
+        },
+        "associatedRemoteId" : {
+          "type" : "string",
+          "description" : "AssociatedRemoteId",
+          "readOnly" : true
+        },
+        "customData" : {
+          "type" : "object",
+          "description" : "CustomData",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      },
+      "description" : "Model for creating custom data"
+    },
+    "PostWorkItem" : {
+      "type" : "object",
+      "required" : [ "createdBy", "createdDate", "priority", "remoteId", "remoteUrl", "title", "trackerTitle" ],
+      "properties" : {
+        "remoteId" : {
+          "type" : "string",
+          "description" : "RemoteId",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "title"
+        },
+        "trackerTitle" : {
+          "type" : "string",
+          "description" : "TrackerTitle"
+        },
+        "priority" : {
+          "type" : "string",
+          "description" : "Priority"
+        },
+        "remoteUrl" : {
+          "type" : "string",
+          "description" : "RemoteUrl",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "CreatedDate",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "CreatedBy",
+          "readOnly" : true
+        },
+        "isClosed" : {
+          "type" : "boolean",
+          "description" : "IsClosed",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "IsDeleted",
+          "readOnly" : true
+        },
+        "iconUrl" : {
+          "type" : "string",
+          "description" : "IconUrl",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for creating workitem"
+    },
+    "TestResult" : {
+      "type" : "object",
+      "required" : [ "failedCount", "ignoredCount", "passedCount", "url" ],
+      "properties" : {
+        "passedCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Number of tests passed",
+          "readOnly" : true
+        },
+        "failedCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Number of tests failed",
+          "readOnly" : true
+        },
+        "ignoredCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Number of tests ignored",
+          "readOnly" : true
+        },
+        "url" : {
+          "type" : "string",
+          "description" : "Url of test results",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to describe Test results"
+    }
+  }
+}

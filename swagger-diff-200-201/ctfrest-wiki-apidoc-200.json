@@ -1,0 +1,663 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.0.321",
+    "title" : "WIKI API"
+  },
+  "basePath" : "/ctfrest/wiki/v1",
+  "tags" : [ {
+    "name" : "WikiPages"
+  } ],
+  "paths" : {
+    "/pages/{pageId}" : {
+      "get" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Gets wiki page data by id",
+        "description" : "",
+        "operationId" : "getWikiPage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "wiki(\\d+)"
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "description" : "Wiki page version",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "includeText",
+          "in" : "query",
+          "description" : "Include wiki page text?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetWikiPageEntity"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Wiki page data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such wiki page",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Deletes wiki page data by id",
+        "description" : "",
+        "operationId" : "deleteWikiPage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "wiki(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Wiki page is deleted"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such wiki page",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Updates wiki page",
+        "description" : "",
+        "operationId" : "updateWikiPage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "wiki(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated wiki page data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchWikiPage"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Wiki page data version",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetWikiPageEntity"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Wiki page data version"
+              }
+            }
+          },
+          "304" : {
+            "description" : "Wiki page is not updated"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such wiki page",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/pages" : {
+      "get" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Gets project wiki pages",
+        "description" : "",
+        "operationId" : "getProjectWikiPages",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "recursive",
+          "in" : "query",
+          "description" : "Include the pages in sub-projects?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : true
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of wiki pages to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/WikiPages"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Creates wiki page",
+        "description" : "",
+        "operationId" : "createWikiPage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New wiki page data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostWikiPage"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetWikiPageEntity"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Wiki page data version"
+              },
+              "Location" : {
+                "type" : "string",
+                "format" : "uri",
+                "description" : "Wiki page endpoint"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/pages/by-name/{name}" : {
+      "get" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Gets wiki page data by name",
+        "description" : "",
+        "operationId" : "getWikiPageByName",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "description" : "Wiki page version",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "includeText",
+          "in" : "query",
+          "description" : "Include wiki page text?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetWikiPageEntity"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Wiki page data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such wiki page/project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/pages/orphaned" : {
+      "get" : {
+        "tags" : [ "WikiPages" ],
+        "summary" : "Gets orphaned project wiki pages",
+        "description" : "",
+        "operationId" : "getOrphanedProjectWikiPages",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of wiki pages to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/WikiPages"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "AttachmentFileEntity" : {
+      "type" : "object",
+      "required" : [ "fileId", "fileName", "mimeType" ],
+      "properties" : {
+        "fileId" : {
+          "type" : "string",
+          "description" : "Temporary file id obtained via uploading through file storage API",
+          "readOnly" : true
+        },
+        "fileName" : {
+          "type" : "string",
+          "description" : "File name",
+          "readOnly" : true
+        },
+        "mimeType" : {
+          "type" : "string",
+          "description" : "Mime type",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to describe an uploaded attachment file (for POST and PATCH)"
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "GetWikiPageEntity" : {
+      "type" : "object",
+      "required" : [ "createdBy", "createdDate", "dateVersionCreated", "id", "lastModifiedBy", "lastModifiedDate", "name", "path", "title", "versionComment", "versionCreatedBy", "wikiPageVersion" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "dateVersionCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "versionCreatedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "versionComment" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "wikiPageVersion" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "text" : {
+          "type" : "string"
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PatchWikiPage" : {
+      "type" : "object",
+      "required" : [ "text" ],
+      "properties" : {
+        "text" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "comment" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "attachments" : {
+          "type" : "array",
+          "description" : "Attachment descriptors for the files uploaded via file storage API",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/AttachmentFileEntity"
+          }
+        }
+      },
+      "description" : "Model to update a wiki page"
+    },
+    "PostWikiPage" : {
+      "type" : "object",
+      "required" : [ "name", "text" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "text" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "comment" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "attachments" : {
+          "type" : "array",
+          "description" : "Attachment descriptors for the files uploaded via file storage API",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/AttachmentFileEntity"
+          }
+        }
+      },
+      "description" : "Model to create a wiki page"
+    },
+    "WikiPages" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetWikiPageEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Wiki page collection"
+    }
+  }
+}

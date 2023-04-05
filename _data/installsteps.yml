@@ -1,0 +1,7 @@
+# # This step is to deploy teamforge services using the provision command. Use this on BTF docs.
+# deploy_services: |
+#    Deploy services.
+#    ```shell
+#    /opt/collabnet/teamforge/bin/teamforge provision
+#    ````
+   

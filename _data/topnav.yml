@@ -1,0 +1,47 @@
+## Topnav single links
+## if you want to list an external url, use external_url instead of url. the theme will apply a different link base.
+topnav:
+- title: Topnav
+  items:
+    - title: Home
+      external_url: http://docs.collab.net/index.html
+    - title: News
+      external_url: http://docs.collab.net/news.html
+
+#Topnav dropdowns
+topnav_dropdowns:
+- title: Topnav dropdowns
+  folders:
+    - title: Links
+      folderitems:
+        - title: help.collab.net
+          external_url: http://help.collab.net
+        - title: CollabNet Community
+          external_url: https://www.collab.net/community
+        - title: VersionOne Community
+          external_url: https://community.versionone.com          
+        - title: Blogs
+          external_url: https://digital.ai/resources/blog
+        - title: Customer Support
+          external_url: https://digital.ai/support
+        - title: Product Training
+          external_url: https://digital.ai/product-training
+        - title: Agile, SAFe®, Scrum Training
+          external_url: https://digital.ai/agile-scrum-safe-training
+
+#products menu to open in the same browser
+products_dropdowns:
+- title: Topnav dropdowns
+  folders:
+    - title: Products
+      folderitems:
+        - title: TeamForge 19.1
+          external_url: http://docs.collab.net/teamforge191/index.html         
+        - title: TeamForge 19.0
+          external_url: http://docs.collab.net/teamforge190/index.html         
+        - title: TeamForge 18.3
+          external_url: http://docs.collab.net/teamforge183/index.html         
+        - title: TeamForge 18.2
+          external_url: http://docs.collab.net/teamforge182/index.html         
+        - title: TeamForge 18.1
+          external_url: http://docs.collab.net/teamforge181/index.html

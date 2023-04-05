@@ -1,0 +1,1052 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.3.397",
+    "title" : "Reports API"
+  },
+  "basePath" : "/ctfrest/reports/v1",
+  "tags" : [ {
+    "name" : "Report Categories"
+  }, {
+    "name" : "Report Types"
+  }, {
+    "name" : "Reports"
+  } ],
+  "paths" : {
+    "/projects/{projectid}/report-categories" : {
+      "get" : {
+        "tags" : [ "Report Categories" ],
+        "summary" : "Gets report categories.",
+        "description" : "",
+        "operationId" : "getReportCategories",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Report categories retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportCategoriesEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No such project"
+          }
+        }
+      }
+    },
+    "/projects/{projectid}/report-categories/{reportcategory}/report-types/{reporttype}" : {
+      "get" : {
+        "tags" : [ "Report Categories" ],
+        "summary" : "Gets report type metadata.",
+        "description" : "",
+        "operationId" : "getReportType",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "reportcategory",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "reporttype",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Report type metadata retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportTypeMetaDataEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No such project, no such report type, no such report category"
+          }
+        }
+      }
+    },
+    "/projects/{projectid}/report-offerings" : {
+      "get" : {
+        "tags" : [ "Reports" ],
+        "summary" : "Gets report offerings.",
+        "description" : "",
+        "operationId" : "getReportOfferings",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Report offerings retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportOfferingsEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No such project"
+          }
+        }
+      }
+    },
+    "/projects/{projectid}/report-types" : {
+      "get" : {
+        "tags" : [ "Report Types" ],
+        "summary" : "Gets report types.",
+        "description" : "",
+        "operationId" : "getReportTypes",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Report types retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportTypesEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No such project"
+          }
+        }
+      }
+    },
+    "/projects/{projectid}/reports" : {
+      "post" : {
+        "tags" : [ "Reports" ],
+        "summary" : "Creates report",
+        "description" : "Sample request body to create a report of artifacts from multiple trackers that were closed in the last 30 days:\n\n<pre>{\n  \"title\": \"Last 30 Days\",\n  \"description\": \"Bugs and Stories closed during the last 30 days\",\n  \"reportType\": \"ArtifactClosed\",\n  \"reportCategory\": \"ActivityReports\",\n  \"accessLevel\": \"Public\",\n  \"reportParameters\": {\n    \"trackerIds\": [\"tracker1005\",\"tracker1006\"],\n    \"dateRange\": {\"id\": \"last30Days\"}\n  }\n}</pre>\n\nSample request body to create a report of open priority 1 and priority 2 artifacts from multiple trackers:<pre>{\n  \"title\": \"High Priority\",\n  \"description\": \"Open high priority Bugs and Stories\",\n  \"reportType\": \"Tracker\",\n  \"reportCategory\": \"TableReports\",\n  \"accessLevel\": \"Public\",\n  \"reportParameters\": {\n    \"trackers\": [\"tracker1005\",\"tracker1006\"],\n    \"priority\": [\"1\",\"2\"],\n    \"maturity\": [\"new\"],\n    \"tracker1005Fields\": [\"title\",\"status\"],\n    \"tracker1005Status\": [\"Open\"],\n    \"tracker1005Category\": [\"Core Product\"],\n    \"tracker1006Fields\": [\"title\",\"status\"],\n    \"tracker1006Status\": [\"Open\"],\n    \"tracker1006Category\": [\"Core Product\"]\n  }\n}</pre>",
+        "operationId" : "createReport",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New report data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostReport"
+          }
+        }, {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Report is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportEntity"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          }
+        }
+      }
+    },
+    "/projects/{projectid}/reports/filter" : {
+      "post" : {
+        "tags" : [ "Reports" ],
+        "summary" : "Gets reports.",
+        "description" : "Sample request body to get first 20 Public reports sorted by category and creation date, with most recently created reports first:\n\n<pre>{\n  \"filter\": {\n    \"accessLevel\": {\n      \"type\": \"string\",\n      \"value\": \"Public\"\n    }\n  },\n  \"sort\": [\n    {\n      \"column\": \"category\",\n      \"order\": true\n  },\n    {\n      \"column\": \"dateCreated\",\n      \"order\": false\n  }\n  ],\n  \"offset\": 0,\n  \"count\": 20\n}</pre>",
+        "operationId" : "getReports",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "exclude-table-reports",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Sort fields and filters",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/SortAndFilter"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Reports retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportsEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No such project"
+          }
+        }
+      }
+    },
+    "/projects/{projectid}/reports/{surrogateid}" : {
+      "get" : {
+        "tags" : [ "Reports" ],
+        "summary" : "Gets report by surrogate id",
+        "description" : "",
+        "operationId" : "getReport",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "surrogateid",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "(?:\\d+)",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such report",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Reports" ],
+        "summary" : "Deletes a report",
+        "description" : "",
+        "operationId" : "deleteReport",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "surrogateid",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "(?:\\d+)",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Report is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project, no such report",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Reports" ],
+        "summary" : "Updates report data by surrogate id",
+        "description" : "",
+        "operationId" : "updateReport",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated report info",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchReport"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Report version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "projectid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "surrogateid",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "(?:\\d+)",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetReportEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project, no such report",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "FilterField" : {
+      "type" : "object",
+      "required" : [ "type", "value" ],
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Filter field"
+    },
+    "FormConfig" : {
+      "type" : "object",
+      "required" : [ "fields" ],
+      "properties" : {
+        "fields" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ReportField"
+          }
+        }
+      },
+      "description" : "Form configuration"
+    },
+    "GetReportCategoriesEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetReportCategoryEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportCategoryEntity" : {
+      "type" : "object",
+      "required" : [ "id", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportCategoryOfferingsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "categoryId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "categoryTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "categoryDescription" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportTypes" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetReportTypeEntity"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportDetailEntity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "modifiedById" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "dateModified" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "accessLevel" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportEntity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportType" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportCategory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "accessLevel" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportParameters" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Serializable"
+          }
+        },
+        "formConfig" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/FormConfig"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportOfferingsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetReportCategoryOfferingsEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportTypeEntity" : {
+      "type" : "object",
+      "required" : [ "id", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "imageUrl" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportTypeMetaDataEntity" : {
+      "type" : "object",
+      "properties" : {
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "type" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/GetReportTypeEntity"
+        },
+        "category" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/GetReportCategoryEntity"
+        },
+        "formConfig" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/FormConfig"
+        },
+        "chartConfig" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Serializable"
+          }
+        },
+        "timeToLive" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "deleted" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportTypesEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetReportTypeEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetReportsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetReportDetailEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PatchReport" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "accessLevel" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportParameters" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Serializable"
+          }
+        }
+      },
+      "description" : "Model to update a report"
+    },
+    "PostReport" : {
+      "type" : "object",
+      "required" : [ "description", "reportCategory", "reportType", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportType" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportCategory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "accessLevel" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "reportParameters" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Serializable"
+          }
+        }
+      },
+      "description" : "Model to create a report"
+    },
+    "ReportField" : {
+      "type" : "object",
+      "required" : [ "name", "type" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "object" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "label" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "default" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "values" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "help" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "max" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "required" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "crossProject" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "allOption" : {
+          "type" : "boolean",
+          "readOnly" : true
+        }
+      },
+      "description" : "Report field"
+    },
+    "Serializable" : {
+      "type" : "object"
+    },
+    "SortAndFilter" : {
+      "type" : "object",
+      "properties" : {
+        "sort" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/SortField"
+          }
+        },
+        "filter" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/FilterField"
+          }
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to sort and filter report list"
+    },
+    "SortField" : {
+      "type" : "object",
+      "required" : [ "column" ],
+      "properties" : {
+        "column" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "order" : {
+          "type" : "boolean",
+          "readOnly" : true
+        }
+      },
+      "description" : "Sort field"
+    }
+  }
+}

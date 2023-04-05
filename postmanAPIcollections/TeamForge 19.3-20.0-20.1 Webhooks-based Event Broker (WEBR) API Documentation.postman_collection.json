@@ -1,0 +1,3169 @@
+{
+	"info": {
+		"_postman_id": "8f30c8e2-fcc8-47f0-be42-08475f594712",
+		"name": "TeamForge 19.3/20.0/20.1 Webhooks-based Event Broker (WEBR) API Documentation",
+		"description": "WEBR is a webhook-driven message broker delivered as a microservice along with TeamForge. \n\nThe WEBR application is installed by default when you install or upgrade to TeamForge 19.3/20.0. For more information, see TeamForge install and upgrade instructions. \n\n## Response Codes for WEBR APIs\n* Response code 200 means success.\n* Response code 400 means authentication failure.\n* Response code 404 means page not found. \n* Response code 500 means internal server error.\n\n## HostName Conventions\nThe {{HostName}} used in the examples can be replaced with something like `https://teamforge.collab.net/webr`. \n\nYou can also use the WEBR port number in the URL instead of `/webr`. For example you can also use `https://teamforge.collab.net:3000`.\n\n\nHere's the list of APIs supported by WEBR.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "434f3e4a-0b3d-4c83-ae10-dfbe9e2ef684",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"Username\": \"webradmin\",\n\"Password\": \"vK98l_6J0tv#\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HostName}}/login",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "This API lets you log on to the WEBR application using the WEBR Admin credentials. \n\nThis API takes the WEBR Admin username and password and the response includes a success flag which is either `true` or `false` and a session token.\n\n* You can get the WEBR Admin user's credentials from the `/opt/collabnet/teamforge/runtime/conf/webr/webr.config.json` file. \n* The Admin password is auto-generated and encrypted when Webr is installed as part of the TeamForge installation.\n\nThe session token, which is included in the response, is used in the Headers (Authorization) of other WEBR API calls. Sessions inactive for more than 60 minutes expire by default."
+			},
+			"response": [
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "text/plain",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Username\": \"webradmin\",\n\"Password\": \"vK98l_6J0tv#\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostName}}/login",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 May 2020 04:42:23 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "172"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"Success\": true,\n        \"SessionToken\": \"Auth_0000001588740143718444422\"\n    }\n}"
+				},
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Username\": \"webradmin\",\n\"Password\": \"password\"\n}\n"
+						},
+						"url": {
+							"raw": "{{HostName}}/login",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 05:58:00 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "172"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"Success\": true,\n        \"SessionToken\": \"Auth_0000001578463080369290730\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bca2a37f-e0c7-45a8-b9a1-6d96578b5877",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/events/v4/",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"events",
+						"v4",
+						""
+					]
+				},
+				"description": "This API returns the list of registered pre-submit and post-submit events.\n\nYou can pass the eventid_queue with the API call to get the details of a particular event. For example, {{HostName}}/events/v4/{{EventId_Queue}}"
+			},
+			"response": [
+				{
+					"name": "List Events",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/events/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"events",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 16 Dec 2019 06:28:59 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"EventId\": 1,\n            \"EventName\": \"Teamforge.Artifact.Create\",\n            \"EventType\": \"TOPIC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Create Postsubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Create\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIkNyZWF0ZSJ9\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.923638 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.923638 +0530 IST\"\n        },\n        {\n            \"EventId\": 2,\n            \"EventName\": \"Teamforge.Artifact.Update\",\n            \"EventType\": \"TOPIC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Update Postsubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Update\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIlVwZGF0ZSJ9\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.927559 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.927559 +0530 IST\"\n        },\n        {\n            \"EventId\": 3,\n            \"EventName\": \"Teamforge.Artifact.Move\",\n            \"EventType\": \"TOPIC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Move Postsubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Move\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIk1vdmUifQ==\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.928553 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.928553 +0530 IST\"\n        },\n        {\n            \"EventId\": 4,\n            \"EventName\": \"Teamforge.Artifact.Clone\",\n            \"EventType\": \"TOPIC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Clone Postsubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Clone\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIkNsb25lIn0=\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.929549 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.929549 +0530 IST\"\n        },\n        {\n            \"EventId\": 5,\n            \"EventName\": \"Teamforge.Artifact.Delete\",\n            \"EventType\": \"TOPIC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Delete Postsubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Delete\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIkRlbGV0ZSJ9\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.930431 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.930431 +0530 IST\"\n        },\n        {\n            \"EventId\": 6,\n            \"EventName\": \"Teamforge.Artifact.Create.Presubmit\",\n            \"EventType\": \"SYNC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Copy Presubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"copy\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogImNvcHkifQ==\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.931465 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.931465 +0530 IST\"\n        },\n        {\n            \"EventId\": 7,\n            \"EventName\": \"Teamforge.Artifact.Update.Presubmit\",\n            \"EventType\": \"SYNC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Update Presubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Update\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIlVwZGF0ZWNvcHkifQ==\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.932272 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.932272 +0530 IST\"\n        },\n        {\n            \"EventId\": 8,\n            \"EventName\": \"Teamforge.Artifact.Move.Presubmit\",\n            \"EventType\": \"SYNC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Move Presubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Move\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIk1vdmUifQ==\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.933179 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.933179 +0530 IST\"\n        },\n        {\n            \"EventId\": 9,\n            \"EventName\": \"Teamforge.Artifact.Clone.Presubmit\",\n            \"EventType\": \"SYNC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Clone Presubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Clone\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIkNsb25lIn0=\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.934066 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.934066 +0530 IST\"\n        },\n        {\n            \"EventId\": 10,\n            \"EventName\": \"Teamforge.Artifact.Delete.Presubmit\",\n            \"EventType\": \"SYNC\",\n            \"ContentType\": \"application/json\",\n            \"EventDescription\": \"Teamforge Artifact Delete Presubmit event\",\n            \"EventFormat\": \"{\\\"name\\\": \\\"Delete\\\", \\\"org\\\": \\\"cspl\\\"}\",\n            \"EventFormatJson\": \"eyJvcmciOiAiY3NwbCIsICJuYW1lIjogIkRlbGV0ZSJ9\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.934926 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.934926 +0530 IST\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Instrumentation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5102229d-9fcf-4f08-93a5-8e0d735138d0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/instrument/{{on/off}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"instrument",
+						"{{on/off}}"
+					]
+				},
+				"description": "Use this API to enable extensive logging for WEBR.\n\nYou must pass a value, `on` or `off` with the API call to enable and disable extensive logging respectively. \n\nFor example, the following call enables extensive logging. \n\n`{{HostName}}/instrument/on`"
+			},
+			"response": [
+				{
+					"name": "Instrumentation",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/instrument/on",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"instrument",
+								"on"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 16 Dec 2019 06:44:59 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Create Event",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "56826583-b566-4c59-ac06-5394b7ed3dec",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e9d83e5-2948-4889-a9ff-411eef06fc1e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"EventName\": \"majayEventQueue\",\r\n            \"EventType\": \"QUEUE\",\r\n            \"ContentType\": \"application/json\",\r\n            \"EventFormat\": \"{}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/events/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"events",
+						"v4"
+					]
+				},
+				"description": "Use this API to create new QUEUE/TOPIC/SYNC type events. WEBR, by default, has a set of pre-defined events. YOu can use this API to create custom events in addition to the pre-defined pre and post submit events. Here's some examples (Body) for creating different types of events using this API.\n\n```JSON\n{\n            \"EventName\": \"V4EventQueue\",\n            \"EventType\": \"QUEUE\",\n            \"ContentType\": \"application/json\",\n            \"EventFormat\": \"{}\"\n}\n````\n\n```JSON\n{\n            \"EventName\": \"V4EventTopic\",\n            \"EventType\": \"TOPIC\",\n            \"ContentType\": \"application/json\",\n            \"EventFormat\": \"{}\"\n}\n````\n```JSON\n{\n            \"EventName\": \"V4EventSYNC\",\n            \"EventType\": \"SYNC\",\n            \"ContentType\": \"application/json\",\n            \"EventFormat\": \"{}\"\n}\n````"
+			},
+			"response": [
+				{
+					"name": "Create Event",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"EventName\": \"V4EventQueue\",\r\n            \"EventType\": \"QUEUE\",\r\n            \"ContentType\": \"application/json\",\r\n            \"EventFormat\": \"{}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/events/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"events",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 16 Dec 2019 06:53:52 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "370"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"EventId\": 21,\n        \"EventName\": \"V4EventQueue\",\n        \"EventType\": \"QUEUE\",\n        \"ContentType\": \"application/json\",\n        \"EventDescription\": \"\",\n        \"EventFormat\": \"{}\",\n        \"EventFormatJson\": \"e30=\",\n        \"CreatedDate\": \"2019-12-16 12:23:52.440286 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Event",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfdd49ff-59d9-4ef5-a4a6-c847564e7c9b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3fc81af6-051b-4b47-b634-d1388b64636c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"EventName\": \"EventQueue\",\n\"EventDescription\": \"This is the new Description\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/events/v4/{{EventId_Queue}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"events",
+						"v4",
+						"{{EventId_Queue}}"
+					]
+				},
+				"description": "Use this API to update an existing event. You can only update an event's name and description. You cannot update the default WEBR events using this API."
+			},
+			"response": [
+				{
+					"name": "Update Event",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"EventName\": \"EventQueue\",\n\"EventDescription\": \"This is the new Description\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/events/v4/{{EventId_Queue}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"events",
+								"v4",
+								"{{EventId_Queue}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 06:20:26 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "425"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"EventId\": 70,\n        \"EventName\": \"EventQueue\",\n        \"EventType\": \"QUEUE\",\n        \"ContentType\": \"application/json\",\n        \"EventDescription\": \"This is the new Description\",\n        \"EventFormat\": \"{}\",\n        \"EventFormatJson\": \"e30=\",\n        \"CreatedDate\": \"2020-01-08 11:49:49.309749 +0530 IST\",\n        \"UpdatedDate\": \"2020-01-08 11:50:26.346760448 +0530 IST m=+748436.143335303\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List Publishers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c640dd3-e26f-469e-95b4-27bd3e9457ea",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/publishers/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"publishers",
+						"v4"
+					]
+				},
+				"description": "This API returns the list of registered publishers in WEBR."
+			},
+			"response": [
+				{
+					"name": "List Publishers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/publishers/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"publishers",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 06:14:08 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1257"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"PublisherId\": 1001,\n            \"PublisherName\": \"Teamforge.Publisher\",\n            \"Description\": \"Teamforge events Publisher\",\n            \"CreatedDate\": \"2019-12-03 12:47:58.935745 +0530 IST\",\n            \"UpdatedDate\": \"2019-12-03 12:47:58.935745 +0530 IST\",\n            \"WebhookEndpoint\": \"https://{{HostName}}/inbox/v4/<<EventName>>/1001\"\n        },\n        {\n            \"PublisherId\": 1003,\n            \"PublisherName\": \"V4publisher82\",\n            \"Description\": \"\",\n            \"CreatedDate\": \"2019-12-16 12:34:18.375296 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"WebhookEndpoint\": \"https://{{HostName}}/inbox/v4/<<EventName>>/1003\"\n        },\n        {\n            \"PublisherId\": 1005,\n            \"PublisherName\": \"TeamForge\",\n            \"Description\": \"\",\n            \"CreatedDate\": \"2019-12-18 18:34:48.236247 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"WebhookEndpoint\": \"https://{{HostName}}/inbox/v4/<<EventName>>/1005\"\n        },\n        {\n            \"PublisherId\": 1006,\n            \"PublisherName\": \"TeamForge.Baseline\",\n            \"Description\": \"\",\n            \"CreatedDate\": \"2019-12-18 18:34:48.256918 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"WebhookEndpoint\": \"https://{{HostName}}/inbox/v4/<<EventName>>/1006\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Publisher",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "799fb8ab-f481-45f9-9148-b39e6fd7dd35",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"PublisherName\": \"JiraPublisher\",\n\"Description\": \"This is a new JIRA publisher\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/publishers/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"publishers",
+						"v4"
+					]
+				},
+				"description": "Use this API to create a publisher in WEBR. You can pass the publisher name and description with API call's Body. When you create a publisher, WEBR generates the Webhook endpoint URL for the publisher."
+			},
+			"response": [
+				{
+					"name": "Create Publisher",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PublisherName\": \"JiraPublisher\", \n\"Description\": \"This is a new JIRA publisher\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/publishers/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"publishers",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 06:17:02 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "387"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"PublisherId\": 1010,\n        \"PublisherName\": \"JiraPublisher\",\n        \"Description\": \"This is a new JIRA publisher\",\n        \"CreatedDate\": \"2020-01-08 11:47:02.419162 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\",\n        \"WebhookEndpoint\": \"https://{{HostName}}/inbox/v4/<<EventName>>/1010\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Publisher",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aed87c83-5de2-43e3-a929-0e5b93f6f1b8",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"PublisherName\": \"updatingPublisher\",\n\"Description\": \"Updated publisher description via update call\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/publishers/v4/{{publisherId}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"publishers",
+						"v4",
+						"{{publisherId}}"
+					]
+				},
+				"description": "Use this API to update the publisher's name and description."
+			},
+			"response": [
+				{
+					"name": "Update Publisher",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PublisherName\": \"PublisherUpdate\",\n\"Description\": \"Updated publisher description via update call\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/publishers/v4/{{publisherId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"publishers",
+								"v4",
+								"{{publisherId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 06:26:23 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "417"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"PublisherId\": 1010,\n        \"PublisherName\": \"PublisherUpdate\",\n        \"Description\": \"Updated publisher description via update call\",\n        \"CreatedDate\": \"2020-01-08 11:47:02.419162 +0530 IST\",\n        \"UpdatedDate\": \"2020-01-08 11:56:23.20375163 +0530 IST m=+748793.000326537\",\n        \"WebhookEndpoint\": \"/<<EventName>>/1010\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List Subscribers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc1c5e55-75ad-4c29-bc08-bc0b33271c0f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscribers/v4/",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscribers",
+						"v4",
+						""
+					]
+				},
+				"description": "Use this API to get the list of subscribers in WEBR. You can pass the {{subscriberId}} with the API call to get the details of a specific subscriber. For example, the following API call returns the details of the subscriber whose ID is 2001.\n`{{HostName}}/subscribers/v4/2001`"
+			},
+			"response": [
+				{
+					"name": "List Subscriber 2001",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscribers/v4/2001",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscribers",
+								"v4",
+								"2001"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 06:36:05 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "316"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriberId\": 2001,\n        \"SubscriberName\": \"test\",\n        \"Description\": \"\",\n        \"SubscriberStatus\": \"ACTIVE\",\n        \"HttpHeaders\": \"{}\",\n        \"CreatedDate\": \"2019-12-16 12:09:42.502766 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\"\n    }\n}"
+				},
+				{
+					"name": "List All Subscribers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscribers/v4/",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscribers",
+								"v4",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 06:34:56 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1317"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"SubscriberId\": 2001,\n            \"SubscriberName\": \"test\",\n            \"Description\": \"\",\n            \"SubscriberStatus\": \"ACTIVE\",\n            \"HttpHeaders\": \"{}\",\n            \"CreatedDate\": \"2019-12-16 12:09:42.502766 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\"\n        },\n        {\n            \"SubscriberId\": 2002,\n            \"SubscriberName\": \"TeamForge\",\n            \"Description\": \"\",\n            \"SubscriberStatus\": \"ACTIVE\",\n            \"HttpHeaders\": \"{}\",\n            \"CreatedDate\": \"2019-12-18 18:34:48.265378 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\"\n        },\n        {\n            \"SubscriberId\": 2003,\n            \"SubscriberName\": \"TeamForge.Baseline\",\n            \"Description\": \"\",\n            \"SubscriberStatus\": \"ACTIVE\",\n            \"HttpHeaders\": \"{}\",\n            \"CreatedDate\": \"2019-12-18 18:34:48.289258 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\"\n        },\n        {\n            \"SubscriberId\": 2004,\n            \"SubscriberName\": \"V4Subscription108\",\n            \"Description\": \"\",\n            \"SubscriberStatus\": \"ACTIVE\",\n            \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n            \"CreatedDate\": \"2019-12-23 14:47:39.069921 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\"\n        },\n        {\n            \"SubscriberId\": 2005,\n            \"SubscriberName\": \"V4Subscription202\",\n            \"Description\": \"updating the subscriber description via update call\",\n            \"SubscriberStatus\": \"ACTIVE\",\n            \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848489\\\"}\",\n            \"CreatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Subscriber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d9cd9b01-aaca-4c81-83e3-5a751e018890",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"SubscriberName\": \"V4Subscription\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/subscribers/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscribers",
+						"v4"
+					]
+				},
+				"description": "Use this API to create a new subscriber in WEBR."
+			},
+			"response": [
+				{
+					"name": "Create Subscriber",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"SubscriberName\": \"V4Subscription\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/subscribers/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscribers",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 08:44:46 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "366"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriberId\": 2006,\n        \"SubscriberName\": \"V4Subscription\",\n        \"Description\": \"\",\n        \"SubscriberStatus\": \"ACTIVE\",\n        \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n        \"CreatedDate\": \"2020-01-08 14:14:46.567646 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Subscriber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "38265386-65ee-4519-90a7-99ce11952887",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"Description\": \"updating the subscriber description via update call\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848489\\\"}\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/subscribers/v4/{{subscriberId}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscribers",
+						"v4",
+						"{{subscriberId}}"
+					]
+				},
+				"description": "Use this API to update an existing subscriber. You must pass the subscriber ID with the API call."
+			},
+			"response": [
+				{
+					"name": "Update Subscriber",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Description\": \"updating the subscriber description via the update call\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848489\\\"}\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/subscribers/v4/{{subscriberId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscribers",
+								"v4",
+								"{{subscriberId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 08:47:02 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "449"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriberId\": 2006,\n        \"SubscriberName\": \"V4Subscription499\",\n        \"Description\": \"updating the subscriber description via the update call\",\n        \"SubscriberStatus\": \"ACTIVE\",\n        \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848489\\\"}\",\n        \"CreatedDate\": \"2020-01-08 14:14:46.567646 +0530 IST\",\n        \"UpdatedDate\": \"2020-01-08 14:17:02.853640029 +0530 IST m=+4665.448738366\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List Subscriptions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c801036a-2cb5-40e7-9420-f8fc13ab2392",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4"
+					]
+				},
+				"description": "This API returns a list of subscriptions in WEBR. You can also pass a specific subscription's ID with the API call to get the details of that particular subscription."
+			},
+			"response": [
+				{
+					"name": "List a Subscription by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"{{subscriptionId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 09:01:07 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "534"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriptionId\": 3,\n        \"SubscriberId\": 2001,\n        \"EventName\": \"Teamforge.Artifact.Create\",\n        \"Description\": \"Description creation\",\n        \"HeaderFilterString\": \"\",\n        \"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n        \"CustomScript\": \"\",\n        \"WebhookEndpoint\": \"https://{{HostName}}:4000\",\n        \"HttpHeaders\": \"{}\",\n        \"CreatedDate\": \"2019-12-16 12:25:46.053044 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n        \"SubscriptionStatus\": \"ACTIVE\"\n    }\n}"
+				},
+				{
+					"name": "List All Subscriptions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Dec 2019 06:01:25 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1277"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"SubscriptionId\": 1,\n            \"SubscriberId\": 2001,\n            \"EventName\": \"Teamforge.Artifact.Create\",\n            \"Description\": \"\",\n            \"HeaderFilterString\": \"proj1008\",\n            \"SubsFilter\": \"\",\n            \"CustomScript\": \"\",\n            \"WebhookEndpoint\": \"http://{{HostName}}:4000\",\n            \"CreatedDate\": \"2019-12-16 12:09:53.292666 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"SubscriptionStatus\": \"ACTIVE\"\n        },\n        {\n            \"SubscriptionId\": 3,\n            \"SubscriberId\": 2001,\n            \"EventName\": \"Teamforge.Artifact.Create\",\n            \"Description\": \"Description creation\",\n            \"HeaderFilterString\": \"\",\n            \"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n            \"CustomScript\": \"\",\n            \"WebhookEndpoint\": \"http://{{HostName}}:4000\",\n            \"CreatedDate\": \"2019-12-16 12:25:46.053044 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"SubscriptionStatus\": \"ACTIVE\"\n        },\n        {\n            \"SubscriptionId\": 4,\n            \"SubscriberId\": 2001,\n            \"EventName\": \"Teamforge.Artifact.Create\",\n            \"Description\": \"Description creation\",\n            \"HeaderFilterString\": \"\",\n            \"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n            \"CustomScript\": \"\",\n            \"WebhookEndpoint\": \"http://{{HostName}}:4000\",\n            \"CreatedDate\": \"2019-12-16 12:27:14.042107 +0530 IST\",\n            \"UpdatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n            \"SubscriptionStatus\": \"ACTIVE\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Subscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "810fa288-6e8c-4bd7-acf2-58665d56b4e7",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"SubscriberId\": 2001,\n\"EventName\": \"Teamforge.Artifact.Create\",\n\"Description\": \"Description Delete\",\n\"WebhookEndpoint\": \"http://{{HostName}}:1000\",\n\"HeaderFilterString\": \"proj1008\",\n\"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n\"CustomScript\": \"v = $inmessage;$outmessage = {EventType: v.event_type,ArtifactId: v.id};\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4"
+					]
+				},
+				"description": "Use this API to create new subscriptions. \n\nOptionally, you can add a subscription filter, custom transform script or a custom response script to the subscriptions you create.\n\nFor example, the following code snippet creates a subscription with a custom script, subscription filter and Header filter string:\n```json\n{\n\"SubscriberId\": 2001,\n\"EventName\": \"Teamforge.Artifact.Create\",\n\"Description\": \"Description Delete\",\n\"WebhookEndpoint\": \"http://{{HostName}}:1000\",\n\"HeaderFilterString\": \"proj1008\",\n\"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n\"CustomScript\": \"v = $inmessage;$outmessage = {EventType: v.event_type,ArtifactId: v.id};\"\n}\n````"
+			},
+			"response": [
+				{
+					"name": "Create Subscription",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"SubscriberId\": {{subscriberId}},\r\n\"EventName\": \"Teamforge.Artifact.Create\",\r\n\"Description\": \"This is a create artifact subscription\",\r\n\"WebhookEndpoint\": \"http://{{HostName}}:1000\",\r\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 09:07:06 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "540"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriptionId\": 23,\n        \"SubscriberId\": 2006,\n        \"EventName\": \"Teamforge.Artifact.Create\",\n        \"Description\": \"This is a create artifact subscription\",\n        \"HeaderFilterString\": \"\",\n        \"SubsFilter\": \"\",\n        \"CustomScript\": \"\",\n        \"WebhookEndpoint\": \"https://{{HostName}}:1000\",\n        \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n        \"CreatedDate\": \"2020-01-08 14:37:06.352063 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\",\n        \"SubscriptionStatus\": \"\"\n    }\n}"
+				},
+				{
+					"name": "Create Subscription with Custom Script, Subscription Filter and so on",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"SubscriberId\": 2001,\n\"EventName\": \"Teamforge.Artifact.Create\",\n\"Description\": \"Description Delete\",\n\"WebhookEndpoint\": \"http://{{HostName}}:1000\",\n\"HeaderFilterString\": \"proj1008\",\n\"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n\"CustomScript\": \"v = $inmessage;$outmessage = {EventType: v.event_type,ArtifactId: v.id};\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 14 Jan 2020 07:56:57 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "644"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriptionId\": 85,\n        \"SubscriberId\": 2001,\n        \"EventName\": \"Teamforge.Artifact.Create\",\n        \"Description\": \"Description Delete\",\n        \"HeaderFilterString\": \"proj1008\",\n        \"SubsFilter\": \"$$->'Body'->>'paged' = 'true'\",\n        \"CustomScript\": \"v = $inmessage;$outmessage = {EventType: v.event_type,ArtifactId: v.id};\",\n        \"WebhookEndpoint\": \"http:{{HostName}}:1000\",\n        \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848484\\\"}\",\n        \"CreatedDate\": \"2020-01-14 13:26:57.544643 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\",\n        \"SubscriptionStatus\": \"\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Subscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c4f5c9db-b90a-48d5-91d0-e6a81aec8a73",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "subscription_id",
+						"value": "9",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"{{subscriptionId}}"
+					]
+				},
+				"description": "This API returns a list of subscriptions in WEBR. Same as the List Subscription API."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Subscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6ede21d6-8977-40e5-985f-608fa07a5195",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"WebhookEndpoint\": \"http://{{HostName}}\",\r\n\"Description\": \"Description get updated for subscription\",\r\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848480\\\"}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"{{subscriptionId}}"
+					]
+				},
+				"description": "Use this API to update a specific WEBR subscription. You must pass the subscription ID with the API call. You can only update the following:\n* Webhook endpoint URL\n* Description\n* Http headers\n* Subscription filter\n* Header filter string"
+			},
+			"response": [
+				{
+					"name": "Update Subscription",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"WebhookEndpoint\": \"http://cu024.cloud.maa.collab.net:3000\",\r\n\"Description\": \"Description gets updated for subscription\",\r\n\"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848480\\\"}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"{{subscriptionId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Jan 2020 09:12:54 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "642"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"SubscriptionId\": 26,\n        \"SubscriberId\": 2006,\n        \"EventName\": \"Teamforge.Artifact.Create\",\n        \"Description\": \"Description gets updated for subscription\",\n        \"HeaderFilterString\": \"\",\n        \"SubsFilter\": \"\",\n        \"CustomScript\": \"v = $inmessage;$outmessage = {EventType: v.event_type,ArtifactId: v.id};\",\n        \"WebhookEndpoint\": \"http://cu024.cloud.maa.collab.net:3000\",\n        \"HttpHeaders\": \"{\\\"Authorization\\\": \\\"Basic 84848480\\\"}\",\n        \"CreatedDate\": \"0001-01-01 05:53:20 +0553 HMT\",\n        \"UpdatedDate\": \"2020-01-08 14:42:54.887568341 +0530 IST m=+6217.482666699\",\n        \"SubscriptionStatus\": \"ACTIVE\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update a Subscription's Status---Active/Inactive",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2a3c7da-4fdc-4600-ae3a-71b11ac3b54e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}/{{activate/inactivate}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"{{subscriptionId}}",
+						"{{activate/inactivate}}"
+					]
+				},
+				"description": "Use this API to activate or inactive a subscription in WEBR. Just pass the subscription ID and a flag, `activate` or `inactivate`, with the API call to make a subscription active and inactive in WEBR. For example:\n\n* {{HostName}}/subscriptions/v4/{{subscriptionId}}/activate\n* {{HostName}}/subscriptions/v4/{{subscriptionId}}/inactivate"
+			},
+			"response": [
+				{
+					"name": "Update a Subscription's Status---Active/Inactive",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}/inactivate",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"{{subscriptionId}}",
+								"inactivate"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 03:34:06 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "137"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": \"Successfully updated status\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Transform Script",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6e72de5-f951-4180-867f-4aed79847f26",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "v = $inmessage;\r\n$outmessage = {\r\nEventType: v.event_type,\r\nArtifactId: v.id\r\n};"
+				},
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}/script",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"{{subscriptionId}}",
+						"script"
+					]
+				},
+				"description": "Use this API to add or update a transform script to an existing WEBR subscription. The transform script is passed with the API call's Body."
+			},
+			"response": [
+				{
+					"name": "Update Transform Script",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "v = $inmessage;\r\n$outmessage = {\r\nEventType: v.event_type,\r\nArtifactId: v.id\r\n};"
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}/script",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"{{subscriptionId}}",
+								"script"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 03:44:24 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "137"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": \"Successfully updated script\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Inbox",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\": \"\",\r\n    \"event_type\": \"create\",\r\n    \"id\": \"artf1068\",\r\n    \"timestamp\": \"2019-12-18T12:13:34+05:30\",\r\n    \"url\": \"https:{{HostName}}/sf/go/artf1068\",\r\n    \"author\": {\r\n        \"username\": \"admin\"\r\n    },\r\n    \"original\": {\r\n        \"project\": {\r\n            \"id\": \"proj1008\",\r\n            \"url\": \"https://{{HostName}}/sf/go/proj1008\",\r\n            \"title\": \"CollabNet Agile Baseline 2.0\"\r\n        },\r\n        \"tracker\": {\r\n            \"description\": \"Epics are just large user stories, at a lesser degree of specificity, that describe large areas of user-requested functionality. Epics usually get split into several child user stories.\",\r\n            \"title\": \"Epics\",\r\n            \"icon\": \"https://{{HostName}}/sf-images/tracker/icons/icon_10.png\",\r\n            \"id\": \"tracker1001\",\r\n            \"url\": \"https://{{HostName}}/sf/go/tracker1001\"\r\n        },\r\n        \"fields\": {\r\n            \"actualEffort\": 0,\r\n            \"assignedToUsername\": \"nobody\",\r\n            \"autosumming\": false,\r\n            \"category\": \"\",\r\n            \"customer\": \"\",\r\n            \"description\": \"sdgfs\",\r\n            \"estimatedEffort\": 0,\r\n            \"folderId\": \"tracker1001\",\r\n            \"artifactGroup\": \"\",\r\n            \"lastModifiedByUsername\": \"admin\",\r\n            \"lastModifiedDate\": \"2019-12-18T12:13:34+05:30\",\r\n            \"path\": \"projects.collabnet_agile_baseline_20/tracker.1_story_epics/artf1068\",\r\n            \"planningFolderId\": \"\",\r\n            \"points\": 0,\r\n            \"priority\": 4,\r\n            \"remainingEffort\": \"0\",\r\n            \"reportedInReleaseId\": \"\",\r\n            \"resolvedInReleaseId\": \"\",\r\n            \"status\": \"Under Consideration\",\r\n            \"statusClass\": \"Open\",\r\n            \"submittedByUsername\": \"admin\",\r\n            \"submittedDate\": \"2019-12-18T12:13:34+05:30\",\r\n            \"title\": \"dsgswsdgsd\",\r\n            \"version\": 100,\r\n            \"flexFields\": {}\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/inbox/v4/{{EventName_Queue}}/{{publisherId}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"inbox",
+						"v4",
+						"{{EventName_Queue}}",
+						"{{publisherId}}"
+					]
+				},
+				"description": "Use this API to create a message in the WEBR Inbox. This API takes in the message body as a JSON payload, creates an inbox entry and returns the Inbox_ID."
+			},
+			"response": [
+				{
+					"name": "Create Inbox",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"\",\r\n    \"event_type\": \"create\",\r\n    \"id\": \"artf1068\",\r\n    \"timestamp\": \"2019-12-18T12:13:34+05:30\",\r\n    \"url\": \"https://{{HostName}}/sf/go/artf1068\",\r\n    \"author\": {\r\n        \"username\": \"admin\"\r\n    },\r\n    \"original\": {\r\n        \"project\": {\r\n            \"id\": \"proj1008\",\r\n            \"url\": \"https://{{HostName}}/sf/go/proj1008\",\r\n            \"title\": \"CollabNet Agile Baseline 2.0\"\r\n        },\r\n        \"tracker\": {\r\n            \"description\": \"Epics are just large user stories, at a lesser degree of specificity, that describe large areas of user-requested functionality. Epics usually get split into several child user stories.\",\r\n            \"title\": \"Epics\",\r\n            \"icon\": \"https://{{HostName}}/sf-images/tracker/icons/icon_10.png\",\r\n            \"id\": \"tracker1001\",\r\n            \"url\": \"https://{{HostName}}/sf/go/tracker1001\"\r\n        },\r\n        \"fields\": {\r\n            \"actualEffort\": 0,\r\n            \"assignedToUsername\": \"nobody\",\r\n            \"autosumming\": false,\r\n            \"category\": \"\",\r\n            \"customer\": \"\",\r\n            \"description\": \"sdgfs\",\r\n            \"estimatedEffort\": 0,\r\n            \"folderId\": \"tracker1001\",\r\n            \"artifactGroup\": \"\",\r\n            \"lastModifiedByUsername\": \"admin\",\r\n            \"lastModifiedDate\": \"2019-12-18T12:13:34+05:30\",\r\n            \"path\": \"projects.collabnet_agile_baseline_20/tracker.1_story_epics/artf1068\",\r\n            \"planningFolderId\": \"\",\r\n            \"points\": 0,\r\n            \"priority\": 4,\r\n            \"remainingEffort\": \"0\",\r\n            \"reportedInReleaseId\": \"\",\r\n            \"resolvedInReleaseId\": \"\",\r\n            \"status\": \"Under Consideration\",\r\n            \"statusClass\": \"Open\",\r\n            \"submittedByUsername\": \"admin\",\r\n            \"submittedDate\": \"2019-12-18T12:13:34+05:30\",\r\n            \"title\": \"dsgswsdgsd\",\r\n            \"version\": 100,\r\n            \"flexFields\": {}\r\n        }\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/inbox/v4/{{EventName_Queue}}/{{publisherId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"inbox",
+								"v4",
+								"{{EventName_Queue}}",
+								"{{publisherId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 03:53:20 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "130"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"Int\": 113,\n        \"Status\": 2\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Inbox Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5093ee8d-7ce6-41ee-95b4-3562433943d4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"FromInboxId\": \"5\",\r\n\"ToInboxId\": \"8\",\r\n\"PublisherName\":\"\",\r\n\"EventName\": \"\",\r\n\"MessageHeader\": \"\",\r\n\"MessageBody\": \"\",\r\n\"FromDate\": \"\",\r\n\"ToDate\": \"\",\r\n\"SortOrder\": \"\",\r\n\"SortDirection\":\"\"\r\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/inbox/v4/search",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"inbox",
+						"v4",
+						"search"
+					]
+				},
+				"description": "Use this API to search the inbox for a particular inbox entry (message). You must pass the search criteria in JSON format in the Body. The search parameters are as shown in the example. The API returns null response if there are no matching results."
+			},
+			"response": [
+				{
+					"name": "Inbox Search",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"FromInboxId\": \"5\",\r\n\"ToInboxId\": \"8\",\r\n\"PublisherName\":\"\",\r\n\"EventName\": \"\",\r\n\"MessageHeader\": \"\",\r\n\"MessageBody\": \"\",\r\n\"FromDate\": \"\",\r\n\"ToDate\": \"\",\r\n\"SortOrder\": \"\",\r\n\"SortDirection\":\"\"\r\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/inbox/v4/search",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"inbox",
+								"v4",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 23 Dec 2019 09:03:58 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"InboxId\": 5,\n            \"PublisherName\": \"V4publisher82\",\n            \"EventName\": \"EventQueue313\",\n            \"MessageHeader\": \"{\\\"Accept\\\":[\\\"*/*\\\"],\\\"Accept-Encoding\\\":[\\\"gzip, deflate\\\"],\\\"Authorization\\\":[\\\"Auth_0000001576648866357042429\\\"],\\\"Cache-Control\\\":[\\\"no-cache\\\"],\\\"Connection\\\":[\\\"keep-alive\\\"],\\\"Content-Length\\\":[\\\"9132\\\"],\\\"Content-Type\\\":[\\\"application/json\\\"],\\\"Postman-Token\\\":[\\\"6541c56a-816f-4f1f-8f23-c1c15a43fb90\\\"],\\\"User-Agent\\\":[\\\"PostmanRuntime/7.20.1\\\"]}\",\n            \"MessageBody\": \"{\\r\\n   \\\"_links\\\":{\\r\\n\\r\\n   },\\r\\n   \\\"item1\\\":[\\r\\n      {\\r\\n         \\\"_id\\\":\\\"5d01e452d8f9d8df78f38a35\\\",\\r\\n         \\\"index\\\":5,\\r\\n         \\\"guid\\\":\\\"86fc1fb1-2ea4-4734-ba0f-c88ee5cc3038\\\",\\r\\n         \\\"isActive\\\":false,\\r\\n         \\\"balance\\\":\\\"$1,404.77\\\",\\r\\n         \\\"picture\\\":\\\"http://placehold.it/32x32\\\",\\r\\n         \\\"age\\\":20,\\r\\n         \\\"eyeColor\\\":\\\"green\\\",\\r\\n         \\\"name\\\":\\\"Daniels Eaton\\\",\\r\\n         \\\"gender\\\":\\\"male\\\",\\r\\n         \\\"company\\\":\\\"TELEPARK\\\",\\r\\n         \\\"email\\\":\\\"danielseaton@telepark.com\\\",\\r\\n         \\\"phone\\\":\\\"+1 (864) 453-3303\\\",\\r\\n         \\\"address\\\":\\\"345 Pioneer Street, Kenmar, New York, 1685\\\",\\r\\n         \\\"about\\\":\\\"Deserunt tempor adipisicing consectetur excepteur exercitation dolore mollit et quis sit et fugiat. Laborum ad do proident id labore. Culpa minim dolor culpa nostrud veniam laborum nulla pariatur. Officia laborum excepteur exercitation nulla aliquip officia deserunt aute Lorem. Laboris labore et non aute do tempor do culpa labore labore magna laborum fugiat elit. Occaecat incididunt Lorem pariatur elit in. Aliquip cupidatat ipsum nulla nostrud esse ullamco.\\\",\\r\\n         \\\"registered\\\":\\\"2014-04-04T07:53:09 -06:-30\\\",\\r\\n         \\\"latitude\\\":68.280545,\\r\\n         \\\"longitude\\\":144.138481,\\r\\n         \\\"tags\\\":[\\r\\n            \\\"pariatur\\\",\\r\\n            \\\"ullamco\\\",\\r\\n            \\\"ad\\\",\\r\\n            \\\"do\\\",\\r\\n            \\\"aliquip\\\",\\r\\n            \\\"nulla\\\",\\r\\n            \\\"quis\\\"\\r\\n         ],\\r\\n         \\\"friends\\\":[\\r\\n            {\\r\\n               \\\"id\\\":0,\\r\\n               \\\"name\\\":\\\"Walsh Malone\\\"\\r\\n            },\\r\\n            {\\r\\n               \\\"id\\\":1,\\r\\n               \\\"name\\\":\\\"Jones Daniels\\\"\\r\\n            },\\r\\n            {\\r\\n               \\\"id\\\":2,\\r\\n               \\\"name\\\":\\\"Wooten Watson\\\"\\r\\n            }\\r\\n         ],\\r\\n         \\\"greeting\\\":\\\"Hello, Daniels Eaton! You have 5 unread messages.\\\",\\r\\n         \\\"favoriteFruit\\\":\\\"banana\\\",\\r\\n         \\\"paged\\\":true\\r\\n      }\\r\\n   ],\\r\\n   \\\"item2\\\":[\\r\\n      {\\r\\n         \\\"_id\\\":\\\"5d01e452bb7543021862dfaa\\\",\\r\\n         \\\"index\\\":4,\\r\\n         \\\"guid\\\":\\\"64927422-071e-4e73-8850-3e071cf25dc9\\\",\\r\\n         \\\"isActive\\\":false,\\r\\n         \\\"balance\\\":\\\"$1,963.22\\\",\\r\\n         \\\"picture\\\":\\\"http://placehold.it/32x32\\\",\\r\\n         \\\"age\\\":22,\\r\\n         \\\"eyeColor\\\":\\\"green\\\",\\r\\n         \\\"name\\\":\\\"Mccullough Dodson\\\",\\r\\n         \\\"gender\\\":\\\"male\\\",\\r\\n         \\\"company\\\":\\\"TERSANKI\\\",\\r\\n         \\\"email\\\":\\\"mcculloughdodson@tersanki.com\\\",\\r\\n         \\\"phone\\\":\\\"+1 (853) 508-2183\\\",\\r\\n         \\\"address\\\":\\\"314 Moore Street, Shawmut, Guam, 5137\\\",\\r\\n         \\\"about\\\":\\\"Elit esse tempor excepteur consectetur ipsum occaecat magna. Nulla minim eiusmod aliquip exercitation excepteur dolore. Tempor occaecat sit est laboris ipsum nulla aliqua non eiusmod minim id Lorem. In excepteur in quis laboris dolore duis sint nisi. Qui laborum aute aliquip voluptate occaecat nostrud amet anim enim ut irure. Labore sit ex minim elit culpa minim.\\\",\\r\\n         \\\"registered\\\":\\\"2016-01-12T03:10:39 -06:-30\\\",\\r\\n         \\\"latitude\\\":-45.242065,\\r\\n         \\\"longitude\\\":97.70714,\\r\\n         \\\"tags\\\":[\\r\\n            \\\"cillum\\\",\\r\\n            \\\"in\\\",\\r\\n            \\\"nulla\\\",\\r\\n            \\\"cillum\\\",\\r\\n            \\\"cupidatat\\\",\\r\\n            \\\"dolore\\\",\\r\\n            \\\"ea\\\"\\r\\n         ],\\r\\n         \\\"friends\\\":[\\r\\n            {\\r\\n               \\\"id\\\":0,\\r\\n               \\\"name\\\":\\\"Dolly Chaney\\\"\\r\\n            },\\r\\n            {\\r\\n               \\\"id\\\":1,\\r\\n               \\\"name\\\":\\\"Schneider Roberts\\\"\\r\\n            },\\r\\n            {\\r\\n               \\\"id\\\":2,\\r\\n               \\\"name\\\":\\\"Patel Whitley\\\"\\r\\n            }\\r\\n         ],\\r\\n         \\\"greeting\\\":\\\"Hello, Mccullough Dodson! You have 3 unread messages.\\\",\\r\\n         \\\"favoriteFruit\\\":\\\"apple\\\"\\r\\n      }\\r\\n   ],\\r\\n\\\"item3\\\": [\\r\\n  {\\r\\n    \\\"_id\\\": \\\"5d01e4528e73d0c26ad6c360\\\",\\r\\n    \\\"index\\\": 0,\\r\\n    \\\"guid\\\": \\\"f4c3b684-5ce2-47e9-8742-523f73816e81\\\",\\r\\n    \\\"isActive\\\": true,\\r\\n    \\\"balance\\\": \\\"$1,606.72\\\",\\r\\n    \\\"picture\\\": \\\"http://placehold.it/32x32\\\",\\r\\n    \\\"age\\\": 20,\\r\\n    \\\"eyeColor\\\": \\\"green\\\",\\r\\n    \\\"name\\\": \\\"Trudy Lindsay\\\",\\r\\n    \\\"gender\\\": \\\"female\\\",\\r\\n    \\\"company\\\": \\\"INSECTUS\\\",\\r\\n    \\\"email\\\": \\\"trudylindsay@insectus.com\\\",\\r\\n    \\\"phone\\\": \\\"+1 (857) 435-2324\\\",\\r\\n    \\\"address\\\": \\\"492 Rugby Road, Camino, Oregon, 8973\\\",\\r\\n    \\\"about\\\": \\\"Dolor consequat enim adipisicing nostrud quis fugiat elit officia consectetur. Et velit reprehenderit ex deserunt id aliquip duis irure nulla qui est. Pariatur consequat eiusmod nulla ullamco nostrud irure voluptate laborum ullamco minim consequat quis. Elit cupidatat culpa culpa tempor ex amet enim consequat nostrud officia anim et cillum.\\\",\\r\\n    \\\"registered\\\": \\\"2014-06-20T10:22:12 -06:-30\\\",\\r\\n    \\\"latitude\\\": 11.834284,\\r\\n    \\\"longitude\\\": 116.64804,\\r\\n    \\\"tags\\\": [\\r\\n      \\\"enim\\\",\\r\\n      \\\"dolore\\\",\\r\\n      \\\"ex\\\",\\r\\n      \\\"irure\\\",\\r\\n      \\\"culpa\\\",\\r\\n      \\\"culpa\\\",\\r\\n      \\\"do\\\"\\r\\n    ],\\r\\n    \\\"friends\\\": [\\r\\n      {\\r\\n        \\\"id\\\": 0,\\r\\n        \\\"name\\\": \\\"Guadalupe Hobbs\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 1,\\r\\n        \\\"name\\\": \\\"Morin Phelps\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 2,\\r\\n        \\\"name\\\": \\\"Cortez David\\\"\\r\\n      }\\r\\n    ],\\r\\n    \\\"greeting\\\": \\\"Hello, Trudy Lindsay! You have 2 unread messages.\\\",\\r\\n    \\\"favoriteFruit\\\": \\\"strawberry\\\"\\r\\n  }\\r\\n  ],   \\r\\n   \\r\\n \\\"item4\\\": [ \\r\\n  {\\r\\n    \\\"_id\\\": \\\"5d01e452fbc50c23e5ddf1aa\\\",\\r\\n    \\\"index\\\": 1,\\r\\n    \\\"guid\\\": \\\"9b098609-cca7-412b-aa0d-e65341925823\\\",\\r\\n    \\\"isActive\\\": true,\\r\\n    \\\"balance\\\": \\\"$1,730.49\\\",\\r\\n    \\\"picture\\\": \\\"http://placehold.it/32x32\\\",\\r\\n    \\\"age\\\": 28,\\r\\n    \\\"eyeColor\\\": \\\"green\\\",\\r\\n    \\\"name\\\": \\\"Booker Mendoza\\\",\\r\\n    \\\"gender\\\": \\\"male\\\",\\r\\n    \\\"company\\\": \\\"DARWINIUM\\\",\\r\\n    \\\"email\\\": \\\"bookermendoza@darwinium.com\\\",\\r\\n    \\\"phone\\\": \\\"+1 (842) 502-3339\\\",\\r\\n    \\\"address\\\": \\\"163 Logan Street, Northridge, Idaho, 8665\\\",\\r\\n    \\\"about\\\": \\\"Minim minim sint amet velit minim tempor excepteur id tempor. Cillum nisi ut aute velit irure officia. Ea non tempor in laboris mollit ex aute. Veniam elit nulla reprehenderit et qui ut quis ex fugiat consequat fugiat Lorem deserunt.\\\",\\r\\n    \\\"registered\\\": \\\"2016-05-06T05:00:31 -06:-30\\\",\\r\\n    \\\"latitude\\\": -23.696008,\\r\\n    \\\"longitude\\\": -153.744903,\\r\\n    \\\"tags\\\": [\\r\\n      \\\"officia\\\",\\r\\n      \\\"duis\\\",\\r\\n      \\\"proident\\\",\\r\\n      \\\"culpa\\\",\\r\\n      \\\"eu\\\",\\r\\n      \\\"ut\\\",\\r\\n      \\\"enim\\\"\\r\\n    ],\\r\\n    \\\"friends\\\": [\\r\\n      {\\r\\n        \\\"id\\\": 0,\\r\\n        \\\"name\\\": \\\"Kelly Wilkerson\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 1,\\r\\n        \\\"name\\\": \\\"Elliott Lopez\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 2,\\r\\n        \\\"name\\\": \\\"Jaime Emerson\\\"\\r\\n      }\\r\\n    ],\\r\\n    \\\"greeting\\\": \\\"Hello, Booker Mendoza! You have 3 unread messages.\\\",\\r\\n    \\\"favoriteFruit\\\": \\\"strawberry\\\"\\r\\n  }\\r\\n  ],\\r\\n  \\\"item5\\\": [\\r\\n  {\\r\\n    \\\"_id\\\": \\\"5d01e452be28ec7c3001b0ad\\\",\\r\\n    \\\"index\\\": 2,\\r\\n    \\\"guid\\\": \\\"dba7c4c5-5e51-4b62-a017-07dfc204653b\\\",\\r\\n    \\\"isActive\\\": false,\\r\\n    \\\"balance\\\": \\\"$2,345.54\\\",\\r\\n    \\\"picture\\\": \\\"http://placehold.it/32x32\\\",\\r\\n    \\\"age\\\": 25,\\r\\n    \\\"eyeColor\\\": \\\"brown\\\",\\r\\n    \\\"name\\\": \\\"Megan Browning\\\",\\r\\n    \\\"gender\\\": \\\"female\\\",\\r\\n    \\\"company\\\": \\\"MEDIOT\\\",\\r\\n    \\\"email\\\": \\\"meganbrowning@mediot.com\\\",\\r\\n    \\\"phone\\\": \\\"+1 (874) 493-2437\\\",\\r\\n    \\\"address\\\": \\\"542 Congress Street, Abrams, South Dakota, 2177\\\",\\r\\n    \\\"about\\\": \\\"Exercitation nisi commodo occaecat eiusmod officia ex proident ad elit ea id. Consectetur nisi irure esse aute cillum laboris laboris aute nostrud nulla. Aute et ipsum adipisicing in occaecat ipsum esse.\\\",\\r\\n    \\\"registered\\\": \\\"2018-02-11T11:13:29 -06:-30\\\",\\r\\n    \\\"latitude\\\": 83.435464,\\r\\n    \\\"longitude\\\": -66.356762,\\r\\n    \\\"tags\\\": [\\r\\n      \\\"commodo\\\",\\r\\n      \\\"culpa\\\",\\r\\n      \\\"anim\\\",\\r\\n      \\\"culpa\\\",\\r\\n      \\\"esse\\\",\\r\\n      \\\"ea\\\",\\r\\n      \\\"fugiat\\\"\\r\\n    ],\\r\\n    \\\"friends\\\": [\\r\\n      {\\r\\n        \\\"id\\\": 0,\\r\\n        \\\"name\\\": \\\"Georgina Dickson\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 1,\\r\\n        \\\"name\\\": \\\"Concetta Hull\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 2,\\r\\n        \\\"name\\\": \\\"Burt Holden\\\"\\r\\n      }\\r\\n    ],\\r\\n    \\\"greeting\\\": \\\"Hello, Megan Browning! You have 1 unread messages.\\\",\\r\\n    \\\"favoriteFruit\\\": \\\"apple\\\"\\r\\n  }\\r\\n  ],\\r\\n  \\\"item6\\\": [\\r\\n  {\\r\\n    \\\"_id\\\": \\\"5d01e4521ba72f96cd2676dc\\\",\\r\\n    \\\"index\\\": 3,\\r\\n    \\\"guid\\\": \\\"f0190895-7d1d-4d18-8db3-ad766d18fa15\\\",\\r\\n    \\\"isActive\\\": false,\\r\\n    \\\"balance\\\": \\\"$1,141.56\\\",\\r\\n    \\\"picture\\\": \\\"http://placehold.it/32x32\\\",\\r\\n    \\\"age\\\": 32,\\r\\n    \\\"eyeColor\\\": \\\"blue\\\",\\r\\n    \\\"name\\\": \\\"Wiley Ewing\\\",\\r\\n    \\\"gender\\\": \\\"male\\\",\\r\\n    \\\"company\\\": \\\"MEDCOM\\\",\\r\\n    \\\"email\\\": \\\"wileyewing@medcom.com\\\",\\r\\n    \\\"phone\\\": \\\"+1 (902) 583-3582\\\",\\r\\n    \\\"address\\\": \\\"542 Midwood Street, Norvelt, Florida, 3388\\\",\\r\\n    \\\"about\\\": \\\"Irure duis ipsum dolor cillum consectetur. Esse sint laboris veniam esse occaecat et eiusmod anim id aliqua ipsum proident anim. Consequat eiusmod culpa veniam et. Quis ipsum cupidatat do in proident ea sit qui excepteur do irure exercitation in. Mollit consequat ut commodo ut deserunt deserunt. Deserunt eu enim nisi veniam irure aliquip.\\\",\\r\\n    \\\"registered\\\": \\\"2016-02-02T05:10:03 -06:-30\\\",\\r\\n    \\\"latitude\\\": 84.541439,\\r\\n    \\\"longitude\\\": -13.960837,\\r\\n    \\\"tags\\\": [\\r\\n      \\\"deserunt\\\",\\r\\n      \\\"quis\\\",\\r\\n      \\\"pariatur\\\",\\r\\n      \\\"qui\\\",\\r\\n      \\\"et\\\",\\r\\n      \\\"elit\\\",\\r\\n      \\\"sit\\\"\\r\\n    ],\\r\\n    \\\"friends\\\": [\\r\\n      {\\r\\n        \\\"id\\\": 0,\\r\\n        \\\"name\\\": \\\"Holland Mccarthy\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 1,\\r\\n        \\\"name\\\": \\\"Sara Buckner\\\"\\r\\n      },\\r\\n      {\\r\\n        \\\"id\\\": 2,\\r\\n        \\\"name\\\": \\\"Kline Pickett\\\"\\r\\n      }\\r\\n    ],\\r\\n    \\\"greeting\\\": \\\"Hello, Wiley Ewing! You have 9 unread messages.\\\",\\r\\n    \\\"favoriteFruit\\\": \\\"banana\\\"\\r\\n  }\\r\\n  ],   \\r\\n   \\r\\n   \\r\\n   \\\"paged\\\":true,\\r\\n   \\\"offset\\\":0,\\r\\n   \\\"pageSize\\\":0,\\r\\n   \\\"total\\\":0,\\r\\n   \\\"_embedded\\\":{\\r\\n\\r\\n   }\\r\\n}\",\n            \"CreatedDate\": \"18/12/2019 12:09:58.794\"\n        },\n        {\n            \"InboxId\": 6,\n            \"PublisherName\": \"V4publisher82\",\n            \"EventName\": \"EventQueue313\",\n            \"MessageHeader\": \"{\\\"Accept\\\":[\\\"*/*\\\"],\\\"Accept-Encoding\\\":[\\\"gzip, deflate\\\"],\\\"Authorization\\\":[\\\"Auth_0000001576648866357042429\\\"],\\\"Cache-Control\\\":[\\\"no-cache\\\"],\\\"Connection\\\":[\\\"keep-alive\\\"],\\\"Content-Length\\\":[\\\"2\\\"],\\\"Content-Type\\\":[\\\"application/json\\\"],\\\"Postman-Token\\\":[\\\"e51f2096-a925-4d27-b33b-dcec52952135\\\"],\\\"User-Agent\\\":[\\\"PostmanRuntime/7.20.1\\\"]}\",\n            \"MessageBody\": \"{}\",\n            \"CreatedDate\": \"18/12/2019 12:11:45.845\"\n        },\n        {\n            \"InboxId\": 7,\n            \"PublisherName\": \"Teamforge.Publisher\",\n            \"EventName\": \"Teamforge.Artifact.Create\",\n            \"MessageHeader\": \"{\\\"Accept\\\":[\\\"application/json, application/json\\\"],\\\"Authorization\\\":[\\\"Auth_0000001576650600108247841\\\"],\\\"Connection\\\":[\\\"Keep-Alive\\\"],\\\"Content-Length\\\":[\\\"1352\\\"],\\\"Content-Type\\\":[\\\"application/json\\\"],\\\"Filter_string\\\":[\\\"proj1008\\\"],\\\"User-Agent\\\":[\\\"Apache-HttpClient/4.5.4 (Java/9.0.4)\\\"]}\",\n            \"MessageBody\": \"{\\\"comment\\\":\\\"\\\",\\\"event_type\\\":\\\"create\\\",\\\"id\\\":\\\"artf1068\\\",\\\"timestamp\\\":\\\"2019-12-18T12:13:34+05:30\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/artf1068\\\",\\\"author\\\":{\\\"username\\\":\\\"admin\\\"},\\\"original\\\":{\\\"project\\\":{\\\"id\\\":\\\"proj1008\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/proj1008\\\",\\\"title\\\":\\\"CollabNet Agile Baseline 2.0\\\"},\\\"tracker\\\":{\\\"description\\\":\\\"Epics are just large user stories, at a lesser degree of specificity, that describe large areas of user-requested functionality. Epics usually get split into several child user stories.\\\",\\\"title\\\":\\\"Epics\\\",\\\"icon\\\":\\\"https://{{HostName}}/sf-images/tracker/icons/icon_10.png\\\",\\\"id\\\":\\\"tracker1001\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/tracker1001\\\"},\\\"fields\\\":{\\\"actualEffort\\\":0,\\\"assignedToUsername\\\":\\\"nobody\\\",\\\"autosumming\\\":false,\\\"category\\\":\\\"\\\",\\\"customer\\\":\\\"\\\",\\\"description\\\":\\\"sdgfs\\\",\\\"estimatedEffort\\\":0,\\\"folderId\\\":\\\"tracker1001\\\",\\\"artifactGroup\\\":\\\"\\\",\\\"lastModifiedByUsername\\\":\\\"admin\\\",\\\"lastModifiedDate\\\":\\\"2019-12-18T12:13:34+05:30\\\",\\\"path\\\":\\\"projects.collabnet_agile_baseline_20/tracker.1_story_epics/artf1068\\\",\\\"planningFolderId\\\":\\\"\\\",\\\"points\\\":0,\\\"priority\\\":4,\\\"remainingEffort\\\":\\\"0\\\",\\\"reportedInReleaseId\\\":\\\"\\\",\\\"resolvedInReleaseId\\\":\\\"\\\",\\\"status\\\":\\\"Under Consideration\\\",\\\"statusClass\\\":\\\"Open\\\",\\\"submittedByUsername\\\":\\\"admin\\\",\\\"submittedDate\\\":\\\"2019-12-18T12:13:34+05:30\\\",\\\"title\\\":\\\"dsgswsdgsd\\\",\\\"version\\\":100,\\\"flexFields\\\":{}}}}\",\n            \"CreatedDate\": \"18/12/2019 12:13:34.999\"\n        },\n        {\n            \"InboxId\": 8,\n            \"PublisherName\": \"V4publisher82\",\n            \"EventName\": \"EventQueue313\",\n            \"MessageHeader\": \"{\\\"Accept\\\":[\\\"*/*\\\"],\\\"Accept-Encoding\\\":[\\\"gzip, deflate\\\"],\\\"Authorization\\\":[\\\"Auth_0000001576648866357042429\\\"],\\\"Cache-Control\\\":[\\\"no-cache\\\"],\\\"Connection\\\":[\\\"keep-alive\\\"],\\\"Content-Length\\\":[\\\"1984\\\"],\\\"Content-Type\\\":[\\\"application/json\\\"],\\\"Postman-Token\\\":[\\\"41d7cd47-b8a0-4afc-8efd-60ec721b67e7\\\"],\\\"User-Agent\\\":[\\\"PostmanRuntime/7.20.1\\\"]}\",\n            \"MessageBody\": \"{\\r\\n    \\\"comment\\\": \\\"\\\",\\r\\n    \\\"event_type\\\": \\\"create\\\",\\r\\n    \\\"id\\\": \\\"artf1068\\\",\\r\\n    \\\"timestamp\\\": \\\"2019-12-18T12:13:34+05:30\\\",\\r\\n    \\\"url\\\": \\\"https://{{HostName}}/sf/go/artf1068\\\",\\r\\n    \\\"author\\\": {\\r\\n        \\\"username\\\": \\\"admin\\\"\\r\\n    },\\r\\n    \\\"original\\\": {\\r\\n        \\\"project\\\": {\\r\\n            \\\"id\\\": \\\"proj1008\\\",\\r\\n            \\\"url\\\": \\\"https://{{HostName}}/sf/go/proj1008\\\",\\r\\n            \\\"title\\\": \\\"CollabNet Agile Baseline 2.0\\\"\\r\\n        },\\r\\n        \\\"tracker\\\": {\\r\\n            \\\"description\\\": \\\"Epics are just large user stories, at a lesser degree of specificity, that describe large areas of user-requested functionality. Epics usually get split into several child user stories.\\\",\\r\\n            \\\"title\\\": \\\"Epics\\\",\\r\\n            \\\"icon\\\": \\\"https://{{HostName}}/sf-images/tracker/icons/icon_10.png\\\",\\r\\n            \\\"id\\\": \\\"tracker1001\\\",\\r\\n            \\\"url\\\": \\\"https://{{HostName}}/sf/go/tracker1001\\\"\\r\\n        },\\r\\n        \\\"fields\\\": {\\r\\n            \\\"actualEffort\\\": 0,\\r\\n            \\\"assignedToUsername\\\": \\\"nobody\\\",\\r\\n            \\\"autosumming\\\": false,\\r\\n            \\\"category\\\": \\\"\\\",\\r\\n            \\\"customer\\\": \\\"\\\",\\r\\n            \\\"description\\\": \\\"sdgfs\\\",\\r\\n            \\\"estimatedEffort\\\": 0,\\r\\n            \\\"folderId\\\": \\\"tracker1001\\\",\\r\\n            \\\"artifactGroup\\\": \\\"\\\",\\r\\n            \\\"lastModifiedByUsername\\\": \\\"admin\\\",\\r\\n            \\\"lastModifiedDate\\\": \\\"2019-12-18T12:13:34+05:30\\\",\\r\\n            \\\"path\\\": \\\"projects.collabnet_agile_baseline_20/tracker.1_story_epics/artf1068\\\",\\r\\n            \\\"planningFolderId\\\": \\\"\\\",\\r\\n            \\\"points\\\": 0,\\r\\n            \\\"priority\\\": 4,\\r\\n            \\\"remainingEffort\\\": \\\"0\\\",\\r\\n            \\\"reportedInReleaseId\\\": \\\"\\\",\\r\\n            \\\"resolvedInReleaseId\\\": \\\"\\\",\\r\\n            \\\"status\\\": \\\"Under Consideration\\\",\\r\\n            \\\"statusClass\\\": \\\"Open\\\",\\r\\n            \\\"submittedByUsername\\\": \\\"admin\\\",\\r\\n            \\\"submittedDate\\\": \\\"2019-12-18T12:13:34+05:30\\\",\\r\\n            \\\"title\\\": \\\"dsgswsdgsd\\\",\\r\\n            \\\"version\\\": 100,\\r\\n            \\\"flexFields\\\": {}\\r\\n        }\\r\\n    }\\r\\n}\",\n            \"CreatedDate\": \"18/12/2019 12:15:40.124\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Json Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1cb44cd8-1225-4e6f-a0dc-7ff86079bbcc",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "$$ %= '{\"Body\":{\"comment\":\"reasonable\"}}'"
+				},
+				"url": {
+					"raw": "{{HostName}}/inbox/v4/jsonquery",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"inbox",
+						"v4",
+						"jsonquery"
+					]
+				},
+				"description": "Use this API to perform a keyword search on the WEBR inbox messsages. You will be passing the search criteria using JSONB syntax. For example, the following search returns the inbox messages with comments that consist of the keyword \"cvb\".\n\n```jsonb\n$$ %= '{\"Body\":{\"comment\":\"cvb\"}}'\n```\n\nYour search query may contain nested conditions in JSONB syntax."
+			},
+			"response": [
+				{
+					"name": "Json Query with No Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "$$ %= '{\"Body\":{\"Name\":\"ram\"}}'"
+						},
+						"url": {
+							"raw": "{{HostName}}/inbox/v4/jsonquery",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"inbox",
+								"v4",
+								"jsonquery"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 23 Dec 2019 09:09:12 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "110"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": []\n}"
+				},
+				{
+					"name": "Json Query with Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "$$ %= '{\"Body\":{\"comment\":\"reasonable\"}}'"
+						},
+						"url": {
+							"raw": "{{HostName}}/inbox/v4/jsonquery",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"inbox",
+								"v4",
+								"jsonquery"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 23 Dec 2019 09:09:49 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"InboxId\": 59,\n            \"PublisherName\": \"Teamforge.Publisher\",\n            \"EventName\": \"Teamforge.Artifact.Update\",\n            \"MessageHeader\": \"{\\\"Accept\\\":[\\\"application/json, application/json\\\"],\\\"Authorization\\\":[\\\"Auth_0000001576753200013503245\\\"],\\\"Connection\\\":[\\\"Keep-Alive\\\"],\\\"Content-Length\\\":[\\\"2444\\\"],\\\"Content-Type\\\":[\\\"application/json\\\"],\\\"Filter_string\\\":[\\\"proj1010\\\"],\\\"User-Agent\\\":[\\\"Apache-HttpClient/4.5.4 (Java/9.0.4)\\\"]}\",\n            \"MessageBody\": \"{\\\"comment\\\":\\\"this is a reasonable comment\\\",\\\"event_type\\\":\\\"update\\\",\\\"id\\\":\\\"artf1165\\\",\\\"timestamp\\\":\\\"2019-12-19T16:56:10+05:30\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/artf1165\\\",\\\"author\\\":{\\\"username\\\":\\\"admin\\\"},\\\"original\\\":{\\\"project\\\":{\\\"id\\\":\\\"proj1010\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/proj1010\\\",\\\"title\\\":\\\"parent\\\"},\\\"tracker\\\":{\\\"description\\\":\\\"A user story is a high-level definition of a requirement, containing just enough information so that developers can produce a reasonable estimate of the effort required to implement it.\\\",\\\"title\\\":\\\"Stories\\\",\\\"icon\\\":\\\"https://{{HostName}}/sf-images/tracker/icons/icon_18.png\\\",\\\"id\\\":\\\"tracker1014\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/tracker1014\\\"},\\\"fields\\\":{\\\"actualEffort\\\":0,\\\"assignedToUsername\\\":\\\"nobody\\\",\\\"autosumming\\\":false,\\\"category\\\":\\\"\\\",\\\"customer\\\":\\\"\\\",\\\"description\\\":\\\"tes\\\\tttest\\\",\\\"estimatedEffort\\\":0,\\\"folderId\\\":\\\"tracker1014\\\",\\\"artifactGroup\\\":\\\"\\\",\\\"lastModifiedByUsername\\\":\\\"admin\\\",\\\"lastModifiedDate\\\":\\\"2019-12-19T16:28:15+05:30\\\",\\\"path\\\":\\\"projects.parent/tracker.2_user_stories/artf1165\\\",\\\"planningFolderId\\\":\\\"\\\",\\\"points\\\":0,\\\"priority\\\":4,\\\"remainingEffort\\\":\\\"0\\\",\\\"reportedInReleaseId\\\":\\\"\\\",\\\"resolvedInReleaseId\\\":\\\"\\\",\\\"status\\\":\\\"Under Consideration\\\",\\\"statusClass\\\":\\\"Open\\\",\\\"submittedByUsername\\\":\\\"admin\\\",\\\"submittedDate\\\":\\\"2019-12-19T16:27:20+05:30\\\",\\\"title\\\":\\\"test\\\",\\\"version\\\":101,\\\"flexFields\\\":{}}},\\\"updated\\\":{\\\"project\\\":{\\\"id\\\":\\\"proj1010\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/proj1010\\\",\\\"title\\\":\\\"parent\\\"},\\\"tracker\\\":{\\\"description\\\":\\\"A user story is a high-level definition of a requirement, containing just enough information so that developers can produce a reasonable estimate of the effort required to implement it.\\\",\\\"title\\\":\\\"Stories\\\",\\\"icon\\\":\\\"https://{{HostName}}/sf-images/tracker/icons/icon_18.png\\\",\\\"id\\\":\\\"tracker1014\\\",\\\"url\\\":\\\"https://{{HostName}}/sf/go/tracker1014\\\"},\\\"fields\\\":{\\\"actualEffort\\\":0,\\\"assignedToUsername\\\":\\\"nobody\\\",\\\"autosumming\\\":false,\\\"category\\\":\\\"\\\",\\\"customer\\\":\\\"\\\",\\\"description\\\":\\\"tes\\\\tttest\\\",\\\"estimatedEffort\\\":0,\\\"folderId\\\":\\\"tracker1014\\\",\\\"artifactGroup\\\":\\\"\\\",\\\"lastModifiedByUsername\\\":\\\"admin\\\",\\\"lastModifiedDate\\\":\\\"2019-12-19T16:56:10+05:30\\\",\\\"path\\\":\\\"projects.parent/tracker.2_user_stories/artf1165\\\",\\\"planningFolderId\\\":\\\"\\\",\\\"points\\\":0,\\\"priority\\\":4,\\\"remainingEffort\\\":\\\"0\\\",\\\"reportedInReleaseId\\\":\\\"\\\",\\\"resolvedInReleaseId\\\":\\\"\\\",\\\"status\\\":\\\"Under Consideration\\\",\\\"statusClass\\\":\\\"Open\\\",\\\"submittedByUsername\\\":\\\"admin\\\",\\\"submittedDate\\\":\\\"2019-12-19T16:27:20+05:30\\\",\\\"title\\\":\\\"test\\\",\\\"version\\\":102,\\\"flexFields\\\":{}}}}\",\n            \"CreatedDate\": \"19/12/2019 16:56:10.279\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Subscription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3f045764-50d7-4818-9f20-8f2f1e65ebe1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"{{subscriptionId}}"
+					]
+				},
+				"description": "Use this API to delete a specific WEBR subscription."
+			},
+			"response": [
+				{
+					"name": "Delete Subscription",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"{{subscriptionId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 23 Dec 2019 09:11:56 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "110"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": 20\n}"
+				},
+				{
+					"name": "Delete Subscription---Subscription Not Found Error",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/{{subscriptionId}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"{{subscriptionId}}"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 23 Dec 2019 09:12:21 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "154"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 500,\n    \"HTTPStatusText\": \"Internal Server Error\",\n    \"Success\": false,\n    \"ErrorText\": \"Subscription Not Found\",\n    \"ErrorMessages\": null,\n    \"Response\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Register Add Subscriber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4a365cc-7cb7-4b60-8e30-a47d60314694",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HostName}}/subscribers/v4/register/add?url=http://{{HostName}}:1002",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscribers",
+						"v4",
+						"register",
+						"add"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "http://{{HostName}}:1002"
+						}
+					]
+				},
+				"description": "Use this API to register an endpoint URL that will receive a notification whenever a new subscriber is created via the Create Subscriber API."
+			},
+			"response": [
+				{
+					"name": "Register Add Subscriber",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{HostName}}/subscribers/v4/register/add?url=http://forge.com:1002",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscribers",
+								"v4",
+								"register",
+								"add"
+							],
+							"query": [
+								{
+									"key": "url",
+									"value": "http://forge.com:1002"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 04:06:04 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Register Update Subscriber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ae26092-4e5e-410c-ac5e-d3d21f3cb545",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscribers/v4/register/update?url=http://forge.com:1002",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscribers",
+						"v4",
+						"register",
+						"update"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "http://forge.com:1002"
+						}
+					]
+				},
+				"description": "Same as Register Add Subscriber API, but is used when an existing subscriber has been updated using the Update Subscriber API."
+			},
+			"response": [
+				{
+					"name": "Register Update Subscriber",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscribers/v4/register/update?url=http://forge.com:1002",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscribers",
+								"v4",
+								"register",
+								"update"
+							],
+							"query": [
+								{
+									"key": "url",
+									"value": "http://forge.com:1002"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 04:07:56 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Register Add Subscriptions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c76e1625-dd6e-4702-a555-4df64e7bb890",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/register/add?url=http://forge.com:1002",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"register",
+						"add"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "http://forge.com:1002"
+						}
+					]
+				},
+				"description": "Use this API to register an endpoint URL that will receive a notification whenever a new subscription is created via the Create Subscription API."
+			},
+			"response": []
+		},
+		{
+			"name": "Register Update Subscriptions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2dc4d1b-5187-4af4-93ef-a42c1c6c3494",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/register/update?url=http://forge.com:1002",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"register",
+						"update"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "http://forge.com:1002"
+						}
+					]
+				},
+				"description": "Use this API to register an endpoint URL that will receive a notification whenever an existing subscription is updated via the Update Subscription API."
+			},
+			"response": [
+				{
+					"name": "Register Update subscriptions",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/register/update?url=http://forge.com:1002",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"register",
+								"update"
+							],
+							"query": [
+								{
+									"key": "url",
+									"value": "http://forge.com:1002"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 04:09:45 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Register Delete Subscriptions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb4afd1c-3a43-496a-93cd-69e6e459ecf4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/subscriptions/v4/register/delete?url=http://forge.com:1002",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"subscriptions",
+						"v4",
+						"register",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "http://forge.com:1002"
+						}
+					]
+				},
+				"description": "Use this API to delete an endpoint URL that was earlier registered."
+			},
+			"response": [
+				{
+					"name": "Register Delete Subscriptions",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/subscriptions/v4/register/delete?url=http://forge.com:1002",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"subscriptions",
+								"v4",
+								"register",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "url",
+									"value": "http://forge.com:1002"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 10 Jan 2020 04:11:17 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Create Orch Script",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85fe76aa-49d8-4f0f-84f9-8599a7dcaa08",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"OrchID\", jsonData.Response.OrchID);",
+							"pm.environment.set(\"OrchNamewebPost\", jsonData.Response.OrchName);",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include('\"Success\":true');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"OrchName\": \"OrchWebPost\",\n\"OrchScript\": \"console.log('Hello this is orch script for webPost');\\nret = webPost('{{EndpointName}}','/ctfrest/tracker/v1/projects/proj1010/trackers', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\"\n}\n"
+				},
+				"url": {
+					"raw": "{{HostName}}/orchscripts/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"orchscripts",
+						"v4"
+					]
+				},
+				"description": "```\nSince TeamForge 20.1\n```\n\nCreates an orchestration script. `OrchName` and `OrchScript` parameters are required.\n\nFor example, here's a list of orchestration scripts for webrGet, webPost, webPatch, webPut, and webDelete.\n\n```\nconsole.log('Hello this is orch script');\nret = webGet('endpoint6','/ctfrest/foundation/v1/users/myself');\nconsole.log('Output=');\nconsole.log(ret);\n```\n```\nconsole.log('Hello this is orch script');\nret = webPost('endpoint3','/ctfrest/tracker/v1/projects/proj1010/trackers', $inmessage);\nconsole.log('Output=');\nconsole.log(ret);\n```\n```\nconsole.log('Hello this is orch script');\nret = webPatch('endpoint3','/ctfrest/tracker/v1/trackers/tracker1013', $inmessage);\nconsole.log('Output=');\nconsole.log(ret);\n```\n```\nconsole.log('Hello this is orch script');\nret = webPut('endpoint3','/ctfrest/tracker/v1/planningfolders/plan1005/artifacts/plan1065', $inmessage);\nconsole.log('Output=');\nconsole.log(ret);\n```\n```\nconsole.log('Hello this is orch script');\nret = webDelete('endpoint3','/ctfrest/tracker/v1/planningfolders/plan1005/artifacts/plan1065', $inmessage);\nconsole.log('Output=');\nconsole.log(ret);\n```"
+			},
+			"response": [
+				{
+					"name": "Orchestration script with webPost",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"OrchName\": \"OrchWebPost\",\n\"OrchScript\": \"console.log('Hello this is orch script for webPost');\\nret = webPost('{{EndpointName}}','/ctfrest/tracker/v1/projects/proj1010/trackers', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\"\n}\n"
+						},
+						"url": {
+							"raw": "{{HostName}}/orchscripts/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"orchscripts",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 May 2020 08:17:21 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "471"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"OrchID\": 5,\n        \"OrchName\": \"OrchWebPost\",\n        \"OrchScript\": \"console.log('Hello this is orch script for webPost');\\nret = webPost('','/ctfrest/tracker/v1/projects/proj1010/trackers', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\",\n        \"RetStatusCode\": 200,\n        \"RetBody\": \"\",\n        \"CreatedDate\": \"2020-05-12 13:47:21.240232 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Orch Script",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bbf6a4d6-53e5-471f-b8ed-732f64b2165e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include('\"Response\":\"Successfully updated script\"');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "console.log('Hello this orch script is updated');\r\nret = webGet('{{EndpointName}}','/ctfrest/tracker/v1/trackers/tracker1014', $inmessage);\r\nconsole.log('Output=');\r\nconsole.log(ret);"
+				},
+				"url": {
+					"raw": "{{HostName}}/orchscripts/v4/{{OrchID}}/script",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"orchscripts",
+						"v4",
+						"{{OrchID}}",
+						"script"
+					]
+				},
+				"description": "```\nSince TeamForge 20.1\n```\n\nUpdates the orchestration script."
+			},
+			"response": [
+				{
+					"name": "Update Orch Script",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "console.log('Hello this orch script is updated');\r\nret = webGet('{{EndpointName}}','/ctfrest/tracker/v1/trackers/tracker1014', $inmessage);\r\nconsole.log('Output=');\r\nconsole.log(ret);"
+						},
+						"url": {
+							"raw": "{{HostName}}/orchscripts/v4/{{OrchID}}/script",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"orchscripts",
+								"v4",
+								"{{OrchID}}",
+								"script"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 May 2020 04:48:19 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "137"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": \"Successfully updated script\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List Orch Scripts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5722b95d-a390-4e14-b977-13cc94c98730",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include('\"Success\":true');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/orchscripts/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"orchscripts",
+						"v4"
+					]
+				},
+				"description": "```\nSince TeamForge 20.1.\n```\n\nLists the orchestration scripts."
+			},
+			"response": [
+				{
+					"name": "List Orchestration Scripts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/orchscripts/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"orchscripts",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 May 2020 04:33:10 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1481"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"OrchID\": 1,\n            \"OrchName\": \"Orch695\",\n            \"OrchScript\": \"console.log('Hello this is orch script for webPost');\\nret = webPost('Endpoint319','/ctfrest/tracker/v1/projects/proj1010/trackers', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\",\n            \"RetStatusCode\": 200,\n            \"RetBody\": \"\",\n            \"CreatedDate\": \"2020-05-06 10:01:13.369572 +0530 IST\",\n            \"UpdatedDate\": \"\"\n        },\n        {\n            \"OrchID\": 2,\n            \"OrchName\": \"Orch319\",\n            \"OrchScript\": \"cconsole.log('Hello this is orch script');\\nret = webPatch('Endpoint319','/ctfrest/tracker/v1/trackers/tracker1013', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\",\n            \"RetStatusCode\": 200,\n            \"RetBody\": \"\",\n            \"CreatedDate\": \"2020-05-06 10:02:32.355066 +0530 IST\",\n            \"UpdatedDate\": \"\"\n        },\n        {\n            \"OrchID\": 3,\n            \"OrchName\": \"Orch74\",\n            \"OrchScript\": \"console.log('Hello this is orch script for webPut');\\nret = webPut('Endpoint319','/ctfrest/tracker/v1/planningfolders/plan1005/artifacts/plan1065', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\",\n            \"RetStatusCode\": 200,\n            \"RetBody\": \"\",\n            \"CreatedDate\": \"2020-05-06 10:02:56.124944 +0530 IST\",\n            \"UpdatedDate\": \"\"\n        },\n        {\n            \"OrchID\": 4,\n            \"OrchName\": \"Orch64\",\n            \"OrchScript\": \"console.log('Hello this is orch script');\\nret = webDelete('Endpoint319','/ctfrest/tracker/v1/planningfolders/plan1005/artifacts/plan1065', $inmessage);\\nconsole.log('Output=');\\nconsole.log(ret);\",\n            \"RetStatusCode\": 200,\n            \"RetBody\": \"\",\n            \"CreatedDate\": \"2020-05-06 10:03:02.124233 +0530 IST\",\n            \"UpdatedDate\": \"\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d558d8c3-91b1-4758-ab05-eaf95f993b22",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"EndpointID\", jsonData.Response.EndpointID);",
+							"pm.environment.set(\"EndpointName\", jsonData.Response.EndpointName);",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include('\"Success\":true');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth_sessionToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"EndpointName\":\"EndpointJira\",\n\"EndpointURL\": \"http://test.jira.net:8080/rest/api/2\",\n\"Username\":\"admin\",\n\"Password\": \"admin\",\n\"HttpHeaders\": \"{}\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/endpoints/v4",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"endpoints",
+						"v4"
+					]
+				},
+				"description": "```\nSince TeamForge 20.1\n```\n\nCreates endpoints."
+			},
+			"response": [
+				{
+					"name": "Create Endpoint—Jira",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"EndpointName\":\"EndpointJira\",\n\"EndpointURL\": \"http://test.jira.net:8080/rest/api/2\",\n\"Username\":\"admin\",\n\"Password\": \"admin\",\n\"HttpHeaders\": \"{}\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/endpoints/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"endpoints",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 May 2020 08:25:16 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "406"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"EndpointID\": 3,\n        \"EndpointName\": \"EndpointJira\",\n        \"EndpointURL\": \"http://test.jira.net:8080/rest/api/2\",\n        \"Username\": \"admin\",\n        \"Password\": \"H4sIAAAAAAAA/0pMyc3MAwAAAP//AQAA//92DQ6IBQAAAA==\",\n        \"HttpHeaders\": \"{}\",\n        \"CreatedDate\": \"2020-05-12 13:55:16.186306 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\"\n    }\n}"
+				},
+				{
+					"name": "Create Endpoint—TeamForge",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Auth_sessionToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"EndpointName\":\"EndpointTeamForge\",\n\"EndpointURL\": \"ctf://\",\n\"Username\":\"admin\",\n\"Password\": \"admin\",\n\"HttpHeaders\": \"{\\\"If-Match\\\": \\\"*\\\"}\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/endpoints/v4",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"endpoints",
+								"v4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 May 2020 08:22:14 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "399"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"EndpointID\": 2,\n        \"EndpointName\": \"EndpointTeamForge\",\n        \"EndpointURL\": \"ctf://\",\n        \"Username\": \"admin\",\n        \"Password\": \"H4sIAAAAAAAA/0pMyc3MAwAAAP//AQAA//92DQ6IBQAAAA==\",\n        \"HttpHeaders\": \"{\\\"If-Match\\\": \\\"*\\\"}\",\n        \"CreatedDate\": \"2020-05-12 13:52:14.44398 +0530 IST\",\n        \"UpdatedDate\": \"0001-01-01 00:00:00 +0000 UTC\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Endpoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21eaa199-915b-4c06-a079-d1d7ad643a58",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"EndpointName\", jsonData.Response.EndpointName);",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include('\"Success\":true');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"EndpointName\":\"EndpointForge\"\n}"
+				},
+				"url": {
+					"raw": "{{HostName}}/endpoints/v4/{{EndpointID}}",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"endpoints",
+						"v4",
+						"{{EndpointID}}"
+					]
+				},
+				"description": "```\nSince TeamForge 20.1\n```\n\nUpdates endpoints."
+			},
+			"response": [
+				{
+					"name": "Update Endpoint—Forge",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"EndpointName\":\"EndpointForge\"\n}"
+						},
+						"url": {
+							"raw": "{{HostName}}/endpoints/v4/{{EndpointID}}",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"endpoints",
+								"v4",
+								"{{EndpointID}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 May 2020 08:27:33 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "438"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": {\n        \"EndpointID\": 3,\n        \"EndpointName\": \"EndpointForge\",\n        \"EndpointURL\": \"http://test.jira.net:8080/rest/api/2\",\n        \"Username\": \"admin\",\n        \"Password\": \"H4sIAAAAAAAA/0pMyc3MAwAAAP//AQAA//92DQ6IBQAAAA==\",\n        \"HttpHeaders\": \"{}\",\n        \"CreatedDate\": \"2020-05-12 13:55:16.186306 +0530 IST\",\n        \"UpdatedDate\": \"2020-05-12 13:57:33.001957214 +0530 IST m=+1449915.231610139\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List Endpoints",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f626094b-7eb4-4001-ba2b-67b712b9869d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include('\"Success\":true');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{Auth_sessionToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{HostName}}/endpoints/v4/",
+					"host": [
+						"{{HostName}}"
+					],
+					"path": [
+						"endpoints",
+						"v4",
+						""
+					]
+				},
+				"description": "```\nSince TeamForge 20.1\n```\n\nLists endpoints."
+			},
+			"response": [
+				{
+					"name": "List Endpoints",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{Auth_sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostName}}/endpoints/v4/",
+							"host": [
+								"{{HostName}}"
+							],
+							"path": [
+								"endpoints",
+								"v4",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 May 2020 04:29:37 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "367"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"HTTPStatusCode\": 200,\n    \"HTTPStatusText\": \"OK\",\n    \"Success\": true,\n    \"ErrorText\": \"\",\n    \"ErrorMessages\": null,\n    \"Response\": [\n        {\n            \"EndpointID\": 1,\n            \"EndpointName\": \"Endpoint458\",\n            \"EndpointURL\": \"ctf://\",\n            \"Username\": \"admin\",\n            \"Password\": \"H4sIAAAAAAAA/0pMyc3MAwAAAP//AQAA//92DQ6IBQAAAA==\",\n            \"HttpHeaders\": \"{\\\"If-Match\\\": \\\"*\\\"}\",\n            \"CreatedDate\": \"2020-05-06 09:59:09.009251 +0530 IST\",\n            \"UpdatedDate\": \"\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a3f360f7-b01a-42c5-a30c-155e058c0f84",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cf868232-9b63-47a3-8029-c4b5ce3035d3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,485 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.2.556",
+    "title" : "News API"
+  },
+  "basePath" : "/ctfrest/news/v1",
+  "tags" : [ {
+    "name" : "Posts"
+  }, {
+    "name" : "Recent Posts"
+  } ],
+  "paths" : {
+    "/myself/recent/posts/count" : {
+      "get" : {
+        "tags" : [ "Recent Posts" ],
+        "summary" : "Gets recent news post count for current user.",
+        "description" : "",
+        "operationId" : "getRecentNewsPostCount",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "days",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "default" : 7,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        }
+      }
+    },
+    "/posts" : {
+      "get" : {
+        "tags" : [ "Posts" ],
+        "summary" : "Gets news posts associated with user's projects.",
+        "description" : "Project Source definitions:\n- my: Projects that current user has direct membership (Default/Fallback),\n- group: Projects that current user has direct and group membership,\n- community: Community projects,\n- all: Projects that user has access to view.\n",
+        "operationId" : "getNewsPosts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of news posts to be returned. 0 is for no-limit.",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "projectSource",
+          "in" : "query",
+          "description" : "Source projects of the news posts",
+          "required" : false,
+          "type" : "string",
+          "default" : "my",
+          "enum" : [ "my", "group", "community", "all" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "News posts retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetNewsPostsEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Posts" ],
+        "summary" : "Creates news post",
+        "description" : "",
+        "operationId" : "createNewsPost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New news post data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostNews"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "News post is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetNewsPostEntity"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          }
+        }
+      }
+    },
+    "/posts/{postId}" : {
+      "get" : {
+        "tags" : [ "Posts" ],
+        "summary" : "Gets news post data by id.",
+        "description" : "",
+        "operationId" : "getNewsPost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "postId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "news(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetNewsPostEntity"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "News post data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such news post",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Posts" ],
+        "summary" : "Deletes a news post",
+        "description" : "",
+        "operationId" : "deleteNewsPost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "postId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "news(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "News post is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such news post",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Posts" ],
+        "summary" : "Updates news post data by id",
+        "description" : "",
+        "operationId" : "updateNewsPost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated repository info",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchNewsPost"
+          }
+        }, {
+          "name" : "postId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "news(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetNewsPostEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such news post",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/posts" : {
+      "get" : {
+        "tags" : [ "Posts" ],
+        "summary" : "Gets news posts associated with a project.",
+        "description" : "",
+        "operationId" : "getProjectNewsPosts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of news posts to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : 10,
+          "minimum" : 1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "News posts retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetNewsPostsEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No such project"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "GetNewsPostEntity" : {
+      "type" : "object",
+      "required" : [ "body", "createdBy", "createdDate", "folderId", "id", "lastModifiedBy", "lastModifiedDate", "name", "path", "title", "type" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdByFullName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "body" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "lastModifiedByFullName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetNewsPostsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetNewsPostEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PatchNewsPost" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "body" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a news post"
+    },
+    "PostNews" : {
+      "type" : "object",
+      "required" : [ "body", "projectId", "title" ],
+      "properties" : {
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "body" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a news post"
+    }
+  }
+}

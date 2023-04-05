@@ -1,0 +1,106 @@
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-lg navbar-brand noCrossRef" href="http://stage.docs.collab.net/index.html"><img src="../images/DAILogoDark.png"></a>
+            <a class="navbar-brand noCrossRef" href="http://stage.docs.collab.net/index.html">&nbsp;<span class="projectTitle"> {{site.topnav_title}}</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+                {% for entry in site.data.topnav.topnav %}
+                {% for item in entry.items %}
+                {% if item.external_url %}
+                <!-- <li><a href="{{item.external_url}}" target="_blank">{{item.title}}</a></li> --> <!-- removing target="_blank" to make pages open in the same browser tab -->
+                <li><a class="noCrossRef" href="{{item.external_url}}">{{item.title}}</a></li>
+                {% elsif page.url contains item.url %}
+                <li class="active"><a href="{{item.url | remove: "/"}}">{{item.title}}</a></li>
+                {% else %}
+                <li><a href="{{item.url | remove: "/"}}">{{item.title}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                {% for entry in site.data.topnav.topnav_dropdowns %}
+                {% for folder in entry.folders %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ folder.title }}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for folderitem in folder.folderitems %}
+                        {% if folderitem.external_url %}
+                        <li><a class="noCrossRef" href="{{folderitem.external_url}}" target="_blank">{{folderitem.title}}</a></li>
+                        {% elsif page.url contains folderitem.url %}
+                        <li class="dropdownActive"><a href="{{folderitem.url |  remove: "/"}}">{{folderitem.title}}</a></li>
+                        {% else %}
+                        <li><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+                {% endfor %}
+                <!-- entries with Products drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                {% for entry in site.data.topnav.products_dropdowns %}
+                {% for folder in entry.folders %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ folder.title }}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for folderitem in folder.folderitems %}
+                        {% if folderitem.external_url %}
+                        <li><a  class="noCrossRef" href="{{folderitem.external_url}}">{{folderitem.title}}</a></li>
+                        {% elsif page.url contains folderitem.url %}
+                        <li class="dropdownActive"><a href="{{folderitem.url |  remove: "/"}}">{{folderitem.title}}</a></li>
+                        {% else %}
+                        <li><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+                {% endfor %}
+                {% if site.feedback_disable == null or site.feedback_disable == false %}
+			{% include feedback.html %}
+
+            
+		{% endif %}
+            {% include searchtips.html %}
+            <!--comment out this block if you want to hide search-->
+            <!-- <li>
+                <!--form action="/search" method="get"-->
+                    <input type="text" id="search-query" name="q" placeholder="Search" autocomplete="off">
+                   <ul id="search-results" style="display: none;"></ul>
+                <!--/form-->
+            </li> -->
+            </ul>
+        </div>
+        </div>
+
+
+<!-- {% raw %}
+<script id="search-results-template" type="text/mustache">
+  {{#entries}}
+  <li><a href="{{url}}" title="{{#tags}}{{.}} \n{{/tags}}">{{title}}</a>
+  {{/entries}}
+</script>
+{% endraw %}
+
+<script type="text/javascript">
+  !function(){function e(e){var t=!1;return function(){return t?void 0:(t=!0,e.apply(this,arguments))}}var t=function(t,n){var a=e(n),r=document.createElement("script");r.src=t,r.onloadDone=!1,r.onload=a,r.onreadystatechange=function(){"loaded"!==r.readyState||r.onloadDone||a()},document.getElementsByTagName("head")[0].appendChild(r)},n=function(e,t){var n=document.getElementById(e);n.addEventListener?n.addEventListener("focus",t,!1):n.attachEvent&&n.attachEvent("onfocus",t)},a=function(a){n("search-query",e(function(){t("js/search.min.js",a)}))};a(function(){!function(e){e("#search-query").lunrSearch({index:"js/index.json",results:"#search-results",template:"#search-results-template",
+  titleMsg: '',
+  emptyMsg:'<li>Your search found no matching articles.</li>'
+})}(jQuery)})}();
+</script> -->
+        <!-- /.container -->
+</nav>
+
+<!--section id="search-results" style="display: none;"> </section-->

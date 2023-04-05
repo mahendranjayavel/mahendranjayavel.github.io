@@ -1,0 +1,1271 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+
+entries:
+- title: Sidebar
+  product: TeamForge
+  version: 22.1
+  folders:
+
+  - title:
+    output: pdf
+    type: frontmatter
+    folderitems:
+    - title:
+      url: /titlepage/
+      output: pdf
+      type: frontmatter
+    - title:
+      url: /tocpage/
+      output: pdf
+      type: frontmatter
+
+  - title: Getting Started
+    output: web
+    folderitems:
+    - title: Overview
+      url: /index.html
+      output: web
+
+  - title: Release Notes
+    output: web, pdf
+    folderitems:
+    - title: What's New?
+      url: /teamforge-new.html
+      output: web, pdf
+    - title: What's Fixed?
+      url: /teamforge-fixedissues.html
+      output: web, pdf
+    - title: Known Issues
+      url: /teamforge-known.html
+      output: web, pdf
+    - title: Site Options Change Log
+      url: /siteoptionschangelog.html
+      output: web, pdf
+    - title: API Change Log
+      url: /apichangelog.html
+      output: web, pdf
+
+  - title: End-of-Life Policy
+    output: web
+    folderitems:
+    - title: End-of-Life Policy
+      url: /eol.html
+      output: web, pdf       
+
+  - title: Plan Install / Upgrade
+    output: web, pdf
+    folderitems:
+    - title: Plan Your Install / Upgrade
+      url: /plan_your_installation_upgrade.html
+      output: web, pdf
+    - title: Installation Requirements
+      url: /requirements.html
+      output: web, pdf
+    - title: Set up Networking
+      url: /setupnetworking.html
+      output: web, pdf
+    - title: Generate SSL Certificates
+      url: /generatesslcerts.html
+      output: web, pdf
+    - title: Install / Upgrade Dos and Don'ts
+      url: /for_pdf_installdosdonts.html
+      output: pdf
+
+  - title: Install
+    output: web, pdf
+    folderitems:
+    - title: Single Server Installation
+      url: /allinoneserver_rhel_centos.html
+      output: web, pdf
+    - title: Multi-host Installation
+      url: /distributed_install_rhel_centos.html
+      output: web, pdf
+    - title: TeamForge with Oracle
+      url: /install_teamforge_with_oracle.html
+      output: web, pdf
+    - title: TeamForge with External PostgreSQL Server
+      url: /dbdm-on-nonctfmanaged-postgresserver.html
+      output: web, pdf
+    - title: Configure the TeamForge Installation Repo
+      url: /for_pdf_installrepoconfig.html
+      output: pdf
+    - title: Set up the site-options.conf File (PostgreSQL)
+      url: /for_pdf_site_options_config.html
+      output: pdf
+    - title: Set up the site-options.conf File (Oracle)
+      url: /for_pdf_site_options_config_oracle.html
+      output: pdf
+    - title: TeamForge Load Balancing Setup
+      url: /loadbalancing.html
+      output: web, pdf
+
+  - title: Upgrade
+    output: web, pdf
+    folderitems:
+    - title: New Hardware / Single Server
+      url: /new_hardware_upgrade_single_server.html
+      output: web, pdf
+    - title: New Hardware / Multi-host
+      url: /new_hardware_upgrade_multi_host.html
+      output: web, pdf
+    - title: Same Hardware / Single Server
+      url: /same_hardware_upgrade_single_server.html
+      output: web, pdf
+    - title: Same Hardware / Multi-host
+      url: /same_hardware_upgrade_multi_host.html
+      output: web, pdf
+    - title: Same Hardware / Oracle Database
+      url: /upgrade_teamforge_with_oracle.html
+      output: web, pdf
+    - title: Create a Single Cluster for Both Database and Datamart
+      url: /movedbdmintoonepginstance.html
+      output: web, pdf
+    - title: Configure the TeamForge Installation Repo
+      url: /for_pdf_installrepoconfig_upgrade.html
+      output: pdf
+    - title: Set up the site-options.conf File
+      url: /for_pdf_site_options_config_upgrade.html
+      output: pdf
+    - title: Back up and Restore TeamForge
+      url: /backupandrestore.html
+      output: web, pdf
+    - title: EventQ End of Life
+      url: /eventqendoflife.html
+      output: web, pdf      
+
+  - title: Post Install / Upgrade
+    output: web, pdf
+    folderitems:
+    - title: TeamForge License
+      url: /teamforgelicense.html
+      output: web, pdf
+    - title: Create Broadcasts
+      url: /siteadmin-createsitewidebroadcast.html
+      output: web, pdf
+    - title: Customize TeamForge
+      url: /customize.html
+      output: web, pdf
+    - title: Set up SELinux
+      url: /setupselinux.html
+      output: web, pdf
+    - title: Install Memcached
+      url: /installmemcached.html
+      output: web, pdf
+
+  - title: TeamForge Webhooks-based Event Broker
+    output: web, pdf
+    folderitems:
+    - title: Overview
+      url: /webhooks-event-broker-overview.html
+      output: web, pdf
+    - title: Installation
+      url: /install-webhooks-event-broker.html
+      output: web, pdf    
+    - title: Settings
+      url: /webhooks-event-broker-settings.html
+      output: web, pdf
+    - title: TeamForge WebConnect UIs
+      url: /webconnectui.html
+      output: web, pdf      
+    - title: TOPIC Event Type
+      url: /topic-event-type.html
+      output: web, pdf
+    - title: SYNC Event Type
+      url: /sync-event-type.html
+      output: web, pdf
+    - title: QUEUE Event Type
+      url: /queue-event-type.html
+      output: web, pdf
+    - title: Scripts and Filters
+      url: /scripts_filters.html
+      output: web, pdf
+    - title: TeamForge—Jenkins Integration 
+      url: /teamforge-jenkins-integration.html
+      output: web, pdf
+    - title: TeamForge—JIRA Integration
+      url: /teamforge-jira-integration.html
+      output: web, pdf     
+    - title: TeamForge—TestLink Integration
+      url: /teamforge-testlink-integration.html
+      output: web, pdf      
+    - title: TeamForge Maven Deploy Plugin
+      url: /configuremavenplugin.html
+      output: web, pdf
+    - title: Integrate Tools Using Post-submit Webhooks
+      url: /integrationsviawebhooks.html
+      output: web, pdf
+    - title: Integrate Tools Using WEBR Orchestration Scripts
+      url: /webr-orchestration.html
+      output: web, pdf      
+    - title: WEBR API Documentation
+      url: /apidoclinks.html
+      output: web       
+
+  # - title: EventQ Integration
+  #   output: web, pdf
+  #   folderitems:
+  #   - title: Overview
+  #     url: /eventq_overview.html
+  #     output: web, pdf
+  #   - title: Architecture
+  #     url: /eventq_architecture.html
+  #     output: web, pdf
+  #   - title: Adapters - Integrations Using EventQ
+  #     url: /eventq_adapters.html
+  #     output: web, pdf
+  #   - title: Activity Sources and Associations
+  #     url: /Orc_Management.html
+  #     output: web, pdf
+  #   - title: Activity Stream
+  #     url: /activitystream.html
+  #     output: web, pdf
+  #   - title: EventQ System Administration
+  #     url: /eventqsysadminoverview.html
+  #     output: web, pdf      
+
+  - title: Git Integration
+    output: web, pdf
+    folderitems:
+    - title: Overview
+      url: /gitoverview.html
+      output: web, pdf
+    - title: Set up Git Replica Servers
+      url: /setupgitreplica.html
+      output: web, pdf
+    - title: Set up Git—Slack Integration
+      url: /scm-gerrit-slack-integration.html
+      output: web, pdf      
+    - title: Set up LFS
+      url: /setuplfs.html
+      output: web, pdf
+    - title: Code Review Policies
+      url: /codereviewpolicy.html
+      output: web, pdf
+    - title: History Protection
+      url: /historyprotect.html
+      output: web, pdf
+    - title: References
+      url: /gitreference.html
+      output: web, pdf
+    - title: Mass Configuration of Repository Policies
+      url: /mass-repo-policy-settings.html
+      output: web, pdf
+    - title: Quality Gates and Review Rules
+      url: /qualitygates.html
+      output: web, pdf        
+    - title: UserFilter Removal
+      url: /userfilterremoval.html
+      output: web, pdf      
+
+  - title: Review Board Integration
+    output: web, pdf
+    folderitems:
+    - title: Install Review Board
+      url: /install_review_board.html
+      output: web, pdf
+    - title: Upgrade Review Board
+      url: /upgrade_review_board.html
+      output: web, pdf
+    - title: Add Review Board to Projects
+      url: /iaf-reviewboard-add.html
+      output: web, pdf
+
+  - title: Nexus Integration
+    output: web, pdf
+    folderitems:
+    - title: TeamForge—Nexus Integration Plugin Release Notes
+      url: /for_pdf_nexuspluginrn.html
+      output: pdf
+    - title: Overview
+      url: /managebinaries.html
+      output: web, pdf
+    - title: Install Nexus
+      url: /installnexus.html
+      output: web, pdf
+    - title: Install or Upgrade the TeamForge—Nexus Plugin
+      url: /installnexusplugin.html
+      output: web, pdf
+    - title: Add Binaries to TeamForge Projects
+      url: /iaf-binaries-add.html
+      output: web, pdf      
+    - title: Manage Binary Repositories
+      url: /managebinaryrepos.html
+      output: web, pdf
+
+  - title: Site Administration
+    output: web, pdf
+    folderitems:
+    - title: Overview
+      url: /siteadminoverview.html
+      output: web, pdf
+      subfolders:
+        - title: Manage Site-wide Roles
+          output: web, pdf
+          subfolderitems:
+            - title: Create Additional Site Administrators
+              url: /createadditionalsiteadministrators.html
+              output: web, pdf
+            - title: Modify Additional Site Administrator Privileges
+              url: /modifyadditionalsiteadministratorprivileges.html
+              output: web, pdf
+            - title: Make Selected Users as Additional Site Administrators
+              url: /makeselectedusersasadditionalsiteadministrators.html              
+              output: web, pdf
+            - title: Give Project-independent Access for Project Tools
+              url: /giveproject-independentaccessforprojecttools.html            
+              output: web, pdf
+        - title: Manage SCM Tools
+          output: web, pdf
+          subfolderitems: 
+            - title: Integrate a Source Code Server
+              url: /integrateasourcecodeserver.html
+              output: web, pdf
+            - title: Change the scmviewer Password
+              url: /changethescmviewerpassword.html
+              output: web, pdf
+            - title: Synchronize TeamForge Source Control Integrations
+              url: /synchronizeteamforgesourcecontrolintegrations.html
+              output: web, pdf
+            - title: Approve or Reject a Source Control Repository Request
+              url: /approveorrejectasourcecontrolrepositoryrequest.html
+              output: web, pdf
+            - title: Approve or Reject an Unmanaged SCM Server Access Request
+              url: /approveorrejectanunmanagedscmserveraccessrequest.html
+              output: web, pdf
+            - title: Approve or Reject Repository Delete Requests
+              url: /approveorrejectrepositorydeleterequests.html
+              output: web, pdf
+            - title: Edit SCM Integration Details
+              url: /editscmintegrationdetails.html
+              output: web, pdf
+            - title: Move a Source Code Repository
+              url: /moveasourcecoderepository.html
+              output: web, pdf
+            - title: Connect to a Subversion Edge Console
+              url: /connecttoasubversionedgeconsole.html
+              output: web, pdf
+            - title: Manage Replicas
+              url: /managereplicas.html
+              output: web, pdf                                                                                    
+        - title: Manage Global Roles
+          output: web, pdf
+          subfolderitems: 
+            - title: What is a global project role?
+              url: /globalroles.html
+              output: web, pdf
+            - title: Create a Global Project Role
+              url: /createaglobalprojectrole.html
+              output: web, pdf
+            - title: Modify a Global Project Role
+              url: /modifyaglobalprojectrole.html
+              output: web, pdf
+            - title: Delete a Global Project Role
+              url: /deleteaglobalprojectrole.html
+              output: web, pdf
+        - title: Manage Projects
+          output: web, pdf
+          subfolderitems: 
+            - title: Create and Manage Projects
+              url: /createanewproject.html
+              output: web, pdf
+            - title: Create and Manage Project Categories
+              url: /manageprojectcategories.html
+              output: web, pdf 
+            - title: Add a Parent Project to Your Project
+              url: /addparentproject.html
+              output: web, pdf 
+            - title: Separate a Subproject from Its Parent Project
+              url: /separateasubprojectfromitsparentproject.html
+              output: web, pdf
+        - title: Manage Project Groups
+          output: web, pdf
+          subfolderitems: 
+            - title: Create a Project Group
+              url: /createaprojectgroup.html
+              output: web, pdf
+            - title: Edit a Project Group
+              url: /editaprojectgroup.html
+              output: web, pdf 
+            - title: Delete a Project Group
+              url: /deleteaprojectgroup.html
+              output: web, pdf 
+            - title: Add Projects to a Project Group
+              url: /addprojectstoaprojectgroup.html
+              output: web, pdf 
+            - title: Manage User Membership for a Project Group
+              url: /manageusermembershipforaorojectgroup.html
+              output: web, pdf 
+            - title: Manage User Access to Project Groups
+              url: /manageusersaccesstoprojectgroups.html
+              output: web, pdf
+        - title: Manage Users
+          output: web, pdf
+          subfolderitems: 
+            - title: Create a Single User Account
+              url: /createasingleuseraccount.html
+              output: web, pdf
+            - title: Create Multiple User Accounts
+              url: /createmultipleuseraccounts.html
+              output: web, pdf
+            - title: Edit User Accounts
+              url: /edituseraccounts.html
+              output: web, pdf
+            - title: Find a User
+              url: /findauser.html
+              output: web, pdf
+            - title: Manage User Groups
+              url: /manageusergroups.html
+              output: web, pdf
+            - title: Reset the Admin Account Password
+              url: /resettheadminaccountpassword.html
+              output: web, pdf
+            - title: View All Roles Assigned to a User
+              url: /viewallrolesassignedtoauser.html
+              output: web, pdf                                                                      
+    - title: Manage Email Settings
+      url: /manageemails.html
+      output: web, pdf
+    - title: Monitor Your Site
+      url: /monitorsite.html
+      output: web, pdf
+    - title: Integrate or Link External Applications
+      url: /externalapplications.html
+      output: web, pdf
+    - title: Protect Integrations with SSL
+      url: /sslforintegrations.html
+      output: web, pdf
+    - title: Manage Project Templates
+      url: /projecttemplates.html
+      output: web, pdf
+    - title: Schedule Data Extraction for Reporting
+      url: /reports-schedule.html
+      output: web, pdf
+    - title: Ad Hoc Database Query
+      url: /siteadmin-adhocquery.html
+      output: web, pdf      
+
+  - title: Project Administration
+    output: web, pdf
+    folderitems:
+    - title: Set up Hardware
+      url: /getstarted-cubit_getandlink.html
+      output: web, pdf
+    - title: Reallocate a System
+      url: /reallocate.html
+      output: web, pdf
+    - title: Define the Scope of Your Project
+      url: /scope.html
+      output: web, pdf  
+    - title: Edit a Project
+      url: /project_edit.html
+      output: web, pdf
+    - title: Create a Project Template
+      url: /creatingaprojecttemplate.html
+      output: web, pdf
+    - title: Categorize a Project
+      url: /projectadmin-categorizingaproject.html
+      output: web, pdf
+    - title: Integrate or Link External Applications to Projects
+      url: /externalapplicationsforprojects.html
+      output: web, pdf
+    - title: Add Users to a Project
+      url: /getstarted-adduserstoproject.html
+      output: web, pdf
+    - title: Remove a User from a Project
+      url: /projectadmin-removinguserfromaproject.html
+      output: web, pdf      
+    - title: Handle a Request for Project Membership
+      url: /projectadmin-handlingarequestforprojectmem.html
+      output: web, pdf
+    - title: Handle a Request to Leave a Project
+      url: /projectadmin-handlingarequesttoleaveaproj.html
+      output: web, pdf
+    - title: Restrict Users in Using Profiles in a Project
+      url: /restrictprofiles.html
+      output: web, pdf      
+    - title: Add a Parent Project to Your Project
+      url: /addparentproject.html
+      output: web, pdf
+    - title: Separate a Subproject from its Parent Project
+      url: /changeorremoveaparentproject.html
+      output: web, pdf    
+    - title: Build Your Project Pages (Project Page Component, Publishing Repository)
+      url: /projectsite.html
+      output: web, pdf
+    - title: Control Project Access - Create a Role Based Access Control (RBAC)
+      url: /projectadmin-controllingprojectaccess.html
+      output: web, pdf
+    - title: Set up Tags
+      url: /tagmanagement.html 
+      output: web, pdf
+    - title: Monitor Project output
+      url: /uat.html
+      output: web, pdf
+    - title: Upload Build to Project Build Library
+      url: /uploadbuild.html
+      output: web, pdf
+    - title: Allocate Public Cloud Hosts in a Project
+      url: /allowclouds.html
+      output: web, pdf
+    - title: Provision a Continuous Integration Server from a Cloud
+      url: /provisionCIserver.html
+      output: web, pdf
+
+  - title: TeamForge Baselines
+    output: web, pdf
+    folderitems:
+    - title: Overview
+      url: /baseline-overview.html
+      output: web, pdf    
+    - title: Create and View Baseline Definitions
+      url: /create-baseline-def.html
+      output: web, pdf    
+    - title: Edit Baseline Definitions
+      url: /edit-baseline-def.html
+      output: web, pdf
+    - title: Create and View Baselines
+      url: /create-baseline.html
+      output: web, pdf
+    - title: Edit Baselines
+      url: /edit-baseline.html
+      output: web, pdf
+    - title: Review Baselines
+      url: /baseline-review-approval-workflow.html
+      output: web, pdf    
+    - title: Compare Baselines and Baseline Definitions
+      url: /compare-baselines.html
+      output: web, pdf   
+    - title: Search Baselines and Baseline Definitions
+      url: /search-baseline.html
+      output: web, pdf
+    - title: Delete Baselines
+      url: /delete-baselines.html
+      output: web, pdf      
+    - title: Create/Edit Project Baseline Definition
+      url: /project-baseline-definition.html
+      output: web, pdf
+    - title: Create and View Project Baselines
+      url: /create-project-baseline.html
+      output: web, pdf
+    - title: Generate Baseline Packages
+      url: /generate-baseline-package.html
+      output: web, pdf
+    - title: Baseline Settings
+      url: /baseline-settings.html
+      output: web, pdf
+    - title: Enable Caching for Baselines
+      url: /binary-repo-caching.html
+      output: web, pdf      
+    - title: Baselines API Documentation
+      url: /apidoclinks.html       
+      output: web, pdf
+
+  - title: Join TeamForge
+    output: web, pdf
+    folderitems:
+    - title: Join TeamForge / Log on
+      url: /getstarted-joinasite.html
+      output: web, pdf
+    - title: Change a Password
+      url: /changepassword.html
+      output: web, pdf
+    - title: My Workspace
+      url: /mypage.html
+      output: web, pdf
+    - title: My Settings
+      url: /getstarted-identify.html
+      output: web, pdf
+    - title: Join a TeamForge Project
+      url: /getstarted-joinaproject.html
+      output: web, pdf
+    - title: Jump to ID / Advanced Search
+      url: /search-keyword.html
+      output: web, pdf
+
+  - title: Projects
+    output: web, pdf
+    folderitems:
+    - title: Create Project
+      url: /creatingaproject.html
+      output: web, pdf
+    - title: View the Project Dashboard
+      url: /projectdashboardpage.html
+      output: web, pdf      
+
+  - title: Trackers
+    output: web, pdf
+    folderitems:
+    - title: Set up Trackers
+      url: /trackers-creatingatracker.html
+      output: web, pdf   
+    - title: Create Tracker Artifacts
+      url: /trackers-creatingatrackerartifact.html
+      output: web, pdf
+    - title: Edit Tracker Artifacts
+      url: /trackers-editingtrackerartifact.html
+      output: web, pdf
+    - title: HTML EMails for Tracker Artifacts
+      url: /html-emails.html
+      output: web, pdf
+    - title: Unmonitor Artifacts via HTML EMails
+      url: /unmonitorartifactsviaemail.html
+      output: web, pdf
+    - title: Clone a Tracker Artifact
+      url: /trackers-cloneanartifact.html
+      output: web, pdf
+    - title: Move a Tracker Artifact
+      url: /trackers-movingatrackerartifact.html
+      output: web, pdf
+    - title: Filter Tracker Artifacts
+      url: /trackers-filteringtrackerartifacts.html
+      output: web, pdf
+    - title: Find Tracker Artifacts
+      url: /trackers-searchfortrackerartifacts.html
+      output: web, pdf
+    - title: Associate Tracker Artifacts
+      url: /trackers-associatingtrackerartifactswithotheritems.html
+      output: web, pdf
+    - title: Create Dependent Tracker Artifacts
+      url: /trackerartifactdependency.html
+      output: web, pdf
+    - title: Import Tracker Artifacts
+      url: /trackers-importingtrackerartifacts.html
+      output: web, pdf
+    - title: Export Tracker Artifacts
+      url: /trackers-exportingtrackerartifacts.html
+      output: web, pdf
+    - title: Schedule Work on an Artifact
+      url: /assigntoplanningfolder.html
+      output: web, pdf  
+
+  - title: Planning Folders 
+    output: web, pdf
+    folderitems:
+    - title: Overview
+      url: /planningfolder.html
+      output: web, pdf      
+    - title: Create a Planning Folder
+      url: /creatingplanningfolder.html
+      output: web, pdf
+    - title: Update a Planning Folder
+      url: /updateplanningfolder.html
+      output: web, pdf
+    - title: Reorder Planning Folders
+      url: /reorderplanningfolders.html
+      output: web, pdf
+    - title: Reorder the Contents of a Planning Folder
+      url: /reorderplanningfoldercontent.html
+      output: web, pdf
+    - title: Move a Planning Folder
+      url: /moveplanningfolder.html
+      output: web, pdf
+    - title: Export Planning Folder Artifacts
+      url: /exportplanningfolderartifacts.html
+      output: web, pdf
+    - title: Manage Statuses for a Planning Folder
+      url: /planningfolderstatus.html
+      output: web, pdf
+
+  - title: Teams
+    output: web, pdf
+    folderitems:
+    - title: Manage Your Project Teams
+      url: /team.html     
+      output: web, pdf      
+
+  - title: Boards
+    output: web, pdf
+    folderitems:
+    - title: Set up Planning Board
+      url: /setup_planningboard.html
+      output: web, pdf
+    - title: Work with Artifact Cards
+      url: /cards_planningboard.html
+      output: web, pdf      
+    - title: Set up Task Board
+      url: /configtaskboard.html
+      output: web, pdf
+    - title: Use Task Board
+      url: /usetaskboard.html
+      output: web, pdf      
+    - title: Set up Kanban Board
+      url: /configkanbanboard.html
+      output: web, pdf
+    - title: Use Kanban Board
+      url: /usekanbanboard.html
+      output: web, pdf      
+    - title: Team View in Planning Board
+      url: /pb_teamview.html
+      output: web, pdf
+    - title: Team View in Task Board
+      url: /tb_teamview.html
+      output: web, pdf
+
+  - title: Source Code
+    output: web, pdf
+    folderitems:
+    - title: Work with the Internal Code Browser
+      url: /internalcodebrowser.html
+      output: web, pdf      
+    - title: Create a Source Code Repository
+      url: /createasourcecoderepository.html
+      output: web, pdf
+    - title: Import External Git Repository into TeamForge
+      url: /import-git-repo.html
+      output: web, pdf
+    - title: Linkify Custom Object IDs in Code Browser
+      url: /linkifycustomobjectids.html
+      output: web, pdf    
+    - title: Replicate a Subversion Repository
+      url: /replicatearepository.html
+      output: web, pdf
+    - title: View Code Commits
+      url: /viewcodecommits.html
+      output: web, pdf
+    - title: Associate Code Commits
+      url: /associatecodecommits.html
+      output: web, pdf
+    - title: Check Command History
+      url: /checkcommandhistory.html
+      output: web, pdf
+    - title: Check Out Code
+      url: /checkoutcode.html
+      output: web, pdf
+    - title: Get the Code
+      url: /getcode.html
+      output: web, pdf
+    - title: Review Code
+      url: /pullrequest.html
+      output: web, pdf
+    - title: Search Code
+      url: /searchcode.html
+      output: web, pdf
+    - title: Delete a Source Code Repository
+      url: /deletesourcecoderepository.html
+      output: web, pdf
+
+  - title: Documents
+    output: web, pdf
+    folderitems:
+    - title: Manage the Document Settings
+      url: /documents_admin.html
+      output: web, pdf
+    - title: Work with Your Documents
+      url: /documents.html
+      output: web, pdf
+   
+  - title: Discussion Forums
+    output: web, pdf
+    folderitems:
+    - title: Discussion Forums
+      url: /forums.html
+      output: web, pdf
+
+#  - title: Tasks
+#    output: web, pdf
+#    folderitems:
+#    - title: Manage Task Workflow
+#      url: /tasks-managingtaskworkflow.html
+#      output: web, pdf   
+#    - title: Work on Project Tasks
+#      url: /tasks.html
+#      output: web, pdf
+
+  - title: Wiki
+    output: web, pdf
+    folderitems:
+    - title: Contribute to Project Wiki
+      url: /wiki.html
+      output: web, pdf      
+    - title: Mandate Comments for Wiki Changes
+      url: /requirewikicomment.html
+      output: web, pdf
+    - title: Wiki Syntax
+      url: /wiki-wikisyntax.html
+      output: web, pdf
+
+  - title: News
+    output: web, pdf
+    folderitems:
+    - title: Project News
+      url: /news.html
+      output: web, pdf
+
+  - title: File Releases and Packages
+    output: web, pdf
+    folderitems:
+    - title: File Releases and Packages
+      url: /releases.html
+      output: web, pdf
+
+  - title: Monitor
+    output: web, pdf
+    folderitems:
+    - title: Monitoring Activities in TeamForge
+      url: /monitoring.html
+      output: web, pdf
+
+  - title: Reports
+    output: web, pdf
+    folderitems: 
+    - title: Reporting in TeamForge
+      url: /reports.html
+      output: web, pdf
+    - title: Run / Edit / Export / Delete a Report
+      url: /reports-runningareport.html
+      output: web, pdf
+    - title: Customize Reports
+      url: /reports-cust-category.html
+      output: web, pdf
+    - title: Advanced Reporting and Datamart Access
+      url: /reporting_datamart_overview.html
+      output: web, pdf
+    - title: Tracker Associations Data in Datamart
+      url: /datamart-associations.html
+      output: web, pdf      
+
+  - title: External Authentication
+    output: web, pdf
+    folderitems:
+    - title: Overview
+      url: /identityinfo.html
+      output: web, pdf      
+    - title: OAuth 2.0
+      url: /teamforgeoauth.html
+      output: web, pdf
+    - title: SAML
+      url: /saml.html
+      output: web, pdf
+    - title: LDAP
+      url: /ldap-authentication.html
+      output: web, pdf
+    - title: SAML+LDAP
+      url: /saml-ldap-authentication.html
+      output: web, pdf
+
+  - title: LDAP Authentication with Auth Manager
+    output: web, pdf
+    folderitems: 
+    - title: Set up TeamForge for LDAP Authentication with Auth Manager
+      url: /ldap-authmanager.html
+      output: web, pdf
+
+  # - title: High Availability
+  #   output: web, pdf
+  #   folderitems:
+  #   - title: TeamForge High Availability
+  #     url: /highavailability.html (This topic has been set "Published: false")
+  #     output: web, pdf
+
+  - title: Webhooks
+    output: web, pdf
+    folderitems: 
+    - title: Set up Webhooks for Tracker Artifacts
+      url: /webhooksfortrackerartifacts.html
+      output: web, pdf
+    - title: Set up Webhooks for Repositories
+      url: /webhooksforrepositories.html
+      output: web, pdf
+    - title: Set up Webhooks for Projects
+      url: /webhooksforprojects.html
+      output: web, pdf
+
+  - title: Extend TeamForge
+    output: web, pdf
+    folderitems:
+    - title: TeamForge API Documentation
+      url: /apidoclinks.html
+      output: web, pdf
+    - title: An Overview
+      url: /extend_teamforge_overview.html
+      output: web, pdf
+    - title: Custom Event Handlers in TeamForge
+      url: /teamforgecustomeventhandlers.html
+      output: web, pdf
+    - title: Add a Custom Event Handler to Your TeamForge Site
+      url: /addcustomeventhandler.html
+      output: web, pdf
+    - title: Reference Information About Custom Event Handlers
+      url: /customeventhandlersreference.html
+      output: web, pdf
+    - title: Authenticate Your Integrated Application with TeamForge
+      url: /authenticateintegratedapp.html
+      output: web, pdf
+    - title: Internationalize Your Integrated Application    
+      url: /languagelocalization.html
+      output: web, pdf
+    - title: TeamForge SOAP API Reference
+      url: /teamforgesoapapiref.html
+      output: web, pdf
+    - title: Integrated Application References
+      url: /integratedappref.html
+      output: web, pdf
+
+  - title: AngularJS Customization
+    output: web, pdf
+    folderitems:
+    - title: AngularJS Customization in TeamForge
+      url: /teamforgeangularjscustomization.html
+      output: web, pdf
+    - title: Add an AngularJS Customization to Your TeamForge Site
+      url: /addangularjscustomization.html
+      output: web, pdf
+    - title: AngularJS Customization Examples
+      url: /teamforgeangularjscustomizationexamples.html
+      output: web, pdf
+    - title: Reference Information About AngularJS Customization
+      url: /angularjscustomizationreference.html
+      output: web, pdf                  
+
+
+  # - title: Extend EventQ
+  #   output: web, pdf  
+  #   folderitems:
+  #   - title: Extend EventQ
+  #     url: /extend_eventq.html
+  #     output: web, pdf      
+
+  - title: Site Options
+    output: web, pdf
+    folderitems:
+    - title: TeamForge Services and Domain Configuration Tokens
+      url: /siteconfigtokens.html
+      output: web, pdf
+    - title: Site Option Tokens
+      url: /siteoptiontokens.html
+      output: web, pdf
+    - title: Configure Your Site's Settings
+      url: /siteadmin-configuresiteviaui.html
+      output: web, pdf
+
+  - title: Config Files
+    output: web, pdf
+    folderitems:
+    - title: Deployment Config File
+      url: /pebble-dep-xml.html
+      output: web, pdf
+    - title: Application Config File
+      url: /pebble-app-xml.html
+      output: web, pdf
+    - title: login-config.xml
+      url: /login-config.html
+      output: web, pdf
+
+  - title: Scripts
+    output: web, pdf
+    folderitems:
+    # - title: add_eventq_to_projects.py
+    #   url: /add_eventq_to_projects_py.html
+    #   output: web, pdf
+    - title: backup-rb-data.py
+      url: /backup-rb-data-py.html
+      output: web, pdf      
+    - title: create_webhook_event.py
+      url: /create_webhook_event_py.html
+      output: web, pdf
+    - title: db.py
+      url: /db_py.html
+      output: web, pdf
+    - title: doc_update_fieldvalues.py
+      url: /doc-update-fieldvalues-py.html
+      output: web, pdf      
+    - title: domain_change_db.py
+      url: /domain_change_db_py.html
+      output: web, pdf
+    - title: domain_change_webr.py
+      url: /domain_change_webr_py.html
+      output: web, pdf
+    - title: etl-client.py
+      url: /etl_client_py.html
+      output: web, pdf
+    - title: logger-db-query
+      url: /logger-db-query.html
+      output: web, pdf
+    - title: password_util.sh
+      url: /passwordutil.html
+      output: web, pdf
+    - title: psql-wrapper
+      url: /psql-wrapper.html
+      output: web, pdf
+    - title: psql-reporting-wrapper
+      url: /psql-reporting-wrapper.html
+      output: web, pdf
+    - title: restore-data.py
+      url: /restore-data-py.html
+      output: web, pdf
+    - title: restore-rb-data.py
+      url: /restore-rb-data-py.html
+      output: web, pdf
+    - title: SearchReindex.py
+      url: /searchreindex-py.html
+      output: web, pdf
+    # - title: set_auth_key.py
+    #   url: /set_auth_key_py.html
+    #   output: web, pdf
+    # - title: sync-orchestrate.py
+    #   url: /sync-orchestrate-py.html
+    #   output: web, pdf
+    - title: task-data-export.py
+      url: /task-data-export-py.html
+      output: web, pdf    
+    - title: teamforge.py
+      url: /teamforgescript.html
+      output: web, pdf
+    - title: update_artifact_textflex_carriage_return.py
+      url: /update_artifact_textflex_carriage_return_py.html
+      output: web, pdf   
+
+  - title: Logs
+    output: web, pdf
+    folderitems:
+    - title: TeamForge Logs
+      url: /logfiles.html
+      output: web, pdf
+    - title: Change the Logging Level on Your Site
+      url: /changeloglevel.html
+      output: web, pdf      
+
+  - title: FAQs
+    output: web, pdf
+    folderitems:
+    - title: Concepts and Terms in TeamForge
+      url: /conceptsandterms-faqs.html
+      output: web, pdf
+    - title: Install/Upgrade/Administration
+      url: /installupgradeadmin-faqs.html
+      output: web, pdf
+    - title: Security
+      url: /security-faqs.html
+      output: web, pdf
+    - title: Roles and Permissions in TeamForge
+      url: /rolesandpermissions-faqs.html
+      output: web, pdf
+    - title: Associations
+      url: /associations-faqs.html
+      output: web, pdf
+    - title: Database/Datamart/ETL
+      url: /database-faqs.html
+      output: web, pdf
+    - title: Discussions
+      url: /discussions-faqs.html
+      output: web, pdf
+    - title: Documents
+      url: /documents-faqs.html
+      output: web, pdf
+    - title: Projects
+      url: /projects-faqs.html
+      output: web, pdf
+#    - title: Project Administration
+#      url: /projectadmin-faqs.html
+#      output: web, pdf
+    - title: Planning Folder
+      url: /planningfolder-faqs.html
+      output: web, pdf
+    - title: Trackers
+      url: /trackers-faqs.html
+      output: web, pdf
+    - title: Tracker Artifacts
+      url: /trackerartifacts-faqs.html
+      output: web, pdf
+    - title: Wiki
+      url: /wiki-faqs.html
+      output: web, pdf
+    # - title: JIRA Adapter
+    #   url: /jiraadapter-faqs.html
+    #   output: web, pdf
+    # - title: Jenkins Adapter
+    #   url: /jenkinsadapter-faqs.html
+    #   output: web, pdf
+    - title: Binaries 
+      url: /binaries-faqs.html
+      output: web, pdf
+    # - title: Subversion Adapter
+    #   url: /subversionadapter-faqs.html
+    #   output: web, pdf
+    - title: Review Board
+      url: /reviewboard-faqs.html
+      output: web, pdf    
+    # - title: EventQ
+    #   url: /eventq-faqs.html
+    #   output: web, pdf
+    - title: Source Code (SCM)
+      url: /sourcecode-faqs.html
+      output: web, pdf
+    - title: Git/Gerrit/History Protection
+      url: /gitgerrit-faqs.html
+      output: web, pdf
+    - title: Search
+      url: /search-faqs.html
+      output: web, pdf
+    - title: Lab Management
+      url: /labmanagement-faqs.html
+      output: web, pdf
+    - title: Customization
+      url: /customization-faqs.html
+      output: web, pdf
+    - title: Emails
+      url: /emails-faqs.html
+      output: web, pdf
+
+  - title: Glossary
+    output: web, pdf
+    folderitems:
+    - title: TeamForge Baseline
+      url: /baseline-glossary.html
+      output: web, pdf
+
+##  - title: TestLink Integration
+##    output: web, pdf
+##    folderitems:
+##    - title: Overview
+##      url: /testlinkoverview.html
+##      output: web, pdf
+##    - title: Install and Configure
+##      url: /testlinkinstall.html
+##      output: web, pdf
+##    - title: Test Management
+##      url: /create-testplan.html
+##      output: web, pdf
+
+  # - title: Tag Archive Pages
+  #   output: web
+  #   folderitems:
+  #   - title: Authentication Pages
+  #     url: /tag_authentication.html
+  #     output: web
+  #   - title: Back up and Restore Pages
+  #     url: /tag_backup_restore.html
+  #     output: web
+  #   - title: Binaries Pages
+  #     url: /tag_binaries.html
+  #     output: web
+  #   - title: Boards Pages
+  #     url: /tag_boards.html
+  #     output: web
+  #   - title: Config Files Pages
+  #     url: /tag_config_files.html
+  #     output: web
+  #   - title: Customization Pages
+  #     url: /tag_customize.html
+  #     output: web      
+  #   - title: Discussion Forum Pages
+  #     url: /tag_discussion_forums.html
+  #     output: web
+  #   - title: Documents Pages
+  #     url: /tag_documents.html
+  #     output: web
+  #   - title: EventQ Pages
+  #     url: /tag_eventq.html
+  #     output: web
+  #   - title: Extend EventQ Pages
+  #     url: /tag_extend_eventq.html
+  #     output: web
+  #   - title: Extend TeamForge Pages
+  #     url: /tag_extend_teamforge.html
+  #     output: web
+  #   - title: FAQ Pages
+  #     url: /tag_faq.html
+  #     output: web
+  #   - title: File Releases Pages
+  #     url: /tag_file_releases.html
+  #     output: web
+  #   - title: FRS Pages
+  #     url: /tag_frs.html
+  #     output: web
+  #   - title: Getting Started Pages
+  #     url: /tag_getting_started.html
+  #     output: web
+  #   - title: Git/Gerrit Pages
+  #     url: /tag_git_gerrit.html
+  #     output: web
+  #   - title: Installation Pages
+  #     url: /tag_installation.html
+  #     output: web
+  #   - title: Integration Pages
+  #     url: /tag_integration.html
+  #     output: web
+  #   - title: Jenkins Pages
+  #     url: /tag_jenkins.html
+  #     output: web
+  #   - title: Lab Management Pages
+  #     url: /tag_lab_management.html
+  #     output: web      
+  #   - title: Logs Pages
+  #     url: /tag_logs.html
+  #     output: web
+  #   - title: Planning Folder Pages
+  #     url: /tag_planning_folder.html
+  #     output: web
+  #   - title: Project Pages
+  #     url: /tag_projects.html
+  #     output: web
+  #   - title: Project Admin Tasks Pages
+  #     url: /tag_project_admin_tasks.html
+  #     output: web
+  #   - title: Project Mamber Tasks Pages
+  #     url: /tag_project_member_tasks.html
+  #     output: web
+  #   - title: RBAC Pages
+  #     url: /tag_role_based_access_control.html
+  #     output: web
+  #   - title: Release Notes Pages
+  #     url: /tag_release_notes.html
+  #     output: web
+  #   - title: Reports Pages
+  #     url: /tag_reports.html
+  #     output: web
+  #   - title: Review Board Pages
+  #     url: /tag_review_board.html
+  #     output: web
+  #   - title: SCM Pages
+  #     url: /tag_scm.html
+  #     output: web
+  #   - title: Scripts Pages
+  #     url: /tag_scripts.html
+  #     output: web
+  #   - title: Search and Filter Pages
+  #     url: /tag_search_filter_sort.html
+  #     output: web
+  #   - title: SELinux Pages
+  #     url: /tag_selinux.html
+  #     output: web
+  #   - title: Site Admin Tasks Pages
+  #     url: /tag_site_admin_tasks.html
+  #     output: web
+  #   - title: site-options.conf Pages
+  #     url: /tag_site-options.conf.html
+  #     output: web
+  #   - title: Source Code Pages
+  #     url: /tag_source_code.html
+  #     output: web
+  #   - title: SSL Pages
+  #     url: /tag_ssl.html
+  #     output: web
+  #   - title: System Tools Pages
+  #     url: /tag_system_tools.html
+  #     output: web      
+  #   - title: Tasks Pages
+  #     url: /tag_tasks.html
+  #     output: web
+  #   - title: TeamForge License Pages
+  #     url: /tag_license.html
+  #     output: web
+  #   - title: Teams Pages
+  #     url: /tag_teams.html
+  #     output: web
+  #   - title: Trackers Pages
+  #     url: /tag_trackers.html
+  #     output: web
+  #   - title: Troubleshooting Pages
+  #     url: /tag_troubleshooting.html
+  #     output: web
+  #   - title: Upgrade Pages
+  #     url: /tag_upgrade.html
+  #     output: web
+  #   - title: Users Pages
+  #     url: /tag_users.html
+  #     output: web
+  #   - title: Wiki Pages
+  #     url: /tag_wiki.html
+  #     output: web

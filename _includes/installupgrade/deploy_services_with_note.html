@@ -1,0 +1,9 @@
+   Provision services.
+      ```shell
+      teamforge provision
+      ````
+      {% capture deploynote %}
+      TeamForge {{site.data.identifiers.teamforge}} installer expects the system locale to be `LANG=en_US.UTF-8`. TeamForge create runtime (`teamforge provision`) fails otherwise.
+      {% endcapture %}
+      {% include callout.html type="primary" content=deploynote %}
+   

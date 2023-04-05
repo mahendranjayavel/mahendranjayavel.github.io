@@ -1,0 +1,935 @@
+
+# Follow the pattern here for the URLs -- no slash at the beginning, and include the .html. The link here is rendered exactly as is in the Markdown references.
+
+entries:
+- title: other
+  folders:
+  - title: Other Links
+    folderitems:
+# index.md links
+    - title: TeamForge Baselines 
+      url: /index.html#baseline
+    - title: SAML Authentication to Access Non-web Applications 
+      url: /index.html#cliappaccessforsamlusers
+    - title: My Workspace
+      url: /index.html#myartifactswidget
+    - title: TeamForge-Nexus 3 Integration 
+      url: /index.html#teamforgewithnexus3
+    - title: The New Webhooks-based Event Broker
+      url: /index.html#notifyteamforgeeventbroker
+    - title: Inline Editing of Source Files on Git Repositories without Code Review 
+      url: /index.html#inlineeditgitrepos
+    - title: Inline Editing of Source Files on SVN Repositories
+      url: /index.html#inlineeditsvnrepos
+    - title: /Inline editing of source files on Git repositories without code review
+      url: /index.html#inlineeditgitrepos
+    - title: Inline editing of source files on SVN repositories
+      url: /index.html#inlineeditsvnrepos
+    - title: Filter commits in the Changes Tab
+      url: /index.html#filtercommitsingitsvnrepo
+    - title: Finding files as you type in Code Browser on Git repositories
+      url: /index.html#findfilesingitrepo
+    - title: View PDF files in Code Browser on Git repositories
+      url: /index.html#viewpdffilesingitrepo
+    - title: View Images stored in Git LFS
+      url: /index.html#viewimagesingitrepo
+    - title: Download Button
+      url: /index.html#downloadbuttoningitsvnrepo
+    - title: Support for multiple Git LFS backends in Code Browser
+      url: /index.html#gitlfsbackendsupport 
+    - title: Removal of Tasks component
+      url: /index.html#taskscomponent
+    - title: SCM - Git/Gerrit/Subversion
+      url: /index.html#gitgerritsvn
+    - title: What's new with the Configure Application Page? (System Tools > Configure Application) 
+      url: /index.html#configapplication
+    - title: View Git Blame Prior to a Specific Change
+      url: /index.html#viewgitblame
+    - title: Support for Java 
+      url: /index.html#java9support
+    - title: Bug Fixes in TeamForge-Git Integration 18.3.6-2.14.16 
+      url: /index.html#teamforgegitbugfixes
+    - title: Integrations
+      url: /index.html#integrations
+
+# siteoptiontokens.md links
+    - title: AUTO_DATA
+      url: /siteoptiontokens.html#auto_data
+    - title: APPROVE_NEW_USER_ACCOUNTS
+      url: /siteoptiontokens.html#APPROVE_NEW_USER_ACCOUNTS
+    - title: DISABLE_USER_SELF_CREATION
+      url: /siteoptiontokens.html#DISABLE_USER_SELF_CREATION      
+    - title: REQUIRE_USER_PASSWORD_CHANGE
+      url: /siteoptiontokens.html#REQUIRE_USER_PASSWORD_CHANGE
+    - title: host:SERVICES
+      url: /siteoptiontokens.html#hostservices
+    - title: host:PUBLIC_FQDN
+      url: /siteoptiontokens.html#hostpublic_fqdn
+    - title: JBOSS_JAVA_OPTS
+      url: /siteoptiontokens.html#jboss_java_opts
+    - title: LISTEN_IP
+      url: /siteoptiontokens.html#listen_ip
+    - title: DISABLE_CREATE_INTEGRATION_SERVERS
+      url: /siteoptiontokens.html#disable_create_integration_servers
+    - title: GERRIT_GIT_PUSH_THRESHOLD
+      url: /siteoptiontokens.html#gitpushthreshold
+    - title: ALLOW_CASE_INSENSITIVE_LOGIN
+      url: /siteoptiontokens.html#allowcaseinsensitivelogin
+    - title: DISPLAY_TIMEZONE
+      url: /siteoptiontokens.html#displaytimezone
+    - title: ONLY_SITE_ADMIN_CAN_EDIT_SINGLE_SIGN_ON
+      url: /siteoptiontokens.html#sasinglesignon
+    - title: ENABLE_SITE_NEWS
+      url: /siteoptiontokens.html#enablesitenews
+    - title: ENABLE_UI_FOR_CUSTOM_EVENT_HANDLERS
+      url: /siteoptiontokens.html#enableuiforcustomeventhandlers
+    - title: ETL_JAVA_OPTS
+      url: /siteoptiontokens.html#etljavaopts
+    - title: MINIMUM_PASSWORD_LENGTH
+      url: /siteoptiontokens.html#MINIMUM_PASSWORD_LENGTH
+    - title: MAX_PASSWORD_LENGTH
+      url: /siteoptiontokens.html#MAX_PASSWORD_LENGTH
+    - title: PASSWORD_REQUIRES_NUMBER
+      url: /siteoptiontokens.html#PASSWORD_REQUIRES_NUMBER
+    - title: PASSWORD_REQUIRES_NON_ALPHANUM
+      url: /siteoptiontokens.html#PASSWORD_REQUIRES_NON_ALPHANUM
+    - title: PASSWORD_REQUIRES_MIXED_CASE
+      url: /siteoptiontokens.html#PASSWORD_REQUIRES_MIXED_CASE
+    - title: REQUIRE_PASSWORD_SECURITY
+      url: /siteoptiontokens.html#REQUIRE_PASSWORD_SECURITY 
+    - title: REQUIRE_USER_PASSWORD_CHANGE
+      url: /siteoptiontokens.html#REQUIRE_USER_PASSWORD_CHANGE
+    - title: LOGIN_ATTEMPT_LOCK
+      url: /siteoptiontokens.html#LOGIN_ATTEMPT_LOCK
+    - title: PASSWORD_HISTORY_AGE
+      url: /siteoptiontokens.html#PASSWORD_HISTORY_AGE
+    - title: ALLOW_PASSWORD_DICTIONARY_WORD
+      url: /siteoptiontokens.html#ALLOW_PASSWORD_DICTIONARY_WORD
+    - title: SAFE_DOWNLOAD_MODE
+      url: /siteoptiontokens.html#SAFE_DOWNLOAD_MODE
+    - title: USER_MONITORING_REMOVE_ENABLED
+      url: /siteoptiontokens.html#USER_MONITORING_REMOVE_ENABLED
+    - title: RELAXED_USERNAME_MODE_ENABLED
+      url: /siteoptiontokens.html#RELAXED_USERNAME_MODE_ENABLED
+    - title: LINUX_USERNAME_MODE_ENABLED
+      url: /siteoptiontokens.html#LINUX_USERNAME_MODE_ENABLED
+    - title: PASSWORD_CONTROL_EFFECTIVE_DATE
+      url: /siteoptiontokens.html#PASSWORD_CONTROL_EFFECTIVE_DATE
+    - title: DISABLE_REMOTE_PUBLISHING
+      url: /siteoptiontokens.html#DISABLE_REMOTE_PUBLISHING
+    - title: DISCUSSION_MAX_ATTACHMENT_SIZE
+      url: /siteoptiontokens.html#DISCUSSION_MAX_ATTACHMENT_SIZE
+    - title: DOCUMENT_MAX_FILE_UPLOAD_SIZE
+      url: /siteoptiontokens.html#DOCUMENT_MAX_FILE_UPLOAD_SIZE
+    - title: JAMES_GATEWAY_HOST
+      url: /siteoptiontokens.html#JAMES_GATEWAY_HOST
+    - title: JAMES_GATEWAY
+      url: /siteoptiontokens.html#JAMES_GATEWAY
+    - title: SCM_USER_ENCRYPTED_PASSWORD
+      url: /siteoptiontokens.html#SCM_USER_ENCRYPTED_PASSWORD
+    - title: LOG_QUERY_TIME_THRESHOLD
+      url: /siteoptiontokens.html#LOG_QUERY_TIME_THRESHOLD
+    - title: LOG_DIR
+      url: /siteoptiontokens.html#LOG_DIR
+    - title: USE_EXTERNAL_USER_AUTHENTICATION 
+      url: /siteoptiontokens.html#USE_EXTERNAL_USER_AUTHENTICATION
+    - title: GERRIT_USER_EMAIL
+      url: /siteoptiontokens.html#gerrituseremail
+    - title: BROWSER_NO_CACHE
+      url: /siteoptiontokens.html#browsernocache
+    - title: JAMES_DKIM_VERIFICATION
+      url: /siteoptiontokens.html#JAMES_DKIM_VERIFICATION
+    - title: JAMES_DKIM_SELECTOR
+      url: /siteoptiontokens.html#JAMES_DKIM_SELECTOR
+    - title: JAMES_DKIM_SIGNINGDOMAIN
+      url: /siteoptiontokens.html#JAMES_DKIM_SIGNINGDOMAIN
+    - title: JAMES_DKIM_KEY_TYPE
+      url: /siteoptiontokens.html#JAMES_DKIM_KEY_TYPE   
+    - title: POSTINSTALL_LOG_LEVEL
+      url:  /siteoptiontokens.html#POSTINSTALL_LOG_LEVEL
+    - title: USER_SYNC_CRON_EXP
+      url: /siteoptiontokens.html#USER_SYNC_CRON_EXP
+    - title: BASELINE_PSQL_MAX_CONN
+      url: /siteoptiontokens.html#BASELINE_PSQL_MAX_CONN
+    - title: BASELINE_CTF_MAX_CONN
+      url: /siteoptiontokens.html#BASELINE_CTF_MAX_CONN
+    - title: BASELINE_LOG_LEVEL
+      url: /siteoptiontokens.html#BASELINE_LOG_LEVEL
+    - title: BASELINE_CACHE_EXPIRE_TIME
+      url: /siteoptiontokens.html#BASELINE_CACHE_EXPIRE_TIME
+    - title: BASELINE_CACHE_PURGE_TIME
+      url: /siteoptiontokens.html#BASELINE_CACHE_PURGE_TIME
+    - title: BASELINE_POST_INSTALL_PORT
+      url: /siteoptiontokens.html#BASELINE_POST_INSTALL_PORT
+    - title: NEXUS_TYPE
+      url: /siteoptiontokens.html#NEXUS_TYPE
+    - title: ENABLE_GO_PROFILING
+      url: /siteoptiontokens.html#ENABLE_GO_PROFILING
+    - title: COMPARE_LIMIT
+      url: /siteoptiontokens.html#COMPARE_LIMIT
+    - title: ALLOWED_HOSTS
+      url: /siteoptiontokens.html#ALLOWED_HOSTS
+    - title: SECURE_REDIRECTS
+      url: /siteoptiontokens.html#SECURE_REDIRECTS
+    - title: BASELINE_CACHE_ENABLED
+      url: /siteoptiontokens.html#BASELINE_CACHE_ENABLED
+    - title: BASELINE_BULKDATA_BATCHSIZE
+      url: /siteoptiontokens.html#BASELINE_BULKDATA_BATCHSIZE
+    - title: BASELINE_BULKDATA_WORKER
+      url: /siteoptiontokens.html#BASELINE_BULKDATA_WORKER
+    - title: BASELINE_LOG_FILE 
+      url: /siteoptiontokens.html#BASELINE_LOG_FILE 
+    - title: BASELINE_LOG_MAX_SIZE 
+      url: /siteoptiontokens.html#BASELINE_LOG_MAX_SIZE
+    - title: BASELINE_LOG_MAX_AGE 
+      url: /siteoptiontokens.html#BASELINE_LOG_MAX_AGE
+    - title: BASELINE_LOG_MAX_BACKUP
+      url: /siteoptiontokens.html#BASELINE_LOG_MAX_BACKUP
+    - title: BASELINE_LOG_MAX_COMPRESS
+      url: /siteoptiontokens.html#BASELINE_LOG_MAX_COMPRESS
+    - title: BASELINE_TIMEZONE
+      url: /siteoptiontokens.html#BASELINE_TIMEZONE
+    - title: BASELINE_FILE_STORAGE
+      url: /siteoptiontokens.html#BASELINE_FILE_STORAGE
+    - title: BASELINE_PACKAGES_ROOT_FOLDER
+      url: /siteoptiontokens.html#BASELINE_PACKAGES_ROOT_FOLDER
+    - title: POSTINSTALL_LOG_FILE 
+      url: /siteoptiontokens.html#POSTINSTALL_LOG_FILE 
+    - title: BINARIES_ENDPOINT_URL 
+      url: /siteoptiontokens.html#BINARIES_ENDPOINT_URL
+    - title: NEXUS2_DEFAULT_PATH 
+      url: /siteoptiontokens.html#NEXUS2_DEFAULT_PATH 
+    - title: NEXUS3_SEARCH_PATH
+      url: /siteoptiontokens.html#NEXUS3_SEARCH_PATH
+    - title: NEXUS3_REPOSITORIES_PATH
+      url: /siteoptiontokens.html#NEXUS3_REPOSITORIES_PATH
+    - title: NEXUS3_SCRIPT_PATH 
+      url: /siteoptiontokens.html#NEXUS3_SCRIPT_PATH 
+    - title: NEXUS3_COMPONENTS_PATH
+      url: /siteoptiontokens.html#NEXUS3_COMPONENTS_PATH
+    - title: WEBR_ADMIN_USER 
+      url: /siteoptiontokens.html#WEBR_ADMIN_USER
+    - title: WEBR_ADMIN_PASSWORD 
+      url: /siteoptiontokens.html#WEBR_ADMIN_PASSWORD
+    - title: PGSQL_FSYNC
+      url: /siteoptiontokens.html#PGSQL_FSYNC
+    - title: PGSQL_RANDOM_PAGE_COST
+      url: /siteoptiontokens.html#PGSQL_RANDOM_PAGE_COST
+    - title: ENABLE_SERVICE_MONITORING
+      url: /siteoptiontokens.html#ENABLE_SERVICE_MONITORING
+    - title: SERVICE_MONITOR_RETRIES
+      url: /siteoptiontokens.html#SERVICE_MONITOR_RETRIES
+    - title: ADHOC_QUERY_CONNECTION_TIMEOUT
+      url: /siteoptiontokens.html#ADHOC_QUERY_CONNECTION_TIMEOUT
+    - title: ADHOC_QUERY_RESULTS_LIMT
+      url: /siteoptiontokens.html#ADHOC_QUERY_RESULTS_LIMT
+    - title: USER_RESOURCE_CACHE_MAX_SIZE_LIMIT
+      url: /siteoptiontokens.html#USER_RESOURCE_CACHE_MAX_SIZE_LIMIT
+    - title: MAX_POSTS_PER_MINUTE
+      url: /siteoptiontokens.html#MAX_POSTS_PER_MINUTE
+    - title: BASELINE_COMPARE_ROOT_FOLDER 
+      url: /siteoptiontokens.html#BASELINE_COMPARE_ROOT_FOLDER
+    - title: SSL_CERT_FILE
+      url: /siteoptiontokens.html#SSL_CERT_FILE
+    - title: SSL_CHAIN_FILE
+      url: /siteoptiontokens.html#SSL_CHAIN_FILE
+    - title: SSL_KEY_FILE
+      url: /siteoptiontokens.html#SSL_KEY_FILE
+    - title: MAX_DOCUMENTS_DOWNLOAD_SIZE
+      url: /siteoptiontokens.html#MAX_DOCUMENTS_DOWNLOAD_SIZE
+    - title: MAX_DOCUMENTS_DOWNLOAD_LIMIT
+      url: /siteoptiontokens.html#MAX_DOCUMENTS_DOWNLOAD_LIMIT
+    - title: HAPROXY_HTTP_REUSE_OPTION 
+      url: /siteoptiontokens.html#HAPROXY_HTTP_REUSE_OPTION
+    - title: WEBR_HTTP_BINDNAME
+      url: /siteoptiontokens.html#WEBR_HTTP_BINDNAME
+    - title: WEBR_INIT_JSFILE
+      url: /siteoptiontokens.html#WEBR_INIT_JSFILE
+    - title: BASELINE_LIQUIBASE_LOGLEVEL
+      url: /siteoptiontokens.html#BASELINE_LIQUIBASE_LOGLEVEL
+    - title: DATABASE_SSL
+      url: /siteoptiontokens.html#DATABASE_SSL
+    - title: PGSQL_LOG_MIN_DURATION
+      url: /siteoptiontokens.html#pgsqllogminduration
+    - title: ELASTICSEARCH_JAVA_OPTS
+      url: /siteoptiontokens.html#elasticsearch   
+    - title: ELASTICSEARCH_MIN_HEAP_SIZE
+      url: /siteoptiontokens.html#esminheap   
+    - title: ELASTICSEARCH_MAX_HEAP_SIZE
+      url: /siteoptiontokens.html#esmaxheap
+
+# siteoptionchangelog.md links
+    - title: TeamForge 19.0 Site Options Change Log
+      url: /siteoptionschangelog.html#tf190
+    - title: TeamForge 19.2 Site Options Change Log
+      url: /siteoptionschangelog.html#tf192
+# conceptsandterms-faqs.md links
+    - title: What is a project template?
+      url: /conceptsandterms-faqs.html#whatisaprojecttemplate
+    - title: What is in a project template?
+      url: /conceptsandterms-faqs.html#whatisinaprojecttemplate
+    - title: What are Planning, Task, and Kanban Boards?
+      url: /conceptsandterms-faqs.html#plantaskkanban
+# database-faqs.md links
+    - title: Why am I getting an email specifying that the ETL job has failed?
+      url: /database-faqs.html#emailforetljobfailure
+    - title: What are the right PostgreSQL settings for my site?
+      url: /database-faqs.html#postgres_settings
+    - title: Why do ETL jobs fail post TeamForge upgrade?
+      url: /database-faqs.html#etl_fails_post_upgrade
+    - title: What is ETL initial load job and when to run it 
+      url: /database-faqs.html#etl_initial_load_jobs
+    - title: CLI reports are not showing up on sites with Oracle database. What should I do? 
+      url: /database-faqs.html#clirptsonoracle
+# binaries-faqs.md links
+    - title: The TeamForge Binary Integration is down after enabling SSL. What should I do?
+      url: /binaries-faqs.html#the-teamforge-binary-integration-is-down-after-enabling-ssl-what-should-i-do
+    - title: Custom schema registration fails for the Binary application on sites without EventQ. What should I do?
+      url: /binaries-faqs.html#binariescustomschema      
+# dicussions-faqs.md links
+    - title: Can I subscribe to a TeamForge discussion forum's mailing list through an email? 
+      url: /discussions-faqs.html#subscribetoforumbyemail
+# sourcecode-faqs.md links
+    - title: Who can Access Source Code? 
+      url: /sourcecode-faqs.html#sourcecodefaq1
+# tracker-faqs.md links
+    - title: What fields can I use in a tracker? 
+      url: /trackers-faqs.html#trackerfields
+# plan_your_installation_upgrade.md links
+    - title: TeamForge Services
+      url: /plan_your_installation_upgrade.html#teamforgeservices
+    - title: Single Server or Distributed Setup?
+      url: /plan_your_installation_upgrade.html#singleordistributed      
+    - title: PostgreSQL or Oracle?
+      url: /plan_your_installation_upgrade.html#postgresororacle
+# teamforgelicense.md links
+    - title: Tools Availability Matrix
+      url: /teamforgelicense.html#toolsavailabilitymatrix
+    - title: TeamForge License Framework
+      url: /teamforgelicense.html#licenseframework
+    - title: Supply Your TeamForge License Key via Teamforge User Interface
+      url: /teamforgelicense.html#supplylicenseui
+    - title: Supply Your TeamForge License Key as a Text File
+      url: /teamforgelicense.html#supplylicensetextfile
+# search-keyword.md links
+    - title: Jump to ID Search
+      url: /search-keyword.html#jumptoidsearch
+    - title: Advanced Search
+      url: /search-keyword.html#advancedsearch
+# # eventq_adapters.md links
+#     - title: Download Adapters
+#       url: /eventq_adapters.html#downloadadapters
+#     - title: Source Association Keys
+#       url: /eventq_adapters.html#sourceassociationkeys
+#     - title: Locate a Source Association Key
+#       url: /eventq_adapters.html#locateasourceassociationkey
+#     - title: Install a JIRA Adapter
+#       url: /eventq_adapters.html#installajiraadapter
+#     - title: Configure a JIRA Adapter
+#       url: /eventq_adapters.html#configureajiraadapter
+#     - title: Associate JIRA Issues to Version Control Commits
+#       url: /eventq_adapters.html#associatejiraissuestovccommits
+#     - title: Remove TeamForge Project Mappings
+#       url: /eventq_adapters.html#removeteamforgeprojectmappings
+#     - title: Troubleshooting the JIRA Adapter
+#       url: /eventq_adapters.html#troubleshootingthejiraadapter
+#     - title: Install a Jenkins Adapter
+#       url: /eventq_adapters.html#installjenkinsadapter
+#     - title: Configure a Jenkins Adapter
+#       url: /eventq_adapters.html#configurejenkinsjob    
+#     - title: JIRA Integration
+#       url: /eventq_adapters.html#jiraeventqintegration
+#     - title: Configure a JIRA Adapter to Notify EventQ 
+#       url: /eventq_adapters.html#configurejiraforeventq
+#     - title: JIRA Version Information
+#       url: /eventq_adapters.html#jira-version-information      
+#     - title: Integrate TeamForge and JIRA Using the Associations Add-on
+#       url: /eventq_adapters.html#addon-integration
+#     - title: Integrate TeamForge and JIRA Using WebHooks
+#       url: /eventq_adapters.html#webhooks-integration    
+#     - title: Install the TeamForge-Nexus Integration Plugin
+#       url: /eventq_adapters.html#installnexus
+#    - title: Install the TeamForge-Nexus Integration Plugin
+#      url: /eventq_adapters.html#installnexusplugin
+#   - title: Upgrade the TeamForge-Nexus Integration Plugin
+#      url: /eventq_adapters.html#upgradenexusplugin
+    # - title: Install a Review Board Adapter Without Internet Access
+    #   url: /eventq_adapters.html#rbadapterwointernet
+    # - title: Configure the Review Board Adapter (Standalone)
+    #   url: /eventq_adapters.html#confiogurerbstandalone
+    # - title: JIRA Integration to Notify EventQ 
+    #   url: /eventq_adapters.html#jiraeventqintegration
+# eventq_overview.md links
+    - title: SCM Commits in TeamForge with EventQ Integration 
+      url: /eventq_overview.html#scmcommitsinTFeventqintegration
+# teamforgeoauth.md links
+    - title: TeamForge OAuth Nomenclature
+      url: /teamforgeoauth.html#oauthnomenclature
+    - title: TeamForge OAuth Scopes
+      url: /teamforgeoauth.html#teamforgescopes
+    - title: TeamForge OAuth Grant Types
+      url: /teamforgeoauth.html#teamforgegranttypes
+    - title: Federated Login
+      url: /teamforgeoauth.html#federatedlogin
+    - title: System Defined Clients
+      url: /teamforgeoauth.html#systemdefinedclients
+    - title: Add Clients
+      url: /teamforgeoauth.html#addclients
+    - title: Authorization Code
+      url: /teamforgeoauth.html#authorization_code
+    - title: Resource Owner Password Credentials
+      url: /teamforgeoauth.html#password
+    - title: Client Credentials
+      url: /teamforgeoauth.html#client_credentials
+    - title: Anonymous
+      url: /teamforgeoauth.html#anonymous
+# requirements.md links
+    - title: Proxy settings and Ports Used by TeamForge EventQ Services
+      url: /requirements.html#eventq_proxy_port_settings
+    - title: TeamForge Hardware Requirements
+      url: /requirements.html#tfhardwarereq
+    - title: EventQ Hardware Requirements
+      url: /requirements.html#eventqhardwarereq
+    - title: TeamForge Software Requirements
+      url: /requirements.html#tfsoftwarereq
+    - title: EventQ Software Requirements
+      url: /requirements.html#eventqsoftwarereq
+    - title: Supported Integrations
+      url: /requirements.html#supportedintegrations
+    - title: Port Requirements
+      url: /requirements.html#portreq
+    - title: TeamForge Port Requirements
+      url: /requirements.html#tfportreq
+    - title: EventQ Port Requirements
+      url: /requirements.html#eventqportreq
+    - title: Baseline Hardware Requirements
+      url: /requirements.html#baselinehardwarereq
+    - title: Ports to be Open in a Firewall Environment for Baseline 
+      url: /requirements.html#baselineports
+    - title: Ports to be Open in a Firewall Environment for TeamForge Webhooks-based Event Broker 
+      url: /requirements.html#webrports
+    - title: Gerrit Hardware Requirements
+      url: /requirements.html#gerrithardwarereq
+# forums.md links
+    - title: Post to a Forum by Email
+      url: /forums.html#posttoforumbyemail
+    - title: Subscribe to a Forum by Email
+      url: /forums.html#subscribetoforumbyemail
+# highavailability.md links
+    - title: Set up the Database Server
+      url: /highavailability.html#setupdb
+    - title: Set up the HAProxy Cluster
+      url: /highavailability.html#setuphaproxy
+    - title: Set up the CTF Core CLuster
+      url: /highavailability.html#setupctfcore
+    - title: Set up the Subversion Cluster
+      url: /highavailability.html#setupsubversion
+    - title: Set up the James Cluster
+      url: /highavailability.html#setupjames
+    - title: Set up the Support Server
+      url: /highavailability.html#setupsupport
+    - title: Set up the EventQ Server
+      url: /highavailability.html#setupeventq
+    - title: TeamForge Installation Repository Configuration
+      url: /highavailability.html#installrepoconfig
+# trackers-creatingatracker.md links
+    - title: Create a Tracker
+      url: /trackers-creatingatracker.html#create-a-tracker
+    - title: Create Custom Tracker Fields
+      url: /trackers-creatingatracker.html#customfields
+    - title: Create a Tracker Workflow
+      url: /trackers-creatingatracker.html#createatrackerworkflow
+    - title: Enable or Disable Tracker Fields
+      url: /trackers-creatingatracker.html#enabledisablefields
+    - title: Configure Tracker "Select" Field Values
+      url: /trackers-creatingatracker.html#configuretrackerfieldvalues
+# trackers-creatingatrackerartifact.md links
+    - title: Attachment Reminder for Tracker Artifacts 
+      url: /trackers-creatingatrackerartifact.html#attachmentreminderartfs    
+# trackers-editingtrackerartifact.md links
+    - title: Edit a Tracker Artifact
+      url: /trackers-editingtrackerartifact.html#edittrackerartifact
+    - title: Edit Your Comments
+      url: /trackers-editingtrackerartifact.html#edityourcomments
+    - title: View a Baseline from View Artifact Page 
+      url: /trackers-editingtrackerartifact.html#baselinesfromviewartifact
+    - title: Attachment Reminder for Tracker Artifacts 
+      url: /trackers-editingtrackerartifact.html#attachmentreminderartfs
+    - title: Automatically Adjust Remaining and Actual Effort 
+      url: /trackers-editingtrackerartifact.html#effortspent      
+
+# monitoring.md links
+    - title: Monitoring Activities in TeamForge
+      url: /monitoring.html#monitormanyitems
+    - title: Monitor an Application
+      url: /monitoring.html#monitor-an-application
+# trackers-searchfortrackerartifacts.md links
+    - title: Shared a Saved Tracker Search
+      url: /trackers-searchfortrackerartifacts#savedsearch    
+# pullrequest.md links
+    - title: Pull Request--Step by Step
+      url: /pullrequest.html#pullrequeststepbystep
+    - title: Create a Pull Request
+      url: /pullrequest.html#createpullrequest  
+    - title: Merge Pull Requests--Step by Step
+      url: /pullrequest.html#mergepullrequest
+    - title: Configure "Pull Request" for Repositories 
+      url: /pullrequest.html#configurepullrequest
+# backupandrestore.md links
+    - title: Back up and Restore TeamForge Data and Site Options
+      url: /backupandrestore.html#backupteamforge
+    - title: Back up and Restore Review Board Data
+      url: /backupandrestore.html#backuprb
+# install_teamforge_with_oracle.md links
+    - title: Set up the Oracle Database Server
+      url: /install_teamforge_with_oracle.html#setuporacledbserver
+    - title: Configure the Oracle Database Tokens
+      url: /install_teamforge_with_oracle.html#oraclesiteoptiontokens
+# Orc_management.md links
+    - title: Extensible Data Source (XDS) Overview
+      url: /Orc_Management.html#xdsoverview
+    - title: Manage Build sources
+      url: /Orc_Management.html#buildsources
+    - title: Manage Review sources
+      url: /Orc_Management.html#reviewsources
+    - title: Manage Commit sources
+      url: /Orc_Management.html#commitsources
+    - title: Manage Work Item sources
+      url: /Orc_Management.html#workitemsources
+    - title: Manage XDS sources
+      url: /Orc_Management.html#xdssources
+    # - title: Source Association Keys
+    #   url: /Orc_Management.html#sourceassociationkeys
+# extend_eventq.md links
+    - title: Commits API
+      url: /extend_eventq.html#commitsapi
+    - title: Builds API
+      url: /extend_eventq.html#buildsapi
+    - title: Review Requests API
+      url: /extend_eventq.html#reviewrequestsapi
+    - title: Work Item API
+      url: /extend_eventq.html#workitemapi
+    - title: Extensible Data Sources (XDS) Walk-through
+      url: /extend_eventq.html#xdswalkthru
+    - title: XDS Schema API
+      url: /extend_eventq.html#xdsschemaapi
+    - title: XDS Activity API
+      url: /extend_eventq.html#xdsactivityapi
+    - title: Extensibility APIs
+      url: /extend_eventq.html#extensibilityapis
+    - title: Reporting API
+      url: /extend_eventq.html#reportingapi
+    - title: HTTP APIs
+      url: /extend_eventq.html#httpapis
+    - title: Work Item Configuration API
+      url: /extend_eventq.html#workitemconfigapi
+    - title: Work Item Message API
+      url: /extend_eventq.html#workitemmsgapi
+    - title: Overview
+      url: /extend_eventq.html#extendeventqoverview
+# reports.md links    
+    - title: Activity Reports
+      url: /reports.html#activityreports
+    - title: Agile Reports
+      url: /reports.html#agilereports
+    - title: Distribution Reports
+      url: /reports.html#distributionreports
+    - title: Trend Reports
+      url: /reports.html#trendreports
+    - title: Table Reports (Task and Tracker Reports)
+      url: /reports.html#tablereports   
+    - title: Schedule Data Extraction for Reporting
+      url: /maintain_database.html#scheduledataextraction
+    - title: Datamart Access Using External Tools
+      url: /reporting_datamart_overview.html#datamartaccesswithexternaltools
+    - title: TrackerInitialJob Performance Observation
+      url: /reporting_datamart_overview.html#TIJobperformobserv
+    - title: TrackerInitialJob Performance Observation - Parallel Process
+      url: /reporting_datamart_overview.html#TIJobperformobservparallel
+    - title: Extract Base64-Encoded Text Flex Field Contents
+      url: /reporting_datamart_overview.html#base64conversion
+# documents.md links
+    - title: Unmonitor Documents via HTML Emails
+      url: /documents.html#unmonitordocumentsviaemail
+    - title: HTML Emails for Documents
+      url: /documents.html#htmemailsfordocs
+    - title: Change the Active Document Version 
+      url: /documents.html#changedocversion
+    - title: View a Baseline from Document Details page 
+      url: /documents.html#baselinesfromdocdetailspage
+    - title: Create a New Document 
+      url: /documents.html#createdoc
+# documents_admin.md links
+    - title: Create Your Own Document Fields
+      url: /documents_admin.html#owndocumentfields
+    - title: Validate Text Field Values
+      url: /documents_admin.html#validatetextfieldvalues
+    # - title: Graphical Workflow Viewer for documents
+    #   url: /documents_admin.html#graphicalworkflowviewer
+# projects.md links
+    - title: Create a Project Page Component
+      url: /projectsite.html#createprojectpage
+    - title: Add Reports to a Project Page
+      url: /projectsite.html#addreports
+# managebinaryrepos.md links
+    - title: Configure Maven Build 
+      url: /managebinaryrepos.html#configuremavenplugin
+
+# managebinaries.md links
+    - title: Known Limitations with TeamForge-Nexus/Artifactory Integrations
+      url: /managebinaries.html#limitations
+    - title: TeamForge Binary Integration Overview
+      url: /managebinaries.html#integratenexus
+# externalapplications.md links
+    - title: Create or Edit Linked Applications
+      url: /externalapplications.html#linkedapps
+    - title: Create Integrated Applications
+      url: /externalapplications.html#integratedapps
+    - title: Edit an Integrated Application
+      url: /externalapplications.html#editanintegratedapplication
+# externalapplicationsforprojects.md links
+    - title: How is an integrated application described?
+      url: /externalapplicationsforprojects.html#describeintegratedapp
+    - title: Integrate an External Application into Your Project
+      url: /externalapplicationsforprojects.html#integrateexternalapp   
+    - title: How does an integrated application interact with other TeamForge tools?
+      url: /externalapplicationsforprojects.html#integratedappinteractionwithTF   
+    - title: Edit a Linked External Application
+      url: /externalapplicationforprojects.html#editlinkedexternalapp     
+# setupgitreplica.md links
+    - title: Before You Begin
+      url: /setupgitreplica.html#beforeyoubegin
+    - title: Replicate Repositories with Git Replica Servers 
+      url: /setupgitreplica.html#replicategitrepo
+# gitreference.md links
+    - title: Mappings Between TeamForge and Gerrit
+      url: /gitreference.html#tfgerritmapping
+# projectadmin-controllingprojectaccess.md links
+    - title: Create a User Role
+      url: /projectadmin-controllingprojectaccess.html#createuserrole
+# siteadmin-configuresiteviaui.md links
+    - title: External Authentication
+      url: /siteadmin-configuresiteviaui.html#externalauthentication
+    - title: ALLOW LOCAL USER
+      url: /siteadmin-configuresiteviaui.html#allowlocaluser
+    - title: ALLOW DATABASE AUTHENTICATION IF LDAP IS ENABLED 
+      url: /siteadmin-configuresiteviaui.html#allowdatabaseauthifldapenabled
+    - title: FORCE RE-AUTHENTICATION WITH LDAP SERVER 
+      url: /siteadmin-configuresiteviaui.html#forcereauthwithldap
+    - title: LDAP CONFIGURATIONS MAXIMUM LIMIT 
+      url: /siteadmin-configuresiteviaui.html#ldapconfigmaxlimit
+    - title: ACTIVITY STREAM AND EVENTQ REPORTS 
+      url: /siteadmin-configuresiteviaui.html#activitystream
+    - title: ATTACHMENT UPLOAD SIZE LIMIT 
+      url: /siteadmin-configuresiteviaui.html#maxfilesize
+    - title: MASS IMPORT ARTIFACTS LIMIT 
+      url: /siteadmin-configuresiteviaui.html#massimportartfslimit
+    - title: MASS IMPORTS THREADS COUNT
+      url: /siteadmin-configuresiteviaui.html#massimportthreadscount
+    - title: ENABLE LDAP SELF REGISTRATION 
+      url: /siteadmin-configuresiteviaui.html#enableldapselfregistration
+# customize.md links
+    - title: Customize a Page, Picture, Text String, or Other Elements on Your Site
+      url: /customize.html#customizeanything
+    - title: Customize the Home Page of Your Site
+      url: /customize.html#customizehomepage
+# extend_teamforge.md links
+    - title: Add a Custom Event Handler to Your TeamForge Site 
+      url: /extend_teamforge.html#addcustomeventhandlertoTF
+# integratedappref.md links
+    - title: IntegratedAppSupport
+      url: /integratedappref.html#integratedappsupport
+# teamforgecustomeventhandlers.md links
+    - title: Using an Asynchronous Event Handler - Trigger Follow-up Events
+      url: /teamforgecustomeventhandlers.html#asynceventhandler
+    - title: Using a Synchronous Event Handler - Send Event Handler Output to the TeamForge UI 
+      url: /teamforgecustomeventhandlers.html#synceventhandler
+    - title: Event Handler Example - Comment on Associations
+      url: /teamforgecustomeventhandlers.html#commentonassociations    
+# ldap-authmanager.md links
+    - title: Set up LDAP Integration for the TeamForge Site
+      url: /ldap-authmanager.html#ldapforteamforge
+# ldap-authentication.md links
+    - title: TeamForge-LDAP Authentication--Single LDAP Server Setup
+      url: /ldap-authentication.html#setupteamforgeforldap
+    - title: TeamForge-LDAP Authentication--Multiple LDAP Servers Setup
+      url: /ldap-authentication.html#setupteamforgewithmultipleldap
+# manageemails.md links
+    - title: Relay Emails Through SMTP Gateway with Authentication
+      url: /manageemails.html#relayemailssmtp
+# teamforgesoapapiref.md links
+    - title: Use the TeamForge Lab Management API
+      url: /teamforgesoapapiref.html#teamforgelabmanagement
+# searchkeyword.md links
+    - title: Multiple Term Search
+      url: /search-keyword.html#multipletermssearch
+    - title: Boolean Operators
+      url: /search-keyword.html#booleanoperators
+    - title: Wildcard Searchs 
+      url: /search-keyword.html#wildcards
+# planningfolder-faqs.md
+    - title: FAQs on Planning folders
+      url: /planningfolder-faqs.html#whatisaplanningfolder
+# teamforgescript.md links
+    - title: Back up and Restore TeamForge Data Using the teamforge.py Script
+      url: /teamforgescript.html#teamforgebackup
+    - title: teamforge reload Command
+      url: /teamforgescript.html#reload      
+# reviewboard-faqs.md links
+    - title: Users are not getting email notifications for review requests and reviews. What should I do?
+      url: /reviewboard-faqs.html#rbemailsettings
+    - title: Review Board deployment fails on sites that use a self-signed certificate. What should I do?
+      url: /reviewboard-faqs.html#cert-verification-cfg
+# baseline-overview.md links
+    - title: Item Level Baseline
+      url: /baseline-overview.html#itemlevelbaseline
+    - title: Project Baseline
+      url: /baseline-overview.html#projectbaseline
+    - title: Item Level Baseline Definition
+      url: /baseline-overview.html#itemlevelbaselinedef
+    - title: Project Baseline Definition
+      url: /baseline-overview.html#projectbaselinedef
+    - title: Baseline Permissions
+      url: /baseline-overview.html#baselinepermissions
+    - title: What is a Nested Baseline Definition? 
+      url: /baseline-overview.html#nestedbaselinedef
+    - title: What is a Nested Project Baseline Definition?
+      url: /baseline-overview.html#nestedprojectbaselinedef
+    - title: What is an External Baseline? 
+      url: /baseline-overview.html#externalbaseline
+    - title: What is a Configuration Item? 
+      url: /baseline-overview.html#configurationitem
+    - title: Hard-links Between Baselines and Configuration Items 
+      url: /baseline-overview.html#baselineshardlinks
+# create-baseline.md links
+    - title: Create a New Baseline from Existing Baseline Definition 
+      url: /create-baseline.html#createbaselinefromBDef
+    - title: Create a New Baseline 
+      url: /create-baseline.html#baselinewithoutBDef
+    - title: Create a New Baseline from an Existing Baseline Definition 
+      url: /create-baseline.html#baselinewithBDef
+    - title: View Baseline
+      url: /create-baseline.html#viewbaseline
+    - title: Monitor Item Level Baseline
+      url: /create-baseline.html#monitoritemlevelbaseline
+    - title: Export Approved Baselines to Excel
+      url: /create-baseline.html#exportbaselinetoexcel   
+    - title: Create a New Baseline from Approved Baselines 
+      url: /create-baseline.html#createbaselinefromappbaselines   
+# project-baseline-definition.md links
+    - title: Create a New Project Baseline Definition
+      url: /project-baseline-definition.html#createprojectbaselinedef
+    - title: Edit Project Baseline Definition
+      url: /project-baseline-definition.html#editprojectbaselinedef
+# baseline-review-approval-workflow.md links
+    - title: View Baseline
+      url: /baseline-review-approval-workflow.html#viewbaseline
+    - title: Add Comments
+      url: /baseline-review-approval-workflow.html#addcomments
+# baseline-settings.md links
+    - title: Configure Custom Statuses 
+      url: /baseline-settings.html#configurecustomstatuses
+    - title: Add Workflow for Status Transitions 
+      url: /baseline-settings.html#addstatustransitionworkflow
+    # - title: What are the mandatory Tracker and Document fields?
+    #   url: /baseline-settings.html#mandatoryfields
+    - title: Configure Custom Attributes
+      url: /baseline-settings.html#configurecustomattributes
+    - title: Field Inclusions from Trackers and Documents
+      url: /baseline-settings.html#includeexcludefields
+# teamforge-new.md links
+    - title: DKIM Signature Authentication for Outgoing Emails from TeamForge
+      url: /teamforge-new.html#dkim
+    - title: Site Administration
+      url: /teamforge-new.html#tf182siteadmin
+    - title: ### Enhancements in Create Artifact and View Artifact Pages
+      url: /teamforge-new.html#trackerenhancements
+# sideadmin-configuresiteviaui.md links
+    - title: Lifecycle
+      url: /siteadmin-configuresiteviaui.html#lifecycle
+    - title: ENABLE LDAP SELF REGISTRATION 
+      url: /siteadmin-configuresiteviaui.html#enableldapselfregistration
+    - title: ENABLE LOCAL USER 
+      url: /siteadmin-configuresiteviaui.html#allowlocaluser
+    - title: ENABLE ACCOUNT MANAGEMENT 
+      url: /siteadmin-configuresiteviaui.html#enableacctmgmt
+# installnexus.md links
+    - title: Upgrade Nexus 2 to Nexus 3
+      url: /installnexus.html#upgradenexus2to3
+# installnexusplugin.md links
+    - title: Install the TeamForge-Nexus 3 Integration Plugin 
+      url: /installnexusplugin.html#installtfnexus3plugin
+    - title: Upgrade the TeamForge-Nexus 3 Integration Plugin 
+      url: /installnexusplugin.html#upgradetfnexus3plugin      
+# managebinaries.md links
+    - title: TeamForge Behaviour for Nexus 2 and Nexus 3<sup><b>beta</b></sup> Users 
+      url: /installnexus.html#teamforgebehaviour
+# create-baseline-def.md links
+    - title: Create Baseline Definition
+      url: /create-baseline-def.html#withoutBDef
+    - title: Create Baseline
+      url: /create-baseline.html#baselinewithoutBDef
+    - title: View a Baseline Definition 
+      url: /create-baseline-def.html#viewbaselinedef
+    - title: Create Baseline Definition from Baseline Definition Page 
+      url: /create-baseline-def.html#BDeffromBDefpage
+    - title: Create Baseline Definition from Create Baseline Page 
+      url: /create-baseline-def.html#BDeffromcreatebaselinepage
+    - title: Delete Baseline Definition 
+      url: /create-baseline-def.html#deletedef      
+# compare-baselines.md links
+    - title: Compare Baselines
+      url: /compare-baselines.html#comparebaselines
+    - title: Compare Baseline Definitions
+      url: /compare-baselines.html#comparebaselinedefs
+# create-project-baseline.md links
+    - title: View Project Baseline
+      url: /create-project-baseline.html#viewprojectbaseline
+    - title: Create a Project from View Project Baseline Page 
+      url: /create-project-baseline.html#createprojectfromPB
+    - title: Monitor Project Baseline
+      url: /create-project-baseline.html#monitorprojectbaseline
+    - title: Export Approved Project Baselines to Excel
+      url: /create-project-baseline.html#exportprojbaselinetoexcel
+# reports-cust-category.md links
+    - title: Modifying config.ini File
+      url: /reports-cust-category.html#modifyconfigini
+# saml.md links
+    - title: Authenticate SAML Users to Access Non-web Applications
+      url: /saml.html#accesscliapps
+    - title: Direct Login to TeamForge
+      url: /saml.html#directlogin      
+# teamforge-jenkins-integration.md links
+    - title: Configure Jenkins Integration Plugin to Notify the Webhooks-based Event Broker 
+      url: /teamforge-jenkins-integration.html#configurejenkinsforwebr
+    - title: Migrate Existing Jenkins Data from EventQ to TeamForge
+      url: /teamforge-jenkins-integration.html#migratejenkinsdata
+
+# teamforge-jira-integration.md links
+    - title: Configure JIRA Integration Plugin to Notify the TeamForge Webhooks-based Event Broker
+      url: /teamforge-jir-integration.html#configurejiraforwebr
+    - title: Migrate Existing JIRA Data from EventQ to TeamForge 
+      url: /teamforge-jira-integration.html#migratejiradata
+# teamforge-teslink-integration.md links
+    - title: TeamForge-TestLink Integration Overview 
+      url: /teamforge-testlink-integration.html#testlinkoverview
+    - title: Install and Configure TestLink Integration Plugin
+      url: /teamforge-testlink-integration.html#installconfiguretestlinkforwebr
+    - title: Migrate Existing TestLink Data from EventQ to TeamForge 
+      url: /teamforge-testlink-integration.html#migratetestlinkdata
+    - title: Post Migration Tasks
+      url: /teamforge-testlink-integration.html#tlinkpostmigration
+# mypage.md links
+    - title: Enhancements in My Artifacts Widget
+      url: /mypage.html#myartifactswidget
+    - title: My Workspace Widgets 
+      url: /mypage.html#myworkspacewidgets
+    - title: Document Widget 
+      url: /mypage.html#documentswidget
+# releases.md links
+    - title: View a Baseline from View Release page 
+      url: /releases.html#baselinesfromviewreleasepage
+    - title: Edit a Release 
+      url: /releases.html#editfilerelease
+# historyprotect.md links
+    - title: Enable History Protection
+      url: /historyprotect.html#enablehistoryprotection
+# installupgradeadmin-faqs.md links
+    - title: TeamForge upgrade fails when migrating Baseline database to the latest schema. What should I do?
+      url: /installupgradeadmin-faqs.html#ctf190upgradeerror    
+# internalcodebrowser.md links
+    - title: Add Files to Git Repository 
+      url: /internalcodebrowser.html#addfilestogitrepo 
+    - title: Support for Unified Diff View of Images in Code Browser
+      url: /internalcodebrowser.html#unifiedviewforimagediffs
+# gitgerrit-faqs.md links
+    - title: How can I import an existing Git repository into Gerrit? 
+      url: /gitgerrit-faqs.html#howtoimportgitrepo
+    - title: How do I start using a replicated repository on the client? 
+      url: /gitgerrit-faqs.html#usereplicaongitclient
+    - title: Restore the Git Replica Servers by Bootstrapping 
+      url: /gitgerrit-faqs.html#restorereplica      
+# configuremavenplugin.md links
+    - title: Configure CollabNet Maven Deploy Plugin 
+      url: /configuremavenplugin.html#configuremavendeployplugin
+    - title: Migrate the CollabNet Maven Deploy Plugin Data from EventQ to TeamForge
+      url: /configuremavenplugin.html#migratemavenplugindata
+    - title: Post CollabNet Maven Data Migration Tasks 
+      url: /configuremavenplugin.html#mavenpluginpostmigration
+# codereviewpolicy.md links
+    - title: Create a User-Defined Repository Category
+      url: /codereviewpolicy.html#adduserdefinedrepocat
+# siteconfigtokens.md links
+    - title: Service-specific FQDNs
+      url: /siteconfigtokens.html#servicespecificfqdns
+    - title: host:PUBLIC_FQDN
+      url: /siteconfigtokens.html#hostpublic_fqdn      
+# documents.md links
+    - title: Redesigned Documents List Page
+      url: /documents.html
+    - title: Advent of Document Folders 
+      url: /documents.html#documentfoldersinlistpage
+    - title: Monitor and Unmonitor Document Folders and Documents 
+      url: /documents.html#monitorunmonitordocsfolders
+    - title: More Actions on Document Folders and Documents
+      url: /documents.html#moreactionsondocsfolders
+    - title: On-scroll Display of Document Folders and Documents
+      url: /documents.html#listdocsfoldersonscroll
+    - title: Sorting Document Folders and Documents 
+      url: /documents.html#sortdocsfolders
+    - title: Configure Default Document Columns 
+      url: /documents.html#docscolumnconfig
+    - title: Search Document Folders and Documents 
+      url: /documents.html#searchdocsfolders
+    - title: Recent Document Files 
+      url: /documents.html#recentdocfiles
+    - title: Left Navigation Pane 
+      url: /documents.html#leftnav
+    - title: Concatenation of the Document Name and ID 
+      url: /documents.html#concatnameid
+    - title: Action Buttons Replaced by Action Icons 
+      url: /documents.html#actionicons
+    - title: Move or Copy Documents and Document Folders 
+      url: /documents.html#movecopy
+    - title: Delete Documents and Document Folders 
+      url: /documents.html#deletedocuments
+    - title: Advanced Search 
+      url: /documents.html#advanced-search
+    - title: Mark Documents and Document Folders as Favorites 
+      url: /documents.html#favdocsandfolders
+    - title: Create New Documents and Document Folders 
+      url: /documents.html#newbutton      
+# sync-event-type.md links
+    - title: Message Receipts and Processing
+      url: /sync-event-type.html#msgreceiptsandprocessing
+# queue-event-type.md links
+    - title: Message Processing 
+      url: /queue-event-type.html#messageprocessing
+# setuplfs.md links
+    - title: Working with LFS over HTTP/HTTPS (Without Replication) 
+      url: /setuplfs.html#workwithlfsoverhttp
+    - title: LFS Data in Downloaded Zip Archives of Git Repositories and Repository Tags
+      url: /setuplfs.html#lfsdataindownloadzipfile
+# webhooksfortrackerartifacts.md links
+    - title: Pre-submit Webhooks 
+      url: /webhooksfortrackerartifacts.html#pre-submit-webhooks
+    - title: Post-submit Webhooks 
+      url: /webhooksfortrackerartifacts.html#post-submit-webhooks
+    - title: Post-submit Webhooks Tutorial
+      url: /webhooksfortrackerartifacts.html#post-submit-webhooks-tutorial
+# sslforintegrations.md links
+    - title: Encrypt Database Network Traffic
+      url: /sslforintegrations.html#databasessl
+# externalapplications.md links
+    - title: Create a Site-wide Linked Application
+      url: /externalapplications.html#sitewidelinkedapp
+# teamforge-testlink-integration.md links
+    - title: Enable SSO Between TeamForge and TestLink
+      url: /teamforge-testlink-integration.html#tlsso
+# userfilterremoval.md links
+    - title: How to verify if you can upgrade to TeamForge—Git integration 20.1 or later?
+      url: /userfilterremoval.html#workflowreadiness
+# monitorsite.md links
+    # - title: Get Reports on Site Activity
+    #   url: monitorsite.html#siteactivityreport      
+      

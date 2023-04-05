@@ -1,0 +1,667 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.3.397",
+    "title" : "File Storage API"
+  },
+  "basePath" : "/ctfrest/filestorage/v1",
+  "tags" : [ {
+    "name" : "Attachments"
+  }, {
+    "name" : "File Storage"
+  } ],
+  "paths" : {
+    "/attachments/{attachmentid}" : {
+      "delete" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Deletes an attachment file",
+        "description" : "",
+        "operationId" : "deleteAttachmentFile",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "attachmentid",
+          "in" : "path",
+          "description" : "Attachment identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "atch(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Attachment is successfully deleted",
+            "schema" : {
+              "$ref" : "#/definitions/StreamingOutput"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such attachment",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/attachments/{attachmentid}/file" : {
+      "get" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Downloads an attachment file",
+        "description" : "",
+        "operationId" : "downloadAttachmentFile",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "attachmentid",
+          "in" : "path",
+          "description" : "Attachment identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "atch(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Attachment is successfully included in response",
+            "schema" : {
+              "$ref" : "#/definitions/StreamingOutput"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such container/attachment",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/files" : {
+      "post" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Uploads a file",
+        "description" : "To test in Swagger UI, do not copy the Model Schema JSON to the body.  Instead, set the body to something like this:\n\n<pre>--4321MyBoundary\nContent-Disposition: form-data; name=\"file\"; filename=\"mypicture.png\"\nContent-Type: image/png\nContent-Transfer-Encoding: base64\n\n<…file content in base64…>\n--4321MyBoundary--</pre>\n\n When using the API outside of Swagger, the boundary can be any value that does not also appear in the base64-encoded file content.  The boundary specified in the Content-Type request header should match the boundary used in the request body.  For example, if '4321MyBoundary' is used in the request body, then the header is:\n\n<pre>Content-Type: multipart/form-data; boundary=4321MyBoundary</pre>",
+        "operationId" : "uploadFile",
+        "consumes" : [ "multipart/form-data; boundary=4321MyBoundary" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "File",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MultipartFormDataInput"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "File is uploaded",
+            "schema" : {
+              "$ref" : "#/definitions/GuidKey"
+            }
+          },
+          "400" : {
+            "description" : "Missing file, wrong file Content-Type, file too large"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          }
+        }
+      }
+    },
+    "/files/chunks" : {
+      "post" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Starts a file upload session",
+        "description" : "",
+        "operationId" : "startFileUpload",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "201" : {
+            "description" : "File upload session started",
+            "schema" : {
+              "$ref" : "#/definitions/GuidKey"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          }
+        }
+      }
+    },
+    "/files/chunks/{fileStorageId}" : {
+      "get" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Reads bytes from a file",
+        "description" : "",
+        "operationId" : "read",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "length",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "default" : 780000,
+          "format" : "int32"
+        }, {
+          "name" : "fileStorageId",
+          "in" : "path",
+          "description" : "File storage identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "guid([-a-z0-9_]+)"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Appends data to file being uploaded",
+        "description" : "To test in Swagger UI, do not copy the Model Schema JSON to the body.  Instead, set the body to something like this:\n\n<pre>--4321MyBoundary\nContent-Disposition: form-data; name=\"file\"; filename=\"mypicture.png\"\nContent-Type: image/png\nContent-Transfer-Encoding: base64\n\n<…file content in base64…>\n--4321MyBoundary--</pre>\n\n When using the API outside of Swagger, the boundary can be any value that does not also appear in the base64-encoded file content.  The boundary specified in the Content-Type request header should match the boundary used in the request body.  For example, if '4321MyBoundary' is used in the request body, then the header is:\n\n<pre>Content-Type: multipart/form-data; boundary=4321MyBoundary</pre>",
+        "operationId" : "write",
+        "consumes" : [ "multipart/form-data; boundary=4321MyBoundary" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "File",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MultipartFormDataInput"
+          }
+        }, {
+          "name" : "fileStorageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "guid([-a-z0-9_]+)"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Data is uploaded"
+          },
+          "204" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GuidKey"
+            }
+          },
+          "400" : {
+            "description" : "Missing file, wrong file Content-Type, chunk too large"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Ends a file upload session",
+        "description" : "",
+        "operationId" : "endFileUpload",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fileStorageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "guid([-a-z0-9_]+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "File upload session is ended"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such session",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/files/{containerId}/{rawfileid}" : {
+      "get" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Downloads a file directly using raw file id",
+        "description" : "",
+        "operationId" : "downloadFileDirect",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "containerId",
+          "in" : "path",
+          "description" : "Container identifier (artifact or wiki)",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(artf|wiki)(?:\\d+)"
+        }, {
+          "name" : "rawfileid",
+          "in" : "path",
+          "description" : "Raw file identifier",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/files/{fileStorageId}" : {
+      "get" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Downloads a file",
+        "description" : "",
+        "operationId" : "downloadFile",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fileStorageId",
+          "in" : "path",
+          "description" : "File storage identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "guid([-a-z0-9_]+)"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/files/{fileStorageId}/size" : {
+      "get" : {
+        "tags" : [ "File Storage" ],
+        "summary" : "Gets size of file in bytes",
+        "description" : "",
+        "operationId" : "getSize",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fileStorageId",
+          "in" : "path",
+          "description" : "File storage identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "guid([-a-z0-9_]+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        }
+      }
+    },
+    "/objects/{objectid}/attachments" : {
+      "get" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Gets the list of attachments for a given object",
+        "description" : "",
+        "operationId" : "getAttachments",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "objectid",
+          "in" : "path",
+          "description" : "Container object identifier",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of attachments"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such object",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Attaches the given file to the container object",
+        "description" : "",
+        "operationId" : "createAttachments",
+        "consumes" : [ "multipart/form-data; boundary=4321MyBoundary" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "objectid",
+          "in" : "path",
+          "description" : "Container object identifier",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Multipart input('file' s and 'comment')",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MultipartFormDataInput"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Attachments are successfully created",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Missing/invalid file name, wrong file Content-Type, file too large",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such container",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Attachment" : {
+      "type" : "object",
+      "required" : [ "createdBy", "createdDate", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdByFullName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "transactionId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "storedFileId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "rawFileId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "fileName" : {
+          "type" : "string",
+          "description" : "File name",
+          "readOnly" : true
+        },
+        "mimeType" : {
+          "type" : "string",
+          "description" : "Mime type",
+          "readOnly" : true
+        },
+        "fileSize" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "File size",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Attachment data"
+    },
+    "Collection of attachments" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Attachment"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "GuidKey" : {
+      "type" : "object",
+      "properties" : {
+        "prefix" : {
+          "type" : "string"
+        },
+        "guid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "InputPart" : {
+      "type" : "object",
+      "properties" : {
+        "bodyAsString" : {
+          "type" : "string"
+        },
+        "contentTypeFromMessage" : {
+          "type" : "boolean"
+        },
+        "headers" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "mediaType" : {
+          "$ref" : "#/definitions/MediaType"
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "MediaType" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "subtype" : {
+          "type" : "string"
+        },
+        "parameters" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "wildcardType" : {
+          "type" : "boolean"
+        },
+        "wildcardSubtype" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "MultipartFormDataInput" : {
+      "type" : "object",
+      "properties" : {
+        "formDataMap" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/InputPart"
+            }
+          }
+        },
+        "formData" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/InputPart"
+          }
+        },
+        "preamble" : {
+          "type" : "string"
+        },
+        "parts" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/InputPart"
+          }
+        }
+      }
+    },
+    "StreamingOutput" : {
+      "type" : "object"
+    }
+  }
+}

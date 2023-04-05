@@ -1,0 +1,402 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.1.425",
+    "title" : "Tag Management API"
+  },
+  "basePath" : "/ctfrest/tags/v1",
+  "tags" : [ {
+    "name" : "Tags"
+  } ],
+  "paths" : {
+    "/projects/{projectId}/tags" : {
+      "get" : {
+        "tags" : [ "Tags" ],
+        "summary" : "Gets list of tags for a project",
+        "description" : "",
+        "operationId" : "getTagsList",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of tags to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 25,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned tags list successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetTagsList"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Tags" ],
+        "summary" : "Creates a tag",
+        "description" : "",
+        "operationId" : "createTag",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Tag Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostTag"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Tag created successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "409" : {
+            "description" : "Name conflict: Another tag with such name already exists for this project"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/tags/{tagId}" : {
+      "get" : {
+        "tags" : [ "Tags" ],
+        "summary" : "Gets tag details",
+        "description" : "",
+        "operationId" : "getTag",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "tagId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tag(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned tag details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetTag"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tag id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Tags" ],
+        "summary" : "Deletes a tag",
+        "description" : "",
+        "operationId" : "deleteTag",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "tagId",
+          "in" : "path",
+          "description" : "tag id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tag(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Tag is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tag id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Tags" ],
+        "summary" : "Updates tag data",
+        "description" : "",
+        "operationId" : "updatesTag",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Tag data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchTag"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Tag version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "tagId",
+          "in" : "path",
+          "description" : "Updated Tag id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tag(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Tag data updated successfully."
+          },
+          "304" : {
+            "description" : "Not Modified"
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid Tag id"
+          },
+          "409" : {
+            "description" : "Version conflict or Name conflict (Another tag with such name already exists for this project)"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetTag" : {
+      "type" : "object",
+      "properties" : {
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "createdById" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedById" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "dateDeleted" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing tag details"
+    },
+    "GetTagsList" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetTag"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing list of tags in a project"
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PatchTag" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Name"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description"
+        }
+      },
+      "description" : "Model to update the tag data"
+    },
+    "PostTag" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for creating tags"
+    }
+  }
+}

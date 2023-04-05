@@ -1,0 +1,1205 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.1.425",
+    "title" : "Planning Folder API"
+  },
+  "basePath" : "/ctfrest/planning/v1",
+  "tags" : [ {
+    "name" : "PlanningFolders"
+  } ],
+  "paths" : {
+    "/planningfolders/{parentFolderId}/planningfolders/{childFolderId}" : {
+      "put" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Moves a child planning folder into a parent planning folder",
+        "description" : "",
+        "operationId" : "moveChildPlanningFolderIntoParentPlanningFolder",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "parentFolderId",
+          "in" : "path",
+          "description" : "Parent Planning folder Identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "plan(\\d+)"
+        }, {
+          "name" : "childFolderId",
+          "in" : "path",
+          "description" : "Child Planning Folder Identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "plan(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Planning folder is moved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetPlanningFolderDetails"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid Planning folder identifier"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}" : {
+      "get" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Gets planning folder details",
+        "description" : "",
+        "operationId" : "getPlanningFolder",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Planning Folder details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetPlanningFolderDetails"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid Planning Folder id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Deletes a planning folder",
+        "description" : "",
+        "operationId" : "deletePlanningFolder",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "Planning Folder id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Planning Folder is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid planning folder id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Updates planning folder data",
+        "description" : "",
+        "operationId" : "updatePlanningFolder",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Planning Folder data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchPlanningFolder"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Planning Folder version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "Updated planning folder id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Planning Folder data updated successfully."
+          },
+          "304" : {
+            "description" : "Not Modified"
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid Planning Folder id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}/planningfolders" : {
+      "get" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Gets list of Planning Folders in a planning folder",
+        "description" : "",
+        "operationId" : "getPlanningFolderListForAPlanningFolder",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "planning folder id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of planning folders to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 25,
+          "format" : "int32"
+        }, {
+          "name" : "recursive",
+          "in" : "query",
+          "description" : "Recursive",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned planning folder list successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetPlanningFolderList"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid planning folder id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}/summary" : {
+      "get" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Gets planning folder  summary details",
+        "description" : "",
+        "operationId" : "getPlanningFolderSummary",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        }, {
+          "name" : "linkifyDescription",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "detailedSummary",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Planning Folder summary details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetPlanningFolderSummary"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid Planning Folder id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/planningfolders" : {
+      "get" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Gets list of Planning Folders in a project",
+        "description" : "",
+        "operationId" : "getPlanningFolderList",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of planning folder to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 25,
+          "format" : "int32"
+        }, {
+          "name" : "recursive",
+          "in" : "query",
+          "description" : "Recursive",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned planning folder list successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetPlanningFolderList"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Creates a planning folder",
+        "description" : "",
+        "operationId" : "createPlanningFolder",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Planning Folder Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostPlanningFolder"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Planning folder created successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/planningfolders/statuses" : {
+      "get" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Gets list of Planning Folder Statuses in a project",
+        "description" : "",
+        "operationId" : "getPlanningFolderStatusList",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned planning folder status list successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/listFieldValues"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Create status field value for planning folder",
+        "description" : "",
+        "operationId" : "addFieldValue",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Field value details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FieldValue"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Status Field value added to planning folder successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Updates planning folder status",
+        "description" : "",
+        "operationId" : "updatePlanningFolderStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Field value details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FieldValue"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned the Updated PlanningFolder Status successfully."
+          },
+          "304" : {
+            "description" : "PlanningFolder Status data is up to date."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/planningfolders/statuses/{fieldValueId}" : {
+      "delete" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Deletes a planning folder status ",
+        "description" : "",
+        "operationId" : "deletePlanningFolderStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "fieldValueId",
+          "in" : "path",
+          "description" : "Planning Folder Status field value id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Planning Folder Status is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid planning folder status id"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/planningfolders/{planningFolderId}" : {
+      "put" : {
+        "tags" : [ "PlanningFolders" ],
+        "summary" : "Moves a planningFolder into root planning folder",
+        "description" : "",
+        "operationId" : "movePlanningFolderIntoRootFolder",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "Planning Folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "plan(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Planning folder is moved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetPlanningFolderDetails"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid planning folder identifier"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "FieldValue" : {
+      "type" : "object",
+      "required" : [ "id", "isDefault", "value", "valueClass" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "value",
+          "readOnly" : true
+        },
+        "valueClass" : {
+          "type" : "string",
+          "description" : "valueClass",
+          "readOnly" : true
+        },
+        "isDefault" : {
+          "type" : "string",
+          "description" : "isDefault",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a field value"
+    },
+    "GetField" : {
+      "type" : "object",
+      "required" : [ "fieldValues", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project ID",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "description" : "Field Values",
+          "readOnly" : true,
+          "$ref" : "#/definitions/listFieldValues"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe Planning Folder Status field details"
+    },
+    "GetFieldValue" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Id",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Value",
+          "readOnly" : true
+        },
+        "valueClass" : {
+          "type" : "string",
+          "description" : "Value Class",
+          "readOnly" : true
+        },
+        "isDefault" : {
+          "type" : "boolean",
+          "description" : "Is Default",
+          "readOnly" : true
+        },
+        "visible" : {
+          "type" : "boolean",
+          "description" : "Visible",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Order",
+          "readOnly" : true
+        },
+        "dependentValues" : {
+          "type" : "array",
+          "description" : "Dependent Values",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe field value details"
+    },
+    "GetPlanningFolderDetails" : {
+      "type" : "object",
+      "required" : [ "planningFolderId" ],
+      "properties" : {
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "TeamForge Id",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "parentFolderId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "statusClass" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "capacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pointsCapacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "releasePath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "burnViewMode" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "planningFolderType" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing Planning folder details"
+    },
+    "GetPlanningFolderList" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetPlanningFolderDetails"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing list of planning folders in a project"
+    },
+    "GetPlanningFolderSummary" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "formattedDescription" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "formattedReleasePath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "planningFolderType" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "releasePath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "pfStatus" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "capacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pointsCapacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "trackerUnit" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "trackerUnitMultiplier" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "closedArtifactsCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority0" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority1" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority2" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority3" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority4" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority5" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "actualEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "openPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "closedPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "velocity" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing Planning folder summary details"
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PatchPlanningFolder" : {
+      "type" : "object",
+      "required" : [ "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Start Date",
+          "readOnly" : true
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "End Date",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true,
+          "enum" : [ "Not Started", "In progress", "Closed" ]
+        },
+        "capacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Capacity",
+          "readOnly" : true
+        },
+        "pointsCapacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points Capacity",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "description" : "Release Id",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "description" : "Tracker Unit Id",
+          "readOnly" : true
+        },
+        "burnViewMode" : {
+          "type" : "string",
+          "description" : "Burn View Mode",
+          "readOnly" : true,
+          "enum" : [ "points", "effort" ]
+        },
+        "planningFolderType" : {
+          "type" : "string",
+          "description" : "Planning Folder type",
+          "readOnly" : true,
+          "enum" : [ "standard", "release", "iteration" ]
+        }
+      },
+      "description" : "Model for updating planning folder"
+    },
+    "PostPlanningFolder" : {
+      "type" : "object",
+      "required" : [ "title" ],
+      "properties" : {
+        "parentFolderId" : {
+          "type" : "string",
+          "description" : "Parent Folder Id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Start Date",
+          "readOnly" : true
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "End Date",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true,
+          "enum" : [ "Not Started", "In progress", "Closed" ]
+        },
+        "capacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Capacity",
+          "readOnly" : true
+        },
+        "pointsCapacity" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points Capacity",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "description" : "Release Id",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "description" : "Tracker Unit Id",
+          "readOnly" : true
+        },
+        "burnViewMode" : {
+          "type" : "string",
+          "description" : "Burn View Mode",
+          "readOnly" : true,
+          "enum" : [ "points", "effort" ]
+        },
+        "planningFolderType" : {
+          "type" : "string",
+          "description" : "Planning Folder type",
+          "readOnly" : true,
+          "enum" : [ "standard", "release", "iteration" ]
+        }
+      },
+      "description" : "Model for creating planning folder"
+    },
+    "listFieldValues" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetFieldValue"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of field values"
+    }
+  }
+}

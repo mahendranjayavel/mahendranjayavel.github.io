@@ -1,0 +1,13 @@
+<footer>
+            <div class="row">
+            	<div class="col-lg-6 footerleft">
+                <h9><a class="noCrossRef" href="https://digital.ai/privacy-policy">Privacy Policy</a></h9><br />
+                &copy;{{ site.time | date: "%Y"  }} {{site.company_name}}. All rights reserved. <br />
+{% if page.last_updated %}<span>Page last updated:</span> {{page.last_updated}}<br/>{% endif %} Site last generated: {{ site.time | date: "%b %-d, %Y"  }} <br />
+                </div>
+
+                <div class="col-lg-6 col-md-9-footer footer">
+					<p><a class="noCrossRef" href="http://digital.ai"><img src="{{ "images/DAILogoDark.png" }}" alt="company logo"/></a></p>
+                </div>
+            </div>
+</footer>

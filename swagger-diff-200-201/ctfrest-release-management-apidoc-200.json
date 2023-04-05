@@ -1,0 +1,3973 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.0.321",
+    "title" : "Release Management API"
+  },
+  "basePath" : "/ctfrest/relmgmt/v1",
+  "tags" : [ {
+    "name" : "Application"
+  }, {
+    "name" : "Application Attribute"
+  }, {
+    "name" : "Application Component"
+  }, {
+    "name" : "Application Field"
+  }, {
+    "name" : "Application Status"
+  }, {
+    "name" : "ApplicationPackage"
+  }, {
+    "name" : "ApplicationPackageAttribute"
+  }, {
+    "name" : "ApplicationPackageComponent"
+  }, {
+    "name" : "Environment"
+  }, {
+    "name" : "EnvironmentType"
+  } ],
+  "paths" : {
+    "/applications" : {
+      "get" : {
+        "tags" : [ "Application" ],
+        "summary" : "Gets application list for project.",
+        "description" : "The list includes applications for project.",
+        "operationId" : "getApplicationsForProject",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Project id to list applications",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of applications",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplications"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Application" ],
+        "summary" : "Creates Application",
+        "description" : "",
+        "operationId" : "createApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Application data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplication"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Application is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplication"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/applications/attributes" : {
+      "post" : {
+        "tags" : [ "Application Attribute" ],
+        "summary" : "Creates Application attribute",
+        "description" : "",
+        "operationId" : "createApplicationAttribute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Application Attribute data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplicationAttribute"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "ApplicationAttribute is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationAttribute"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/applications/attributes/{applAttrId}" : {
+      "get" : {
+        "tags" : [ "Application Attribute" ],
+        "summary" : "Gets applicationAttribute information",
+        "description" : "",
+        "operationId" : "getApplicationAttribute",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applAttrId",
+          "in" : "path",
+          "description" : "Application attribute id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned applicationAttribute details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationAttribute"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid ApplicationAttribute id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Application Attribute" ],
+        "summary" : "Deletes applicationAttribute",
+        "description" : "",
+        "operationId" : "deleteItem",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applAttrId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "ApplicationAttribute is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid applicationAttribute id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Application Attribute" ],
+        "summary" : "Updates application attribute data",
+        "description" : "",
+        "operationId" : "updateApplicationAttribute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated Application attribute data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplicationAttribute"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Application attribute version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applAttrId",
+          "in" : "path",
+          "description" : "Application attribute id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "ApplicationAttribute data updated successfully."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application attribute id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/applications/components" : {
+      "post" : {
+        "tags" : [ "Application Component" ],
+        "summary" : "Creates Application Component",
+        "description" : "",
+        "operationId" : "createApplicationComponent",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Application component data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplicationComponent"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "ApplicationComponent is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationComponent"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/applications/components/{applCompId}" : {
+      "get" : {
+        "tags" : [ "Application Component" ],
+        "summary" : "Gets ApplicationComponent information",
+        "description" : "",
+        "operationId" : "getApplicationComponent",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applCompId",
+          "in" : "path",
+          "description" : "Application component data",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned applicationComponent details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationComponent"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid ApplicationComponent id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Application Component" ],
+        "summary" : "Deletes ApplicationComponent",
+        "description" : "",
+        "operationId" : "deleteApplicationComponent",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applCompId",
+          "in" : "path",
+          "description" : "ApplicationComponent id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "ApplicationComponent is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid ApplicaitonComponent id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Application Component" ],
+        "summary" : "Updates application component data",
+        "description" : "",
+        "operationId" : "updateApplicationComponent",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated application component data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplicationComponent"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "ApplicationComponent Version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applCompId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "ApplicationComponent data updated successfully."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application component id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/applications/field" : {
+      "get" : {
+        "tags" : [ "Application Field" ],
+        "summary" : "Gets the field list for the application",
+        "description" : "",
+        "operationId" : "getFieldsData",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetFieldsEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application identifier"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Application Field" ],
+        "summary" : "Adds a new Field",
+        "description" : "",
+        "operationId" : "addField",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "FieldData",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostField"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Field is added successfully."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid field name, field already exists"
+          }
+        }
+      }
+    },
+    "/applications/field/{fieldId}" : {
+      "get" : {
+        "tags" : [ "Application Field" ],
+        "summary" : "Gets the field information",
+        "description" : "The field data for the corresponding field identifier is fetched.",
+        "operationId" : "getFieldData",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "FieldId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field Identifier"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Application Field" ],
+        "summary" : "Deletes a Item",
+        "description" : "Field identifier should be fieldId",
+        "operationId" : "deleteField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Field is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field identifier"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Application Field" ],
+        "summary" : "Updates field data",
+        "description" : "Field identifier is a fieldId",
+        "operationId" : "updateFields",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "update field",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchField"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Field Version Number",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "FieldId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "304" : {
+            "description" : "Field data is up to date."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field identifier"
+          },
+          "409" : {
+            "description" : "Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/applications/icon" : {
+      "post" : {
+        "tags" : [ "Application" ],
+        "summary" : "Uploads the icon data",
+        "description" : "To test in Swagger UI, do not copy the Model Schema JSON to the body.  Instead, set the body to something like this:\n\n<pre>--4321MyBoundary\nContent-Disposition: form-data; name=\"picture\"; filename=\"profile.png\"\nContent-Type: image/png\nContent-Transfer-Encoding: base64\n\n<…picture content in base64…>\n--4321MyBoundary--</pre>\n\n When using the API outside of Swagger, the boundary can be any value that does not also appear in the base64-encoded file content.  The boundary specified in the Content-Type request header should match the boundary used in the request body.  For example, if '4321MyBoundary' is used in the request body, then the header is:\n\n<pre>Content-Type: multipart/form-data; boundary=4321MyBoundary</pre>",
+        "operationId" : "uploadIcon",
+        "consumes" : [ "multipart/form-data; boundary=4321MyBoundary" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "ApplicationIcon",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MultipartFormDataInput"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return the created icon data",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationIcon"
+            }
+          },
+          "400" : {
+            "description" : "Invalid applicationicon data"
+          }
+        }
+      }
+    },
+    "/applications/icon/{iconId}" : {
+      "get" : {
+        "tags" : [ "Application" ],
+        "summary" : "Returns the created icon data",
+        "description" : "",
+        "operationId" : "getIcon",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "iconId",
+          "in" : "path",
+          "description" : "Icon file id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return the icon data successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationIcon"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid icon id"
+          }
+        }
+      }
+    },
+    "/applications/statuses" : {
+      "get" : {
+        "tags" : [ "Application Status" ],
+        "summary" : "Gets applicationStatus list for project.",
+        "description" : "The list includes applicationsStatus for project.",
+        "operationId" : "getApplicationStatusForProject",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of applicationStatus",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplStatusesEntity"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Application Status" ],
+        "summary" : "Creates ApplicationStatus",
+        "description" : "",
+        "operationId" : "createApplicationStatus",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Application status data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplicationStatus"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "ApplicationStatus is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationStatus"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/applications/statuses/{applStatId}" : {
+      "get" : {
+        "tags" : [ "Application Status" ],
+        "summary" : "Gets application status information",
+        "description" : "",
+        "operationId" : "getApplicationStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applStatId",
+          "in" : "path",
+          "description" : "Application status id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned application status details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationStatus"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid applicationStatus id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Application Status" ],
+        "summary" : "Deletes the applicationstatus",
+        "description" : "",
+        "operationId" : "deleteApplicationStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applStatId",
+          "in" : "path",
+          "description" : "Application status id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "ApplicationStatus is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid applicationStatus id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Application Status" ],
+        "summary" : "Updates applicationStatus data",
+        "description" : "",
+        "operationId" : "updateApplicationStatus",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated ApplicationStatus data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplicationStatus"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "ApplicationStatus version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applStatId",
+          "in" : "path",
+          "description" : "ApplicationStatus id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "ApplicationStatus data updated successfully."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid applicationStatus id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/applications/{applId}" : {
+      "get" : {
+        "tags" : [ "Application" ],
+        "summary" : "Gets application information",
+        "description" : "",
+        "operationId" : "getApplication",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applId",
+          "in" : "path",
+          "description" : "Application id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned application details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplication"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Application" ],
+        "summary" : "Deletes application",
+        "description" : "",
+        "operationId" : "deleteApplication",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applId",
+          "in" : "path",
+          "description" : "Application id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Application is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Application" ],
+        "summary" : "Updates application data",
+        "description" : "",
+        "operationId" : "updateApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Application data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplication"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Application version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applId",
+          "in" : "path",
+          "description" : "Updated application id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Application data updated successfully."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/environmentTypes" : {
+      "get" : {
+        "tags" : [ "EnvironmentType" ],
+        "summary" : "Gets the environment type list for the project",
+        "description" : "This list includes the environment types in the project",
+        "operationId" : "getEnvironmentTypes",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Project Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of environment types",
+            "schema" : {
+              "$ref" : "#/definitions/GetEnvironmentType"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "EnvironmentType" ],
+        "summary" : "Creates Environment Type",
+        "description" : "",
+        "operationId" : "createEnvironmentType",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Environment type data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostEnvironmentType"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Environment type created successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/environmentTypes/{envrTypeId}" : {
+      "get" : {
+        "tags" : [ "EnvironmentType" ],
+        "summary" : "Gets the environment type information",
+        "description" : "",
+        "operationId" : "getEnvironmentType",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "envrTypeId",
+          "in" : "path",
+          "description" : "Environment type Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetEnvironmentType"
+            }
+          },
+          "201" : {
+            "description" : "Returned Environment type successfully"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid environmentTypeId"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "EnvironmentType" ],
+        "summary" : "Deletes environmentType",
+        "description" : "",
+        "operationId" : "deleteEnvironmentType",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "envrTypeId",
+          "in" : "path",
+          "description" : "Environment type id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "EnvironmentType is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid environmentType id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "EnvironmentType" ],
+        "summary" : "Updates Environment Type data",
+        "description" : "",
+        "operationId" : "updateEnvironmentType",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "update Environment type",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchEnvironmentType"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Environment type version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "envrTypeId",
+          "in" : "path",
+          "description" : "Environment type Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Environment type data updated successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Invalid environmentTypeId"
+          },
+          "404" : {
+            "description" : "Permission denied"
+          },
+          "419" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/environments" : {
+      "get" : {
+        "tags" : [ "Environment" ],
+        "summary" : "Gets environment list for project.",
+        "description" : "The list includes environments for project.",
+        "operationId" : "getEnvironmentsForProject",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of environments",
+            "schema" : {
+              "$ref" : "#/definitions/GetEnvironments"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Environment" ],
+        "summary" : "Creates environment",
+        "description" : "",
+        "operationId" : "createEnvironment",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New environment data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostEnvironment"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Environment is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetEnvironment"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/environments/forType/{envrTypeId}" : {
+      "get" : {
+        "tags" : [ "Environment" ],
+        "summary" : "Gets environment list.",
+        "description" : "The list includes environments for specific environmentType.",
+        "operationId" : "getEnvironmentsForEnvironmentType",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "envrTypeId",
+          "in" : "path",
+          "description" : "EnvironmentType id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of environments",
+            "schema" : {
+              "$ref" : "#/definitions/GetEnvironment"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid EnvironmentType id"
+          }
+        }
+      }
+    },
+    "/environments/{envrId}" : {
+      "get" : {
+        "tags" : [ "Environment" ],
+        "summary" : "Gets environment information",
+        "description" : "",
+        "operationId" : "getEnvironment",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "envrId",
+          "in" : "path",
+          "description" : "Environment identifier",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Environment details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetEnvironment"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid environment Identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Environment" ],
+        "summary" : "Deletes a environment",
+        "description" : "Environment identifier should be environmentId.",
+        "operationId" : "deleteEnvironment",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "envrId",
+          "in" : "path",
+          "description" : "Environment Id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Environment is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid environment identifier"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Environment" ],
+        "summary" : "Updates environment data",
+        "description" : "Environment identifier can be environmentId.",
+        "operationId" : "updateEnvironment",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated environment data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchEnvironment"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Environment version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "envrId",
+          "in" : "path",
+          "description" : "Updated environment id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Environment data updated successfully."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid environment identifier"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/packages" : {
+      "get" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Gets the package details for the application",
+        "description" : "",
+        "operationId" : "getApplicationPackageEntites",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the details of the package",
+            "schema" : {
+              "$ref" : "#/definitions/GetDetailedApplPackage"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid application id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Creates package for an application",
+        "description" : "",
+        "operationId" : "createPackage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "PackageData",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplPackage"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Package created successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/packages/attributes" : {
+      "post" : {
+        "tags" : [ "ApplicationPackageAttribute" ],
+        "summary" : "Creates attribute for a package",
+        "description" : "",
+        "operationId" : "createAttribute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Package Attribute data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplicationPackageAttribute"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Attribute created successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/packages/attributes/{pkgAttrId}" : {
+      "get" : {
+        "tags" : [ "ApplicationPackageAttribute" ],
+        "summary" : "Gets the attribute details for a Package Attribute identifier",
+        "description" : "",
+        "operationId" : "getAttributeDetails",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkgAttrId",
+          "in" : "path",
+          "description" : "PackageAttributeId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the details of attribute",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationPackageAttribute"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid package attribute id"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "ApplicationPackageAttribute" ],
+        "summary" : "Deletes an ApplicationPackageAttrbute",
+        "description" : "",
+        "operationId" : "deletePackageAttribute",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkgAttrId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Attribute is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid package attribute Id "
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "ApplicationPackageAttribute" ],
+        "summary" : "Updates the attribute details of the package",
+        "description" : "",
+        "operationId" : "updateAttribute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "update package attribute",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplicationPackageAttribute"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Package Attribute version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pkgAttrId",
+          "in" : "path",
+          "description" : "PackageAttribute id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Attribute updated successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Invalid Package Attribute Id"
+          },
+          "404" : {
+            "description" : "Permission denied"
+          },
+          "419" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/packages/components" : {
+      "post" : {
+        "tags" : [ "ApplicationPackageComponent" ],
+        "summary" : "Creates component for a package",
+        "description" : "",
+        "operationId" : "createComponent",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "PackageComponent data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostApplPackageComponent"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Component created successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/packages/components/{pkgCompId}" : {
+      "get" : {
+        "tags" : [ "ApplicationPackageComponent" ],
+        "summary" : "Gets the component details for a Package identifier",
+        "description" : "",
+        "operationId" : "getPackageComponentDetails",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkgCompId",
+          "in" : "path",
+          "description" : "PackageComponent id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the details of component",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplicationPackageComponent"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid package component id"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "ApplicationPackageComponent" ],
+        "summary" : "Deletes a PackageComponent",
+        "description" : "",
+        "operationId" : "deletePackageComponent",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkgCompId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Compoenent is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid package component Id "
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "ApplicationPackageComponent" ],
+        "summary" : "Updates the component details of the package",
+        "description" : "",
+        "operationId" : "updateComponent",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Update PackageComponent",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplicationPackageComponent"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "PackageComponent Version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pkgCompId",
+          "in" : "path",
+          "description" : "PackageComponent id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Component updated successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Invalid Package Component Id"
+          },
+          "404" : {
+            "description" : "Permission denied"
+          },
+          "419" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/packages/{pkgId}" : {
+      "get" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Gets the package details for a Package identifier",
+        "description" : "The package identifier should be a packageId",
+        "operationId" : "getPackageDetails",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkgId",
+          "in" : "path",
+          "description" : "PackageId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the details of package",
+            "schema" : {
+              "$ref" : "#/definitions/GetApplPackage"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid package id"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Deletes a package",
+        "description" : "Package Identifier should be packageId",
+        "operationId" : "deletePackage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkgId",
+          "in" : "path",
+          "description" : "Package id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Package is deleted."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid packageId"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Updates the package details of the application",
+        "description" : "",
+        "operationId" : "updatePackageDetails",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "update Package",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchApplPackage"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Package Version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pkgId",
+          "in" : "path",
+          "description" : "Package id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Package Details updated successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Invalid Package Id"
+          },
+          "404" : {
+            "description" : "Permission denied"
+          },
+          "419" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/packages/{pkgId}/lock" : {
+      "patch" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Locks the package",
+        "description" : "Package Identifier should be packageId",
+        "operationId" : "lockPackage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Package version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pkgId",
+          "in" : "path",
+          "description" : "Package id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Package is locked."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid packageId"
+          }
+        }
+      }
+    },
+    "/packages/{pkgId}/status/{pkgStatus}" : {
+      "patch" : {
+        "tags" : [ "ApplicationPackage" ],
+        "summary" : "Changes the statud of the package",
+        "description" : "pkgId should be packageId",
+        "operationId" : "changeStatus",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Package version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pkgId",
+          "in" : "path",
+          "description" : "Package id",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pkgStatus",
+          "in" : "path",
+          "description" : "Package status",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Package status is changed."
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid packageId"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "ApplPackageAttribute" : {
+      "type" : "object",
+      "properties" : {
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "applPackageId" : {
+          "type" : "string"
+        },
+        "lastModifiedById" : {
+          "type" : "string"
+        },
+        "attrValue" : {
+          "type" : "string"
+        },
+        "attrTypeId" : {
+          "type" : "string"
+        },
+        "createdById" : {
+          "type" : "string"
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "isDeleted" : {
+          "type" : "boolean"
+        },
+        "fieldValue" : {
+          "type" : "string"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "fieldName" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ApplPackageComponent" : {
+      "type" : "object",
+      "properties" : {
+        "componentName" : {
+          "type" : "string"
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "applCompId" : {
+          "type" : "string"
+        },
+        "applPackageId" : {
+          "type" : "string"
+        },
+        "lastModifiedById" : {
+          "type" : "string"
+        },
+        "applPackageData" : {
+          "type" : "string"
+        },
+        "createdById" : {
+          "type" : "string"
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "isDeleted" : {
+          "type" : "boolean"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "id" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ApplicationAttribute" : {
+      "type" : "object",
+      "properties" : {
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "lastModifiedById" : {
+          "type" : "string"
+        },
+        "createdById" : {
+          "type" : "string"
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "isDeleted" : {
+          "type" : "boolean"
+        },
+        "applicationId" : {
+          "type" : "string"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ApplicationComponent" : {
+      "type" : "object",
+      "properties" : {
+        "componentName" : {
+          "type" : "string"
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "componentSource" : {
+          "type" : "string"
+        },
+        "lastModifiedById" : {
+          "type" : "string"
+        },
+        "createdById" : {
+          "type" : "string"
+        },
+        "surrogateId" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "isDeleted" : {
+          "type" : "boolean"
+        },
+        "applicationId" : {
+          "type" : "string"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ApplicationComponentDO" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "source" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        }
+      }
+    },
+    "FieldValueEntity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "isDefault" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "GetApplPackage" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project ID",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application ID",
+          "readOnly" : true
+        },
+        "environmentId" : {
+          "type" : "string",
+          "description" : "Environment ID",
+          "readOnly" : true
+        },
+        "releaseFolderId" : {
+          "type" : "string",
+          "description" : "Release Folder ID",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "isLocked" : {
+          "type" : "boolean",
+          "description" : "Is Locked",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "Path",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Updated By",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created Date",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Modified Date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Is Deleted",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "pckgAttributes" : {
+          "type" : "array",
+          "description" : "Package Attributes",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplPackageAttribute"
+          }
+        },
+        "pckgComponents" : {
+          "type" : "array",
+          "description" : "Package Components",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplPackageComponent"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Package Model for an application"
+    },
+    "GetApplStatusesEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetApplicationStatus"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetApplication" : {
+      "type" : "object",
+      "required" : [ "applAttributes", "applComponents", "createdBy", "createdDate", "description", "folderId", "folderType", "iconFile", "id", "isDeleted", "modifiedDate", "name", "orchSourceId", "path", "projectId", "sourceKey", "status", "updatedBy", "version" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Application id",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Application name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Application description",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "Application path",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Application status",
+          "readOnly" : true
+        },
+        "folderType" : {
+          "type" : "string",
+          "description" : "Folder type",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "Folder id",
+          "readOnly" : true
+        },
+        "sourceKey" : {
+          "type" : "string",
+          "description" : "Source key",
+          "readOnly" : true
+        },
+        "orchSourceId" : {
+          "type" : "string",
+          "description" : "Orchestrate source id",
+          "readOnly" : true
+        },
+        "iconFile" : {
+          "type" : "string",
+          "description" : "Icon file id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created user",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Last updated user",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Created date",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Last modified date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Application deleted or not",
+          "readOnly" : true,
+          "enum" : [ false ]
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Application version",
+          "readOnly" : true
+        },
+        "applAttributes" : {
+          "type" : "array",
+          "description" : "Application attributes",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplicationAttribute"
+          }
+        },
+        "applComponents" : {
+          "type" : "array",
+          "description" : "Application components",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplicationComponent"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing application details"
+    },
+    "GetApplicationAttribute" : {
+      "type" : "object",
+      "required" : [ "applicationId", "createdBy", "createdDate", "id", "isDeleted", "modifiedDate", "name", "updatedBy", "value", "version" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute name",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute value",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application id in which application attribute is created.",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Create user",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Last updated user",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Create date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "ApplicationAttribute deleted or not",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Last updated date",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "ApplicationAttribute version",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing ApplicationAttribute details"
+    },
+    "GetApplicationComponent" : {
+      "type" : "object",
+      "required" : [ "applicationId", "createdBy", "createdDate", "id", "isDeleted", "modifiedDate", "name", "updatedBy", "version" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ApplicationComponent id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "ApplicationComponent name",
+          "readOnly" : true
+        },
+        "source" : {
+          "type" : "string",
+          "description" : "ApplicationComponent source",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Application Component description",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application id in which the applicationComponent is created",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created user",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Last modified user",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Last modified date",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Created date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "ApplicationComponent deletd or not",
+          "readOnly" : true,
+          "enum" : [ false ]
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "ApplicationComponent version",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing ApplicationComponent details"
+    },
+    "GetApplicationIcon" : {
+      "type" : "object",
+      "required" : [ "fileId", "iconName", "iconSize", "mime-type" ],
+      "properties" : {
+        "fileId" : {
+          "type" : "string",
+          "description" : "Icon id",
+          "readOnly" : true
+        },
+        "iconName" : {
+          "type" : "string",
+          "description" : "Icon name",
+          "readOnly" : true
+        },
+        "mime-type" : {
+          "type" : "string",
+          "description" : "Icon type",
+          "readOnly" : true
+        },
+        "iconSize" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Icon size",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing applicationicon details"
+    },
+    "GetApplicationPackageAttribute" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID",
+          "readOnly" : true
+        },
+        "attrTypeId" : {
+          "type" : "string",
+          "description" : "Attribute Type ID",
+          "readOnly" : true
+        },
+        "attrValue" : {
+          "type" : "string",
+          "description" : "Attribute Value",
+          "readOnly" : true
+        },
+        "packageId" : {
+          "type" : "string",
+          "description" : "Package ID",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Updated By",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created Date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Is Deleted",
+          "readOnly" : true
+        },
+        "fieldName" : {
+          "type" : "string",
+          "description" : "fieldName",
+          "readOnly" : true
+        },
+        "fieldValue" : {
+          "type" : "string",
+          "description" : "fieldValue",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Modified Date",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model of an attribute in the package"
+    },
+    "GetApplicationPackageComponent" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID",
+          "readOnly" : true
+        },
+        "applCompId" : {
+          "type" : "string",
+          "description" : "Application Component ID",
+          "readOnly" : true
+        },
+        "packageData" : {
+          "type" : "string",
+          "description" : "Package Data",
+          "readOnly" : true
+        },
+        "packageId" : {
+          "type" : "string",
+          "description" : "Package ID",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Updated By",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Modified Date",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created Date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Is Deleted",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "componentName" : {
+          "type" : "string",
+          "description" : "Component name",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model of an Component in a Package"
+    },
+    "GetApplicationStatus" : {
+      "type" : "object",
+      "required" : [ "createdBy", "createdDate", "id", "isDeleted", "modifiedDate", "projectId", "title", "updatedBy", "version" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ApplicationStatus id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "ApplicationStatus title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "ApplicationStatus description",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created user",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Last modified user",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Last modified date",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created date",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "ApplicationStatus deleted or not",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "ApplicationStatus description",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for ApplicationStatus details"
+    },
+    "GetApplications" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetApplication"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing list of Applications for project"
+    },
+    "GetDetailedApplPackage" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Package ID",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application ID",
+          "readOnly" : true
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Application Name",
+          "readOnly" : true
+        },
+        "environmentId" : {
+          "type" : "string",
+          "description" : "Environment ID",
+          "readOnly" : true
+        },
+        "releaseFolderId" : {
+          "type" : "string",
+          "description" : "Release Folder ID",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "isLocked" : {
+          "type" : "boolean",
+          "description" : "Is Locked",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "attributes" : {
+          "type" : "array",
+          "description" : "Attributes",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplPackageAttribute"
+          }
+        },
+        "components" : {
+          "type" : "array",
+          "description" : "Components",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplPackageComponent"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Detailed Package Model for an application"
+    },
+    "GetEnvironment" : {
+      "type" : "object",
+      "required" : [ "createdBy", "dateCreated", "dateUpdated", "displayOrder", "environmentTypeId", "id", "isDeleted", "name", "projectId", "updatedBy", "version" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Environment Id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Environment Name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Environment Description",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project id",
+          "readOnly" : true
+        },
+        "environmentTypeId" : {
+          "type" : "string",
+          "description" : "Environment Type Id",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Environment display order",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Environment version",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Created date",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created user",
+          "readOnly" : true
+        },
+        "dateUpdated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Last modified date",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Last modified user",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Environment deleted or not",
+          "readOnly" : true,
+          "enum" : [ true, false ]
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing environment details"
+    },
+    "GetEnvironmentType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Environment ID",
+          "readOnly" : true
+        },
+        "typeName" : {
+          "type" : "string",
+          "description" : "Environment type name",
+          "readOnly" : true
+        },
+        "typeClass" : {
+          "type" : "string",
+          "description" : "Environment type class",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project ID",
+          "readOnly" : true
+        },
+        "iconField" : {
+          "type" : "string",
+          "description" : "Icon Field",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Order",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date Created",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "dateUpdated" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date Updated",
+          "readOnly" : true
+        },
+        "updatedBy" : {
+          "type" : "string",
+          "description" : "Updated By",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Is Deleted",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Environment type model"
+    },
+    "GetEnvironments" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetEnvironment"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing list of Applications for project"
+    },
+    "GetField" : {
+      "type" : "object",
+      "required" : [ "fieldValues" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "Folder ID",
+          "readOnly" : true
+        },
+        "memberName" : {
+          "type" : "string",
+          "description" : "Member name",
+          "readOnly" : true
+        },
+        "valueType" : {
+          "type" : "string",
+          "description" : "Value Type",
+          "readOnly" : true
+        },
+        "displaySize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Size",
+          "readOnly" : true
+        },
+        "displayLines" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display lines",
+          "readOnly" : true
+        },
+        "displayType" : {
+          "type" : "string",
+          "description" : "Display type",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date Created",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date Last Modified",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "description" : "Last Modified By",
+          "readOnly" : true
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "Is required",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "Is Disabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "Is hidden on create",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Is Deleted",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "type" : "array",
+          "description" : "Field Values",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FieldValueEntity"
+          }
+        },
+        "defaultTextValue" : {
+          "type" : "string",
+          "description" : "Default Text Value",
+          "readOnly" : true
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        },
+        "pattern" : {
+          "type" : "string",
+          "description" : "Pattern",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Field Model"
+    },
+    "GetFieldsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetField"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "InputPart" : {
+      "type" : "object",
+      "properties" : {
+        "mediaType" : {
+          "$ref" : "#/definitions/MediaType"
+        },
+        "bodyAsString" : {
+          "type" : "string"
+        },
+        "contentTypeFromMessage" : {
+          "type" : "boolean"
+        },
+        "headers" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "MediaType" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "subtype" : {
+          "type" : "string"
+        },
+        "parameters" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "wildcardType" : {
+          "type" : "boolean"
+        },
+        "wildcardSubtype" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "MultipartFormDataInput" : {
+      "type" : "object",
+      "properties" : {
+        "formData" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/InputPart"
+          }
+        },
+        "formDataMap" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/InputPart"
+            }
+          }
+        },
+        "preamble" : {
+          "type" : "string"
+        },
+        "parts" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/InputPart"
+          }
+        }
+      }
+    },
+    "PatchApplPackage" : {
+      "type" : "object",
+      "required" : [ "status", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "environmentId" : {
+          "type" : "string",
+          "description" : "Environment ID",
+          "readOnly" : true
+        },
+        "releaseFolderId" : {
+          "type" : "string",
+          "description" : "Release Folder ID",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a package for an application"
+    },
+    "PatchApplication" : {
+      "type" : "object",
+      "required" : [ "folderType", "iconFile", "name", "status" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Applicaiton name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Applicaiton description",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Applicaiton status",
+          "readOnly" : true
+        },
+        "iconFile" : {
+          "type" : "string",
+          "description" : "Icon file",
+          "readOnly" : true
+        },
+        "folderType" : {
+          "type" : "string",
+          "description" : "Folder Type",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "Folder id",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for update application"
+    },
+    "PatchApplicationAttribute" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute name",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute value",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for updating ApplicationAttribute"
+    },
+    "PatchApplicationComponent" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "ApplicationComponent name",
+          "readOnly" : true
+        },
+        "source" : {
+          "type" : "string",
+          "description" : "ApplicationComponent source",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "ApplicationComponent description",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for updating ApplicationComponent details"
+    },
+    "PatchApplicationPackageAttribute" : {
+      "type" : "object",
+      "properties" : {
+        "attrValue" : {
+          "type" : "string",
+          "description" : "Attribute type Value",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update an attribute to the package"
+    },
+    "PatchApplicationPackageComponent" : {
+      "type" : "object",
+      "properties" : {
+        "packageData" : {
+          "type" : "string",
+          "description" : "Package Data",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a component in a package"
+    },
+    "PatchApplicationStatus" : {
+      "type" : "object",
+      "required" : [ "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "ApplicationStatus title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "ApplicationStatus description",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for Updating Application status"
+    },
+    "PatchEnvironment" : {
+      "type" : "object",
+      "required" : [ "displayOrder", "environmentTypeId", "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Environment name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Environment description",
+          "readOnly" : true
+        },
+        "environmentTypeId" : {
+          "type" : "string",
+          "description" : "EnvironmentType id",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display order",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for update environment"
+    },
+    "PatchEnvironmentType" : {
+      "type" : "object",
+      "required" : [ "iconField", "typeClass", "typeName" ],
+      "properties" : {
+        "typeName" : {
+          "type" : "string",
+          "description" : "Environment type name",
+          "readOnly" : true
+        },
+        "typeClass" : {
+          "type" : "string",
+          "description" : "Type Class",
+          "readOnly" : true
+        },
+        "iconField" : {
+          "type" : "string",
+          "description" : "Icon Field",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Order",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a environment type"
+    },
+    "PatchField" : {
+      "type" : "object",
+      "required" : [ "fieldName" ],
+      "properties" : {
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name",
+          "readOnly" : true
+        },
+        "displaySize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Size",
+          "readOnly" : true
+        },
+        "displayLines" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Lines",
+          "readOnly" : true
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "Is Required",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "Is Disabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "Is hidden on Create",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "type" : "array",
+          "description" : "Field Values",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FieldValueEntity"
+          }
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        },
+        "pattern" : {
+          "type" : "string",
+          "description" : "Pattern",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a field"
+    },
+    "PostApplPackage" : {
+      "type" : "object",
+      "required" : [ "applicationId", "projectId", "status", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Application Title",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application ID",
+          "readOnly" : true
+        },
+        "environmentId" : {
+          "type" : "string",
+          "description" : "Environment ID",
+          "readOnly" : true
+        },
+        "releaseFolderId" : {
+          "type" : "string",
+          "description" : "Release Folder ID",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "attributes" : {
+          "type" : "object",
+          "description" : "Attributes",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "components" : {
+          "type" : "object",
+          "description" : "Components",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project ID",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a package for an application"
+    },
+    "PostApplPackageComponent" : {
+      "type" : "object",
+      "required" : [ "applCompId", "packageId" ],
+      "properties" : {
+        "applCompId" : {
+          "type" : "string",
+          "description" : "Application Component ID",
+          "readOnly" : true
+        },
+        "packageData" : {
+          "type" : "string",
+          "description" : "Package Data",
+          "readOnly" : true
+        },
+        "packageId" : {
+          "type" : "string",
+          "description" : "Package ID",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a component for a package"
+    },
+    "PostApplication" : {
+      "type" : "object",
+      "required" : [ "folderType", "iconFile", "name", "projectId", "status" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Application Name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Application description",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Application status",
+          "readOnly" : true
+        },
+        "iconFile" : {
+          "type" : "string",
+          "description" : "Icon file id",
+          "readOnly" : true
+        },
+        "folderType" : {
+          "type" : "string",
+          "description" : "Folder type",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "folder id",
+          "readOnly" : true
+        },
+        "attributes" : {
+          "type" : "object",
+          "description" : "Application attributes",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "components" : {
+          "type" : "array",
+          "description" : "Application Components",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ApplicationComponentDO"
+          }
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project id",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for creating application"
+    },
+    "PostApplicationAttribute" : {
+      "type" : "object",
+      "required" : [ "applicationId", "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute name",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "ApplicationAttribute value",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application id in which applicationAttribute will be created.",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for creating Applicationattribute"
+    },
+    "PostApplicationComponent" : {
+      "type" : "object",
+      "required" : [ "applicationId", "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "ApplicationComponent name",
+          "readOnly" : true
+        },
+        "source" : {
+          "type" : "string",
+          "description" : "ApplicationComponent source",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "ApplicationComponent description",
+          "readOnly" : true
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application id in which to create applicationComponent",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for creating ApplicationComponent details"
+    },
+    "PostApplicationPackageAttribute" : {
+      "type" : "object",
+      "required" : [ "attrTypeId", "packageId" ],
+      "properties" : {
+        "attrTypeId" : {
+          "type" : "string",
+          "description" : "Attribute type ID",
+          "readOnly" : true
+        },
+        "attrValue" : {
+          "type" : "string",
+          "description" : "Attribute Value",
+          "readOnly" : true
+        },
+        "packageId" : {
+          "type" : "string",
+          "description" : "Package ID",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to add an attribute to the package"
+    },
+    "PostApplicationStatus" : {
+      "type" : "object",
+      "required" : [ "projectId", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "ApplicationStatus title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "ApplicationStatus description",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project id",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for creating Application status"
+    },
+    "PostEnvironment" : {
+      "type" : "object",
+      "required" : [ "displayOrder", "environmentTypeId", "name", "projectId" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Environment name",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Environment description",
+          "readOnly" : true
+        },
+        "environmentTypeId" : {
+          "type" : "string",
+          "description" : "EnvironmentType id",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display order",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project Id",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for create environment"
+    },
+    "PostEnvironmentType" : {
+      "type" : "object",
+      "required" : [ "iconField", "projectId", "typeClass", "typeName" ],
+      "properties" : {
+        "typeName" : {
+          "type" : "string",
+          "description" : "Environment type name",
+          "readOnly" : true
+        },
+        "typeClass" : {
+          "type" : "string",
+          "description" : "Environment type class",
+          "readOnly" : true
+        },
+        "iconField" : {
+          "type" : "string",
+          "description" : "Environment icon",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Order",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project ID",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a environment type"
+    },
+    "PostField" : {
+      "type" : "object",
+      "required" : [ "applicationId", "fieldDisplayType", "fieldName" ],
+      "properties" : {
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Application ID",
+          "readOnly" : true
+        },
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name",
+          "readOnly" : true
+        },
+        "fieldDisplayType" : {
+          "type" : "string",
+          "description" : "Field Display Type",
+          "readOnly" : true
+        },
+        "displaySize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Size",
+          "readOnly" : true
+        },
+        "displayLines" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Lines",
+          "readOnly" : true
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "Is Required",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "Is Disabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "Is Hidden on create",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "type" : "array",
+          "description" : "Field Values",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FieldValueEntity"
+          }
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        },
+        "pattern" : {
+          "type" : "string",
+          "description" : "Pattern",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a new field"
+    }
+  }
+}

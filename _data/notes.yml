@@ -1,0 +1,1 @@
+# deploy_services: The *provision* command prompts for response before it bootstraps or migrates data during TeamForge installation and upgrade respectively. Enter **Yes** or **No** to proceed. For more information, see The [teamforge](teamforgescript.html) script.

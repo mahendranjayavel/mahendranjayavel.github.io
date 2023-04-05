@@ -1,0 +1,1482 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.3.397",
+    "title" : "REST OAuth App"
+  },
+  "basePath" : "/ctfrest/oauth/v1",
+  "tags" : [ {
+    "name" : "GrantTypes"
+  }, {
+    "name" : "IDP Configurations"
+  }, {
+    "name" : "OAuthClients"
+  }, {
+    "name" : "OAuthServices"
+  }, {
+    "name" : "OAuth_IDP"
+  } ],
+  "paths" : {
+    "/clients" : {
+      "get" : {
+        "tags" : [ "OAuthClients" ],
+        "summary" : "Gets all available oauth clients",
+        "description" : "",
+        "operationId" : "getOAuthClients",
+        "consumes" : [ "*/*" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of clients to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 25,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OAuth clients retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetOAuthClientsEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "OAuthClients" ],
+        "summary" : "Creates a oauth client",
+        "description" : "",
+        "operationId" : "createOAuthClient",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New oauth client data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostOAuthClient"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Client is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Get OAuth client"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid client"
+          }
+        }
+      }
+    },
+    "/clients/{id}" : {
+      "get" : {
+        "tags" : [ "OAuthClients" ],
+        "summary" : "Gets the oauth client by id.",
+        "description" : "",
+        "operationId" : "getOAuthClient",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Get OAuth client"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "OAuth client data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such client",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "OAuthClients" ],
+        "summary" : "Deletes a oauth client",
+        "description" : "",
+        "operationId" : "deleteOAuthClient",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OAuth client is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such oauth client",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "OAuthClients" ],
+        "summary" : "Updates a client data",
+        "description" : "",
+        "operationId" : "updateClient",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Client data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchOauthClient"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Client version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Id",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Client data updated successfully."
+          },
+          "304" : {
+            "description" : "Not Modified"
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid client id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/clients/{id}/clientSecret" : {
+      "patch" : {
+        "tags" : [ "OAuthClients" ],
+        "summary" : "Updates a client secret code",
+        "description" : "",
+        "operationId" : "updateClientSecret",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Client secret version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Id",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Client secret updated successfully."
+          },
+          "304" : {
+            "description" : "Not Modified"
+          },
+          "400" : {
+            "description" : "Invalid Parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid client id"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/granttypes" : {
+      "get" : {
+        "tags" : [ "GrantTypes" ],
+        "summary" : "Gets all available grant types",
+        "description" : "",
+        "operationId" : "getGrantTypes",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Grant types retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetGrantTypesEntity"
+            }
+          }
+        }
+      }
+    },
+    "/granttypes/{id}" : {
+      "get" : {
+        "tags" : [ "GrantTypes" ],
+        "summary" : "Gets the grant type by id.",
+        "description" : "",
+        "operationId" : "getGrantType",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Get Grant Type"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Grant type data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such grant type",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/idp/configs/fields/ldap" : {
+      "get" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Gets the complete ldap Configuration Fields",
+        "description" : "",
+        "operationId" : "getLdapConfigFields",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Ldap configuration fields retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetIdpConfigsEntity"
+            }
+          }
+        }
+      }
+    },
+    "/idp/configs/ldap" : {
+      "post" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Creates Multiple Ldap Configurations",
+        "description" : "",
+        "operationId" : "createMultipleLdapConfig",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated Ldap config data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Create Multiple Idp Config Collection"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Ldap Config is created successfully."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid service id"
+          }
+        }
+      }
+    },
+    "/idp/configs/ldap/testConnection/{grpSeqNo}" : {
+      "post" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Tests LDAP Connection",
+        "description" : "",
+        "operationId" : "testLDAPConnection",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Ldap config data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Create Multiple Idp Config Collection"
+          }
+        }, {
+          "name" : "grpSeqNo",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Test Connection Succeeded"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid service id"
+          }
+        }
+      }
+    },
+    "/idp/configs/ldap/{grpSeqNo}" : {
+      "get" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Gets the  ldap Configuration Fields based on grpSeqNo",
+        "description" : "",
+        "operationId" : "getLdapConfigByGrpSeqNo",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "grpSeqNo",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ldap configuration fields retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetIdpConfigsEntity"
+            }
+          }
+        }
+      }
+    },
+    "/idp/configs/status/ldap" : {
+      "put" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Updates LDAP Configuration status",
+        "description" : "",
+        "operationId" : "updateLDAPConfigStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Put Idp status"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "LDAP Config Status is updated successfully."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid service id"
+          }
+        }
+      }
+    },
+    "/idp/configs/{type}" : {
+      "get" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Gets the complete Idp Configuration",
+        "description" : "",
+        "operationId" : "getIdpConfigs",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Idp configuration retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetIdpConfigsEntity"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "IDP Configurations" ],
+        "summary" : "Clears the existing config and Updates the Idp Configuration",
+        "description" : "",
+        "operationId" : "updateIdpConfig",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated Idp config data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Put Idp Config Collection"
+          }
+        }, {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Idp Config is updated successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetIdpConfigsEntity"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid service id"
+          }
+        }
+      }
+    },
+    "/idps" : {
+      "get" : {
+        "tags" : [ "OAuth_IDP" ],
+        "summary" : "Gets available OAuth Identity Providers",
+        "description" : "",
+        "operationId" : "getIDPList",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OAuth IDPs retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/ListOAuthIDP"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied."
+          }
+        }
+      }
+    },
+    "/idps/enabledIDP" : {
+      "get" : {
+        "tags" : [ "OAuth_IDP" ],
+        "summary" : "Gets the enabled Identity Provider",
+        "description" : "",
+        "operationId" : "getEnabledIDP",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "IDP retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetOAuthIDP"
+            }
+          },
+          "204" : {
+            "description" : "IDP is not enabled."
+          },
+          "403" : {
+            "description" : "Permission denied."
+          }
+        }
+      }
+    },
+    "/idps/{id}" : {
+      "patch" : {
+        "tags" : [ "OAuth_IDP" ],
+        "summary" : "Update the identity provider data",
+        "description" : "",
+        "operationId" : "updateIDP",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Identity provider data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchOAuthIDP"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "IDP version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Identity provider id",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "(\\d{4,})",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IDP data updated successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetOAuthIDP"
+            }
+          },
+          "304" : {
+            "description" : "Not Modified"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid IDP"
+          },
+          "409" : {
+            "description" : "Version Conflict"
+          },
+          "412" : {
+            "description" : "Missing If-Match header"
+          }
+        }
+      }
+    },
+    "/services" : {
+      "get" : {
+        "tags" : [ "OAuthServices" ],
+        "summary" : "Gets all available oauth services",
+        "description" : "",
+        "operationId" : "getOAuthServices",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "OAuth services retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetOAuthServicesEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "OAuthServices" ],
+        "summary" : "Creates a oauth service",
+        "description" : "",
+        "operationId" : "createOAuthService",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New oauth service data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostOAuthService"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Service is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Get OAuth Service"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "Invalid service id"
+          }
+        }
+      }
+    },
+    "/services/{id}" : {
+      "get" : {
+        "tags" : [ "OAuthServices" ],
+        "summary" : "Gets the oauth service by id.",
+        "description" : "",
+        "operationId" : "getOAuthService",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Get OAuth Service"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "OAuth service data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such service",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "OAuthServices" ],
+        "summary" : "Deletes a oauth service",
+        "description" : "",
+        "operationId" : "deleteOAuthService",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OAuth service is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such oauth service",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Create Idp Config" : {
+      "type" : "object",
+      "properties" : {
+        "key" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create the configuration for corresponding Idp"
+    },
+    "Create Multiple Idp Config Collection" : {
+      "type" : "object",
+      "properties" : {
+        "configs" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Create Idp Config"
+          }
+        }
+      },
+      "description" : "Model to create Idp configs as a collection"
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Get Grant Type" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "grantType" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "isCustom" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing grant type"
+    },
+    "Get Idp Config" : {
+      "type" : "object",
+      "properties" : {
+        "key" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "grpSeqNo" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "isActive" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing the configuration for corresponding Idp"
+    },
+    "Get OAuth Service" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "serviceId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "claims" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing oauth service"
+    },
+    "Get OAuth client" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "clientId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "clientSecret" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "clientDescription" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "tokenLifetime" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "grantTypes" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Get Grant Type"
+          }
+        },
+        "services" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Get OAuth Service"
+          }
+        },
+        "licenseTypes" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "redirectUris" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for showing oauth client"
+    },
+    "GetGrantTypesEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Get Grant Type"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetIdpConfigsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Get Idp Config"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetOAuthClientsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Get OAuth client"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetOAuthIDP" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "useFederatedLogin" : {
+          "type" : "boolean",
+          "description" : "UseFederatedLogin",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "version",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "createdDate",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "createdBy",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "lastModifiedDate",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "description" : "lastModifiedBy",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe the IDP details"
+    },
+    "GetOAuthServicesEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Get OAuth Service"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "ListOAuthIDP" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetOAuthIDP"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe list of identity providers"
+    },
+    "PatchOAuthIDP" : {
+      "type" : "object",
+      "properties" : {
+        "useFederatedLogin" : {
+          "type" : "boolean",
+          "description" : "UseFederatedLogin",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update the IDP details"
+    },
+    "PatchOauthClient" : {
+      "type" : "object",
+      "properties" : {
+        "clientDescription" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "tokenLifetime" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "grantTypes" : {
+          "type" : "array",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "services" : {
+          "type" : "array",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "licenseTypes" : {
+          "type" : "array",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "redirectUris" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for editing oauth client"
+    },
+    "PostOAuthClient" : {
+      "type" : "object",
+      "required" : [ "grantTypes", "services" ],
+      "properties" : {
+        "clientDescription" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "tokenLifetime" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "grantTypes" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "services" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "licenseTypes" : {
+          "type" : "array",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "redirectUris" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a oauth client"
+    },
+    "PostOAuthService" : {
+      "type" : "object",
+      "required" : [ "serviceId" ],
+      "properties" : {
+        "serviceId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "claims" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to create a oauth service"
+    },
+    "Put Idp Config" : {
+      "type" : "object",
+      "properties" : {
+        "key" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update the configuration for corresponding Idp"
+    },
+    "Put Idp Config Collection" : {
+      "type" : "object",
+      "properties" : {
+        "configs" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Put Idp Config"
+          }
+        }
+      },
+      "description" : "Model to update Idp configs as a collection"
+    },
+    "Put Idp status" : {
+      "type" : "object",
+      "properties" : {
+        "grpSeqNo" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "boolean",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update the status for corresponding Idp"
+    }
+  }
+}

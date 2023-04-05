@@ -1,0 +1,6008 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.0.321",
+    "title" : "Tracker API"
+  },
+  "basePath" : "/ctfrest/tracker/v1",
+  "tags" : [ {
+    "name" : "Artifacts"
+  }, {
+    "name" : "Fields"
+  }, {
+    "name" : "FolderLayout"
+  }, {
+    "name" : "Saved Searches"
+  }, {
+    "name" : "TrackerUnits"
+  }, {
+    "name" : "Trackers"
+  } ],
+  "paths" : {
+    "/artifacts" : {
+      "get" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Gets artifacts",
+        "description" : "Valid date range options are 'Last7Days', 'Last30Days', 'Last90Days', 'WeekToDate', 'MonthToDate', 'QuarterToDate', 'YearToDate', 'PreviousWeek', 'PreviousMonth', 'PreviousQuarter', 'PreviousYear' and '[from]-[to]' where from and to are epoch times",
+        "operationId" : "getArtifacts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "containerid",
+          "in" : "query",
+          "description" : "Container id (null or project/tracker id)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "assignedTo",
+          "in" : "query",
+          "description" : "Assigned to username ('@self' for current user)",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        }, {
+          "name" : "owner",
+          "in" : "query",
+          "description" : "Submitted by username ('@self' for current user)",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Status ('Open' or 'Close')",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "Open", "Close" ]
+        }, {
+          "name" : "priority",
+          "in" : "query",
+          "description" : "Priority",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : 0,
+            "maximum" : 5
+          },
+          "collectionFormat" : "multi"
+        }, {
+          "name" : "createdOn",
+          "in" : "query",
+          "description" : "Submitted On date range (see the notes above for valid options)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "modifiedOn",
+          "in" : "query",
+          "description" : "Modified On date range (see the notes above for valid options)",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "includeIconLinks",
+          "in" : "query",
+          "description" : "Whether to include tracker icon links",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort by column",
+          "required" : false,
+          "type" : "string",
+          "default" : "-lastModifiedDate",
+          "enum" : [ "priority", "-priority", "lastModifiedDate", "-lastModifiedDate", "submittedDate", "-submittedDate", "id", "-id" ]
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of artifacts to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        }, {
+          "name" : "fullPageInfo",
+          "in" : "query",
+          "description" : "Whether to include full pagination info",
+          "required" : false,
+          "type" : "boolean",
+          "default" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned artifacts successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetSimpleArtifactsEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Container is not found"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/filter" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Applies the given filter and returns the artifacts that satisfy the filter",
+        "description" : "Valid date range options are 'Last7Days', 'Last30Days', 'Last90Days', 'WeekToDate', 'MonthToDate', 'QuarterToDate', 'YearToDate', 'PreviousWeek', 'PreviousMonth', 'PreviousQuarter', 'PreviousYear' and '[from]-[to]' where from and to are epoch times",
+        "operationId" : "filterArtifacts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Filter",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Filter request"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of artifacts to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        }, {
+          "name" : "fullPageInfo",
+          "in" : "query",
+          "description" : "Whether to include full pagination info",
+          "required" : false,
+          "type" : "boolean",
+          "default" : true
+        }, {
+          "name" : "includeMonitored",
+          "in" : "query",
+          "description" : "Include monitored artifacts by user",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned artifacts successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetSimpleArtifactsEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Container is not found"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/{artifactid}" : {
+      "get" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Gets artifact details",
+        "description" : "",
+        "operationId" : "getArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned artifact details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid artifact id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Deletes an Artifact",
+        "description" : "",
+        "operationId" : "deleteArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Artifact is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid Artifact id"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Updates artifact",
+        "description" : "",
+        "operationId" : "updateArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Artifact id to update",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated artifact data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchArtifact"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Artifact version. E.g: W/101",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned the Updated artifact successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "304" : {
+            "description" : "Artifact data is up to date."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/{artifactid}/dependencies/children" : {
+      "get" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Get the children artifact(s)",
+        "description" : "",
+        "operationId" : "getChildren",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Parent Artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of artifacts to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 25,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return list of child artifacts.",
+            "schema" : {
+              "$ref" : "#/definitions/ListDependentArtifacts"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid artifact id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Create child artifact",
+        "description" : "",
+        "operationId" : "createChildren",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Parent artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Artifact data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostDependentArtifact"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Child artifact is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/{artifactid}/dependencies/children/{childid}" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Add dependency as child",
+        "description" : "",
+        "operationId" : "addDependencyAsChildren",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Parent artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "name" : "childid",
+          "in" : "path",
+          "description" : "Child artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Dependency comment",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Created the dependency as child successfully."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/{artifactid}/dependencies/parent" : {
+      "get" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Get the parent artifact",
+        "description" : "",
+        "operationId" : "getParent",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Child Artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return parent artifact details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/ListDependentArtifacts"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid artifact id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Create parent artifact",
+        "description" : "",
+        "operationId" : "createParent",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Child artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Artifact data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostDependentArtifact"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Parent artifact is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/{artifactid}/dependencies/parent/{parentid}" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Add dependency as parent",
+        "description" : "",
+        "operationId" : "addDependencyAsParent",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Child artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "name" : "parentid",
+          "in" : "path",
+          "description" : "Parent artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Dependency comment",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Created the dependency as parent artifact successfully."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/artifacts/{artifactid}/dependencies/{artfid}" : {
+      "delete" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Remove dependency between artifacts",
+        "description" : "",
+        "operationId" : "removeDependency",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Child artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        }, {
+          "name" : "artfid",
+          "in" : "path",
+          "description" : "Parent artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Removed the dependency successfully."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "No relationship found"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/fields/{fieldId}" : {
+      "get" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Gets field information",
+        "description" : "",
+        "operationId" : "getField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "Field id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fild(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Field details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field Identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Delete field",
+        "description" : "",
+        "operationId" : "deleteField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "Field id to delete",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fild(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Field is deleted successfully."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field identifier"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Update field's data",
+        "description" : "",
+        "operationId" : "updateField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "Field id to update",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fild(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Field details to update",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchField"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Field version. E.g: W/101",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return updated field data successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/fields/{fieldId}/child" : {
+      "patch" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Update child filed",
+        "description" : "",
+        "operationId" : "updateChildField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "Child Field id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fild(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Child field details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchChildField"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Child Field updated successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/fields/{fieldId}/children" : {
+      "post" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Create child for a field",
+        "description" : "",
+        "operationId" : "addChildField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "Parent field id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fild(?:\\d{4,})|none)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Child field details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostChildField"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Child Field created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/fields/{fieldId}/fieldValues" : {
+      "get" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Gets field values information",
+        "description" : "",
+        "operationId" : "getFieldValues",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fieldId",
+          "in" : "path",
+          "description" : "Field Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fild(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Field value details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/listFieldValues"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field id Identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/fields/{trackerId}/parentfields" : {
+      "get" : {
+        "tags" : [ "Fields" ],
+        "summary" : "Gets valid parent Fields",
+        "description" : "",
+        "operationId" : "getValidParentFields",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such folder",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/folderlayout/{folderLayoutId}" : {
+      "delete" : {
+        "tags" : [ "FolderLayout" ],
+        "summary" : "Delete folder field or layout separator",
+        "description" : "",
+        "operationId" : "deleteFolderFieldOrLayoutSeparator",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "folderLayoutId",
+          "in" : "path",
+          "description" : "Folder field or layout separator to delete",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldly(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Folder field or layout separator is deleted successfully."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid field identifier"
+          }
+        }
+      }
+    },
+    "/folderlayout/{trackerId}" : {
+      "get" : {
+        "tags" : [ "FolderLayout" ],
+        "summary" : "Gets folder layout for a tracker",
+        "description" : "",
+        "operationId" : "getFolderLayout",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "tracker identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ListFolderLayout"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such folder",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "FolderLayout" ],
+        "summary" : "Updates folder layout for a tracker",
+        "description" : "",
+        "operationId" : "updateFolderLayoutDisplayOrder",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated folder layout data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchFolderLayoutDisplayOrder"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ListFolderLayout"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such folder",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/folderlayout/{trackerId}/separator" : {
+      "post" : {
+        "tags" : [ "FolderLayout" ],
+        "summary" : "Add layout separator",
+        "description" : "",
+        "operationId" : "addLayoutSeparator",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Separator details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostLayoutSeparator"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Layout Separator added successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetFolderLayout"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/folderlayout/{trackerId}/{folderLayoutId}/{separatorLabel}/separator" : {
+      "patch" : {
+        "tags" : [ "FolderLayout" ],
+        "summary" : "Change Layout Separator Label",
+        "description" : "",
+        "operationId" : "changeLayoutSeparatorLabel",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "folderLayoutId",
+          "in" : "path",
+          "description" : "Folder Layout Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldly(?:\\d{4,}))"
+        }, {
+          "name" : "separatorLabel",
+          "in" : "path",
+          "description" : "Separator details",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Layout Separator Label updated successfully"
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}/artifacts" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Create artifact",
+        "description" : "",
+        "operationId" : "createArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "PlanningFolder Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Artifact data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PlanningArtifact"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Artifact is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}/artifacts/list" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "List artifacts based on filter",
+        "description" : "",
+        "operationId" : "listArtifacts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        }, {
+          "name" : "recursive",
+          "in" : "query",
+          "description" : "Recursive",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Filter data",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Filter"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns list of artifacts for a given planning folder and team.",
+            "schema" : {
+              "$ref" : "#/definitions/ListArtifacts"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}/artifacts/multiple" : {
+      "put" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Move multiple artifacts to destination planning folder",
+        "description" : "",
+        "operationId" : "moveArtifacts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "PlanningFolder Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Move artifact id(s)",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MoveArtifacts"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Artifacts moved to destination planningfolder successfully."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/planningfolders/{planningFolderId}/artifacts/{artifactid}" : {
+      "put" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Move artifact to destination planningfolder",
+        "description" : "",
+        "operationId" : "moveArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "planningFolderId",
+          "in" : "path",
+          "description" : "PlanningFolder Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:plan(?:\\d{4,}))"
+        }, {
+          "name" : "artifactid",
+          "in" : "path",
+          "description" : "Artifact id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:artf(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Artifact moved to destination planningfolder successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "304" : {
+            "description" : "Artifact is already in given planning folder"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid planningFolderid or artifactid"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/searches" : {
+      "get" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "Gets saved tracker searches across project",
+        "description" : "",
+        "operationId" : "getSavedProjectTrackerSearches",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id/path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Type of saved searches",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "personal", "shared" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned saved searched successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/SavedSearchList"
+            }
+          },
+          "400" : {
+            "description" : "Invalid seach type"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id/path"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/trackers" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Gets paginated Tracker list for project.",
+        "description" : "The list includes trackers for project.",
+        "operationId" : "getTrackersForProject",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of trackers to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 10,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of Tracker",
+            "schema" : {
+              "$ref" : "#/definitions/listTrackers"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Creates tracker in specified project (optionally cloning from a specified tracker)",
+        "description" : "If <strong>sourceId</strong> parameter is specified, it has to be a tracker's id that exists in any project. If the source tracker is in another project, then current user should have enough permission to view the tracker.",
+        "operationId" : "createTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New tracker data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostTracker"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "sourceId",
+          "in" : "query",
+          "description" : "Tracker id to clone from",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Tracker is created/cloned successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Tracker"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Invalid permission to create tracker/to view source tracker"
+          },
+          "404" : {
+            "description" : "Invalid source tracker id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/trackerunit" : {
+      "get" : {
+        "tags" : [ "TrackerUnits" ],
+        "summary" : "Gets Tracker units list for project.",
+        "description" : "The list includes trackers units for project.",
+        "operationId" : "getTrackerUnitsForProject",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of TrackerUnits",
+            "schema" : {
+              "$ref" : "#/definitions/ListTrackerUnit"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project id"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "TrackerUnits" ],
+        "summary" : "Creates a tracker unit",
+        "description" : "",
+        "operationId" : "createTrackerUnit",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "TrackerUnitData",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostTrackerUnit"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Tracker Unit created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/GetTrackerUnit"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "TrackerUnits" ],
+        "summary" : "Updates tracker unit",
+        "description" : "",
+        "operationId" : "updateTrackerUnit",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated tracker unit data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchTrackerUnit"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id to update",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d{4,}))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned the Updated Tracker Unit successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetTrackerUnit"
+            }
+          },
+          "304" : {
+            "description" : "Tracker unit data is up to date."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/searches" : {
+      "post" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "Creates a saved search",
+        "description" : "",
+        "operationId" : "createSavedSearch",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Filter",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostSavedSearch"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Saved search created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetSavedSearchEntity"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/searches/{searchId}" : {
+      "get" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "Gets saved search details",
+        "description" : "",
+        "operationId" : "getSavedSearch",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "searchId",
+          "in" : "path",
+          "description" : "Search id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:srch(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned saved search details successfully",
+            "schema" : {
+              "$ref" : "#/definitions/GetSavedSearchEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid search identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "Deletes saved search",
+        "description" : "",
+        "operationId" : "deleteSavedSearch",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "searchId",
+          "in" : "path",
+          "description" : "Search id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:srch(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Search is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid search identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "Updates a saved search",
+        "description" : "",
+        "operationId" : "updateSavedSearch",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "searchId",
+          "in" : "path",
+          "description" : "Search id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:srch(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Filter",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchSavedSearchEntity"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Saved search updated successfully."
+          },
+          "201" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/GetSavedSearchEntity"
+            },
+            "headers" : {
+              "Location" : {
+                "type" : "string",
+                "format" : "uri",
+                "description" : "Saved search endpoint"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/teams/{teamid}/artifacts" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Create artifact",
+        "description" : "",
+        "operationId" : "createArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "teamid",
+          "in" : "path",
+          "description" : "Team id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "team(\\d{4,})"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Artifact data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TeamArtifact"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Artifact is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Gets tracker information",
+        "description" : "",
+        "operationId" : "getTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Tracker details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Tracker"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker Identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Delete tracker",
+        "description" : "",
+        "operationId" : "deleteTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Tracker is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker identifier"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Updates tracker",
+        "description" : "",
+        "operationId" : "updateTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated tracker data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchTracker"
+          }
+        }, {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id to update",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Tracker version E.g: W/101",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned the Updated Tracker successfully."
+          },
+          "304" : {
+            "description" : "Tracker data is up to date."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/clone" : {
+      "post" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Clone a tracker",
+        "description" : "",
+        "operationId" : "cloneTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Source tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New tracker data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CloneTracker"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Tracker is cloned successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Tracker"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/fields" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Gets field list for tracker.",
+        "description" : "The list includes fields for tracker.",
+        "operationId" : "getFieldsForTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of fields",
+            "schema" : {
+              "$ref" : "#/definitions/listFields"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid trackerid"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Create field for tracker",
+        "description" : "",
+        "operationId" : "addField",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Field details",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostField"
+          }
+        }, {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Field added to tracker successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/fields/by-name/{fieldName}" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Gets field data by name.",
+        "description" : "",
+        "operationId" : "getFieldByName",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "fieldName",
+          "in" : "path",
+          "description" : "Field name",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return field data",
+            "schema" : {
+              "$ref" : "#/definitions/GetField"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid trackerid/fieldName"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/reqfields" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Gets possible required field list for tracker",
+        "description" : "The list includes the possible fields for tracker",
+        "operationId" : "getRequiredFieldsForTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of fields",
+            "schema" : {
+              "$ref" : "#/definitions/listRequiredFields"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid folderId"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/searches" : {
+      "get" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "Gets saved tracker searches",
+        "description" : "",
+        "operationId" : "getSavedTrackerSearches",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "tracker(\\d{4,})"
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Type of saved searches",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "personal", "shared" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned saved searches successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/SavedSearchList"
+            }
+          },
+          "400" : {
+            "description" : "Invalid seach type"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker id"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/summary" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Gets tracker summary",
+        "description" : "",
+        "operationId" : "summary",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "tracker(\\d{4,})"
+        }, {
+          "name" : "linkifyDescription",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned Tracker summary successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/TrackerSummary"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker Identifier"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/workflow" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Get the transitions for the given tracker",
+        "description" : "",
+        "operationId" : "getTransitionsForTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of transitions to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 15,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return list of transitions.",
+            "schema" : {
+              "$ref" : "#/definitions/ListTrackerWorkflows"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Create a tracker workflow",
+        "description" : "",
+        "operationId" : "TrackerWorkflowCreate",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Source tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Tracker Workflow data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FolderWorkflow"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Tracker workflow is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Tracker"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Updates tracker workflow",
+        "description" : "",
+        "operationId" : "updateTrackerWorkflow",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated tracker workflow data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FolderWorkflow"
+          }
+        }, {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id to update",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned the Updated Tracker workflow successfully."
+          },
+          "304" : {
+            "description" : "Tracker workflow data is up to date."
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/workflow/from/{fromValue}" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Get the transitions for the given tracker",
+        "description" : "",
+        "operationId" : "getTransitionsForTrackerwithFromStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "fromValue",
+          "in" : "path",
+          "description" : "Id of 'from' status value",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,})|fldv-(?:\\S{3,}))"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of transitions to be returned in one call",
+          "required" : false,
+          "type" : "integer",
+          "default" : 15,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return list of transitions.",
+            "schema" : {
+              "$ref" : "#/definitions/ListTrackerWorkflows"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/workflow/from/{fromValue}/to/{toValue}" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Get the transition for the given tracker by from and to value",
+        "description" : "",
+        "operationId" : "getTransition data by from and to field value key",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "fromValue",
+          "in" : "path",
+          "description" : "Id of 'from' status value",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,})|fldv-(?:\\S{3,}))"
+        }, {
+          "name" : "toValue",
+          "in" : "path",
+          "description" : "Id of 'to' status value",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,})|fldv-(?:\\S{3,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return the transition",
+            "schema" : {
+              "$ref" : "#/definitions/Tracker"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Delete tracker workflow",
+        "description" : "",
+        "operationId" : "deleteTracker workflow with from and to values",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "fromValue",
+          "in" : "path",
+          "description" : "Id of 'from' status value",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,})|fldv-(?:\\S{3,}))"
+        }, {
+          "name" : "toValue",
+          "in" : "path",
+          "description" : "Id of 'to' status value",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Tracker workflow is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker transition identifier"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerId}/workflow/listTransistions/{fromValue}" : {
+      "get" : {
+        "tags" : [ "Trackers" ],
+        "summary" : "Get the transition mapping lists for the given tracker and status fromValue",
+        "description" : "",
+        "operationId" : "getTransitionsMappingForTracker",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerId",
+          "in" : "path",
+          "description" : "Tracker Id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tracker(?:\\d{4,}))"
+        }, {
+          "name" : "fromValue",
+          "in" : "path",
+          "description" : "Id of 'from' status value",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:fldv(?:\\d{4,})|fldv-(?:\\S{3,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return list of transitions.",
+            "schema" : {
+              "$ref" : "#/definitions/ListTrackerWorkflowTransitions"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerid}/artifacts" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "Create artifact",
+        "description" : "",
+        "operationId" : "createArtifact",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerid",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "tracker(\\d{4,})"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Artifact data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TrackerArtifact"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Artifact is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Artifact"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackers/{trackerid}/artifacts/filter" : {
+      "post" : {
+        "tags" : [ "Artifacts" ],
+        "summary" : "List artifacts based on filter",
+        "description" : "",
+        "operationId" : "listArtifacts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerid",
+          "in" : "path",
+          "description" : "Tracker id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "tracker(\\d{4,})"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Filter data",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/FilterRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns list of artifacts for the tracker.",
+            "schema" : {
+              "$ref" : "#/definitions/ListArtifacts"
+            }
+          },
+          "400" : {
+            "description" : "Invalid filter/sort fieldname"
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      }
+    },
+    "/trackerunit/{trackerUnitId}" : {
+      "get" : {
+        "tags" : [ "TrackerUnits" ],
+        "summary" : "Gets tracker unit details",
+        "description" : "",
+        "operationId" : "getTrackerUnit",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerUnitId",
+          "in" : "path",
+          "description" : "Tracker unit id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tknt(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returned tracker unit details successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GetTrackerUnit"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker unit id"
+          },
+          "500" : {
+            "description" : "System Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "TrackerUnits" ],
+        "summary" : "Deletes a tracker unit",
+        "description" : "",
+        "operationId" : "deleteTrackerUnit",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackerUnitId",
+          "in" : "path",
+          "description" : "Tracker unit id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "(?:tknt(?:\\d{4,}))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Tracker unit is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid tracker unit id"
+          },
+          "406" : {
+            "description" : "System defined tracker unit cannot be deleted"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Artifact" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Artifact Id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project Id",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "String",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "FolderId",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "statusClass" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort",
+          "readOnly" : true
+        },
+        "actualEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Actual Effort",
+          "readOnly" : true
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort",
+          "readOnly" : true
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points",
+          "readOnly" : true
+        },
+        "autoSummingPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "closeDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Close Date",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "Assigned To (Username)",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Team id",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "Planning folder id",
+          "readOnly" : true
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "TagId",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "reportedReleasePath" : {
+          "type" : "string",
+          "description" : "Reported ReleasePath",
+          "readOnly" : true
+        },
+        "reportedReleaseId" : {
+          "type" : "string",
+          "description" : "Reported Release Id",
+          "readOnly" : true
+        },
+        "resolvedReleasePath" : {
+          "type" : "string",
+          "description" : "Resolved Release Path",
+          "readOnly" : true
+        },
+        "resolvedReleaseId" : {
+          "type" : "string",
+          "description" : "Resolved Release Id",
+          "readOnly" : true
+        },
+        "flexFields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "description" : "Last Modified By (Username)",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By (Username)",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Last Modified Date",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created Date",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "folderTitle" : {
+          "type" : "string",
+          "description" : "Tracker title"
+        },
+        "folderPath" : {
+          "type" : "string",
+          "description" : "Tracker path"
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "description" : "Project title"
+        },
+        "projectPath" : {
+          "type" : "string",
+          "description" : "Project path"
+        },
+        "createdByFullname" : {
+          "type" : "string",
+          "description" : "Created by (Fullname)"
+        },
+        "assignedToFullname" : {
+          "type" : "string",
+          "description" : "Assigned to (Fullname)"
+        },
+        "teamTitle" : {
+          "type" : "string",
+          "description" : "Team title"
+        },
+        "planningFolderTitle" : {
+          "type" : "string",
+          "description" : "Planning folder title"
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the artifact details"
+    },
+    "AutoPopulateData" : {
+      "type" : "object",
+      "properties" : {
+        "fieldId" : {
+          "type" : "string"
+        },
+        "values" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "usersList" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SimpleUserData"
+          }
+        },
+        "dateValue" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "CloneTracker" : {
+      "type" : "object",
+      "required" : [ "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Tracker title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Tracker description",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to clone a tracker"
+    },
+    "DependentArtifact" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Artifact id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Artifact title",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Artifact status",
+          "readOnly" : true
+        },
+        "statusClass" : {
+          "type" : "string",
+          "description" : "Artifact status class",
+          "readOnly" : true
+        },
+        "trackerIcon" : {
+          "type" : "string",
+          "description" : "Tracker icon",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated effort",
+          "readOnly" : true
+        },
+        "actualEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Actual effort",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points",
+          "readOnly" : true
+        },
+        "dependencyComment" : {
+          "type" : "string",
+          "description" : "Dependency comment",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining effort",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the dependent artifact details"
+    },
+    "DetailedArtifact" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Artifact Id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project Id",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "description" : "Project title",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "Path",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "FolderId",
+          "readOnly" : true
+        },
+        "folderTitle" : {
+          "type" : "string",
+          "description" : "Folder title",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "statusClass" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort",
+          "readOnly" : true
+        },
+        "actualEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Actual Effort",
+          "readOnly" : true
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort",
+          "readOnly" : true
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points",
+          "readOnly" : true
+        },
+        "autoSummingPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "closeDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Close Date",
+          "readOnly" : true
+        },
+        "assignedToUsername" : {
+          "type" : "string",
+          "description" : "Assigned To username",
+          "readOnly" : true
+        },
+        "assignedToFullname" : {
+          "type" : "string",
+          "description" : "Assignedto user fullname",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Team id",
+          "readOnly" : true
+        },
+        "teamTitle" : {
+          "type" : "string",
+          "description" : "Team title",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "Planning folder id",
+          "readOnly" : true
+        },
+        "planningFolderTitle" : {
+          "type" : "string",
+          "description" : "Planning folder title",
+          "readOnly" : true
+        },
+        "flexFields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "createdByFullname" : {
+          "type" : "string",
+          "description" : "Created byuser fullname",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Last Modified Date",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created Date",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "TagId",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "object",
+          "description" : "Tags",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the full artifact details"
+    },
+    "DetailedTracker" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "description",
+          "readOnly" : true
+        },
+        "icon" : {
+          "type" : "string",
+          "description" : "icon",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "description" : "trackerUnitId",
+          "readOnly" : true
+        },
+        "autosumForeignChildren" : {
+          "type" : "boolean",
+          "description" : "autosumForeignChildren",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "projectId",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "path",
+          "readOnly" : true
+        },
+        "parentFolderId" : {
+          "type" : "string",
+          "description" : "parentFolderId",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "createdBy",
+          "readOnly" : true
+        },
+        "createdUserFullname" : {
+          "type" : "string",
+          "description" : "createdUserFullname",
+          "readOnly" : true
+        },
+        "modifiedBy" : {
+          "type" : "string",
+          "description" : "modifiedBy",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "modifiedDate1",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "trackerId" : {
+          "type" : "string",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "createdDate",
+          "readOnly" : true
+        },
+        "modifiedUserFullname" : {
+          "type" : "string",
+          "description" : "modifiedUserFullname",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the Tracker details"
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "FieldValue" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Id of the fieldValue",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Value of the fieldValue",
+          "readOnly" : true
+        },
+        "valueClass" : {
+          "type" : "string",
+          "description" : "Value Type",
+          "readOnly" : true
+        },
+        "isDefault" : {
+          "type" : "boolean",
+          "description" : "Marking to fieldvalue as default",
+          "readOnly" : true
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Marking the field value is deleted",
+          "readOnly" : true
+        },
+        "visible" : {
+          "type" : "boolean",
+          "description" : "Marking the field value as visible",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a new field value"
+    },
+    "Filter" : {
+      "type" : "object",
+      "required" : [ "column", "value" ],
+      "properties" : {
+        "column" : {
+          "type" : "string",
+          "description" : "Column name to filter",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "Type of column",
+          "readOnly" : true,
+          "enum" : [ "String", "DATE" ]
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Value of column",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to describe Filter by columnname"
+    },
+    "Filter request" : {
+      "type" : "object",
+      "properties" : {
+        "containerIds" : {
+          "type" : "array",
+          "description" : "Container ids (project/tracker ids)",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "includeSubprojects" : {
+          "type" : "boolean",
+          "description" : "Include sub-projects"
+        },
+        "sortBy" : {
+          "type" : "string",
+          "description" : "Sort by",
+          "enum" : [ "priority", "-priority", "lastModifiedDate", "-lastModifiedDate", "submittedDate", "-submittedDate", "id", "-id" ]
+        },
+        "filters" : {
+          "type" : "object",
+          "description" : "Filters",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/FilterEntity"
+          }
+        },
+        "savedSearchId" : {
+          "type" : "string"
+        },
+        "details" : {
+          "type" : "array",
+          "description" : "Detail fields to fetch in addition to basic fields",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model that describes the filter request"
+    },
+    "FilterEntity" : {
+      "type" : "object",
+      "required" : [ "matches" ],
+      "properties" : {
+        "matches" : {
+          "type" : "array",
+          "description" : "Filter criteria. Multiple values are AND-ed if the field is multiselect, otherwise they are OR-ed",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "rangeSeparator" : {
+          "type" : "string",
+          "description" : "Separator for range criteria (date, priority, efforts, points)"
+        },
+        "recursive" : {
+          "type" : "boolean",
+          "description" : "How to process hierarchical fields (planning folder, team)"
+        }
+      },
+      "description" : "Model to describe filter for a column"
+    },
+    "FilterRequest" : {
+      "type" : "object",
+      "properties" : {
+        "sort" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Sort"
+          }
+        },
+        "filter" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Filter"
+          }
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to filter the result based on values"
+    },
+    "FlexField" : {
+      "type" : "object",
+      "required" : [ "name", "type" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "values" : {
+          "type" : "array",
+          "description" : "Values",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "Type",
+          "readOnly" : true,
+          "enum" : [ "String", "DATE", "USER" ]
+        }
+      },
+      "description" : "Model for flexfields"
+    },
+    "FolderWorkflow" : {
+      "type" : "object",
+      "required" : [ "fieldId", "fromValue", "toValue" ],
+      "properties" : {
+        "fieldId" : {
+          "type" : "string",
+          "description" : "Folder status field id",
+          "readOnly" : true
+        },
+        "fromValue" : {
+          "type" : "string",
+          "description" : "Id of the 'from' status field value",
+          "readOnly" : true
+        },
+        "toValue" : {
+          "type" : "string",
+          "description" : "Id of the 'to' status field value",
+          "readOnly" : true
+        },
+        "rolesOrWildcard" : {
+          "type" : "array",
+          "description" : "Role ids for the workflow",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "requiredFieldIds" : {
+          "type" : "array",
+          "description" : "Ids of the required fields",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "hiddenFieldIds" : {
+          "type" : "array",
+          "description" : "Ids of the hidden fields",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "autoPopulateData" : {
+          "type" : "array",
+          "description" : "auto populate fields and values",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/AutoPopulateData"
+          }
+        }
+      },
+      "description" : "Model to create / update a folder workflow"
+    },
+    "GetField" : {
+      "type" : "object",
+      "required" : [ "fieldValues", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "ID",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "Folder ID",
+          "readOnly" : true
+        },
+        "memberName" : {
+          "type" : "string",
+          "description" : "Member name",
+          "readOnly" : true
+        },
+        "valueType" : {
+          "type" : "string",
+          "description" : "Value Type",
+          "readOnly" : true
+        },
+        "displaySize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Size",
+          "readOnly" : true
+        },
+        "displayLines" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display lines",
+          "readOnly" : true
+        },
+        "displayType" : {
+          "type" : "string",
+          "description" : "Display type",
+          "readOnly" : true
+        },
+        "parentField" : {
+          "type" : "string",
+          "description" : "Parent field",
+          "readOnly" : true
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "Is required",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "Is Disabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "Is hidden on create",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "description" : "Field Values",
+          "readOnly" : true,
+          "$ref" : "#/definitions/listFieldValues"
+        },
+        "defaultTextValue" : {
+          "type" : "string",
+          "description" : "Default Text Value",
+          "readOnly" : true
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        },
+        "pattern" : {
+          "type" : "string",
+          "description" : "Pattern",
+          "readOnly" : true
+        },
+        "userFilter" : {
+          "type" : "string",
+          "description" : "userFilter",
+          "readOnly" : true
+        },
+        "userKeys" : {
+          "type" : "string",
+          "description" : "userKeys",
+          "readOnly" : true
+        },
+        "dateCreated" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date Created",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By",
+          "readOnly" : true
+        },
+        "dateLastModified" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date Last Modified",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "description" : "Last Modified By",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe field details"
+    },
+    "GetFieldValue" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Id",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Value",
+          "readOnly" : true
+        },
+        "valueClass" : {
+          "type" : "string",
+          "description" : "Value Class",
+          "readOnly" : true
+        },
+        "isDefault" : {
+          "type" : "boolean",
+          "description" : "Is Default",
+          "readOnly" : true
+        },
+        "visible" : {
+          "type" : "boolean",
+          "description" : "Visible",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Order",
+          "readOnly" : true
+        },
+        "dependentValues" : {
+          "type" : "array",
+          "description" : "Dependent Values",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe field value details"
+    },
+    "GetFolderLayout" : {
+      "type" : "object",
+      "properties" : {
+        "key" : {
+          "type" : "string",
+          "description" : "Folder Layout Key",
+          "readOnly" : true
+        },
+        "folderKey" : {
+          "type" : "string",
+          "description" : "Folder Key",
+          "readOnly" : true
+        },
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name",
+          "readOnly" : true
+        },
+        "fieldLabel" : {
+          "type" : "string",
+          "description" : "Field Label",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Order",
+          "readOnly" : true
+        },
+        "fieldId" : {
+          "type" : "string",
+          "description" : "Field Id",
+          "readOnly" : true
+        },
+        "fieldType" : {
+          "type" : "string",
+          "description" : "Field Type",
+          "readOnly" : true
+        },
+        "fieldDO" : {
+          "description" : "Field DO",
+          "readOnly" : true,
+          "$ref" : "#/definitions/GetField"
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe folder layout"
+    },
+    "GetSavedSearchEntity" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Saved search id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "Tracker id",
+          "readOnly" : true
+        },
+        "folderTitle" : {
+          "type" : "string",
+          "description" : "Tracker title",
+          "readOnly" : true
+        },
+        "createdByUsername" : {
+          "type" : "string",
+          "description" : "Creator's username",
+          "readOnly" : true
+        },
+        "searchType" : {
+          "type" : "string",
+          "description" : "Type of the saved search",
+          "readOnly" : true
+        },
+        "searchFields" : {
+          "type" : "object",
+          "description" : "Search fields",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetSimpleArtifactsEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Simple Artifact"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "folders" : {
+          "type" : "object",
+          "description" : "Extra folder info (key is folder id)",
+          "additionalProperties" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        },
+        "icons" : {
+          "type" : "object",
+          "description" : "Tracker icons (key is tracker id)",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "GetTrackerUnit" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "projectId",
+          "readOnly" : true
+        },
+        "baseUnit" : {
+          "type" : "string",
+          "description" : "baseUnit",
+          "readOnly" : true
+        },
+        "multiplier" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "multiplier",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "displayOrder",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the Tracker unit details"
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "ListArtifacts" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/DetailedArtifact"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of Artifacts"
+    },
+    "ListDependentArtifacts" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/DependentArtifact"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of dependent Artifacts"
+    },
+    "ListFolderLayout" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetFolderLayout"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe the folder layout list"
+    },
+    "ListTrackerUnit" : {
+      "type" : "object",
+      "properties" : {
+        "projectId" : {
+          "type" : "string",
+          "description" : "projectId",
+          "readOnly" : true
+        },
+        "units" : {
+          "description" : "units",
+          "readOnly" : true,
+          "$ref" : "#/definitions/TrackerUnits"
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of tracker units"
+    },
+    "ListTrackerWorkflowTransitions" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Tracker"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of tracker workflow transitions"
+    },
+    "ListTrackerWorkflows" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Tracker"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of tracker workflows"
+    },
+    "MoveArtifacts" : {
+      "type" : "object",
+      "required" : [ "artifactIds" ],
+      "properties" : {
+        "artifactIds" : {
+          "type" : "array",
+          "description" : "List of artifact ids",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to describe artifact ids to move"
+    },
+    "NamedValue" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PatchArtifact" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Artifact title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Artifact description",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Artifact category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Artifact group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Artifact status",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Artifact customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Artifact priority",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Artifact team id",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "Artifact planning folder id",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated effort",
+          "readOnly" : true
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "RemainingEffort",
+          "readOnly" : true
+        },
+        "actualEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "ActualEffort",
+          "readOnly" : true
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Autosumming",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points",
+          "readOnly" : true
+        },
+        "autoSummingPoints" : {
+          "type" : "boolean",
+          "description" : "Autosummingpoints",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "assignedTo",
+          "readOnly" : true
+        },
+        "fixedReleaseId" : {
+          "type" : "string",
+          "description" : "FixedRelease id",
+          "readOnly" : true
+        },
+        "reportedReleaseId" : {
+          "type" : "string",
+          "description" : "Reportedrelease id",
+          "readOnly" : true
+        },
+        "comment" : {
+          "type" : "string",
+          "description" : "Artifact comment",
+          "readOnly" : true
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "TagIds",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "flexfields" : {
+          "type" : "array",
+          "description" : "User defined flexfields",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        }
+      },
+      "description" : "Model to update artifact"
+    },
+    "PatchChildField" : {
+      "type" : "object",
+      "required" : [ "fieldName" ],
+      "properties" : {
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name",
+          "readOnly" : true
+        },
+        "parentFieldId" : {
+          "type" : "string",
+          "description" : "Parent Field Id",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "type" : "object",
+          "description" : "FieldValues",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "childParentFieldValues" : {
+          "type" : "object",
+          "description" : "ChildParentFieldValues",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "IsRequired",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "IsDisabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "IsHiddenOnCreate",
+          "readOnly" : true
+        },
+        "defaultFieldValue" : {
+          "type" : "string",
+          "description" : "DefaultFiledValue",
+          "readOnly" : true
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a child field"
+    },
+    "PatchField" : {
+      "type" : "object",
+      "required" : [ "fieldName" ],
+      "properties" : {
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name",
+          "readOnly" : true
+        },
+        "displaySize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Size",
+          "readOnly" : true
+        },
+        "displayLines" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Lines",
+          "readOnly" : true
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "Is Required",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "Is Disabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "Is Hidden on create",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "type" : "array",
+          "description" : "Field Values",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FieldValue"
+          }
+        },
+        "parentFieldId" : {
+          "type" : "string",
+          "description" : "parentFieldId",
+          "readOnly" : true
+        },
+        "defaultUsers" : {
+          "type" : "array",
+          "description" : "Default users",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "defaultTextValue" : {
+          "type" : "string",
+          "description" : "defaultTextValue",
+          "readOnly" : true
+        },
+        "userFilter" : {
+          "type" : "string",
+          "description" : "User filter",
+          "readOnly" : true,
+          "enum" : [ "user_proj_member", "user_all" ]
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        },
+        "pattern" : {
+          "type" : "string",
+          "description" : "Pattern",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update field"
+    },
+    "PatchFolderLayoutDisplayOrder" : {
+      "type" : "object",
+      "properties" : {
+        "folderLayoutIds" : {
+          "type" : "array",
+          "description" : "Folder Layout Ids",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to update the folder layout display order"
+    },
+    "PatchSavedSearchEntity" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "searchFields" : {
+          "type" : "object",
+          "description" : "Search fields",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      },
+      "description" : "Model to patch a saved search"
+    },
+    "PatchTracker" : {
+      "type" : "object",
+      "required" : [ "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Tracker title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Tracker description",
+          "readOnly" : true
+        },
+        "icon" : {
+          "type" : "string",
+          "description" : "Tracker icon",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "description" : "Tracker unit id",
+          "readOnly" : true
+        },
+        "autosumForeignChildren" : {
+          "type" : "boolean",
+          "description" : "Autosum Foreign children",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to update a tracker"
+    },
+    "PatchTrackerUnit" : {
+      "type" : "object",
+      "required" : [ "id", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name",
+          "readOnly" : true
+        },
+        "baseUnit" : {
+          "type" : "string",
+          "description" : "baseUnit",
+          "readOnly" : true
+        },
+        "multiplier" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "multiplier",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model describes the Tracker Unit details"
+    },
+    "PlanningArtifact" : {
+      "type" : "object",
+      "required" : [ "description", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "trackerId" : {
+          "type" : "string",
+          "description" : "Tracker id",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Team id",
+          "readOnly" : true
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "tagIds",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort"
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort"
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points"
+        },
+        "autoSummingPoints" : {
+          "type" : "boolean",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "Assigned To",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "description" : "Release Id",
+          "readOnly" : true
+        },
+        "flexfields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        }
+      },
+      "description" : "Model to create artifact"
+    },
+    "PostChildField" : {
+      "type" : "object",
+      "required" : [ "fieldName" ],
+      "properties" : {
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name",
+          "readOnly" : true
+        },
+        "fieldValues" : {
+          "type" : "array",
+          "description" : "FieldValues",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "childParentFieldValues" : {
+          "type" : "object",
+          "description" : "ChildParentFieldValues",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text",
+          "readOnly" : true
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "IsRequired",
+          "readOnly" : true
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "IsDisabled",
+          "readOnly" : true
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "IsHiddenOnCreate",
+          "readOnly" : true
+        },
+        "defaultFieldValue" : {
+          "type" : "string",
+          "description" : "DefaultFiledValue",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a child field"
+    },
+    "PostDependentArtifact" : {
+      "type" : "object",
+      "required" : [ "description", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "trackerId" : {
+          "type" : "string",
+          "description" : "Tracker id",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Team id",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "planningFolderId",
+          "readOnly" : true
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "tagIds",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort"
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort"
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points"
+        },
+        "autoSummingPoints" : {
+          "type" : "boolean",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "Assigned To",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "description" : "Release Id",
+          "readOnly" : true
+        },
+        "dependencyComment" : {
+          "type" : "string",
+          "description" : "Dependency comment",
+          "readOnly" : true
+        },
+        "flexfields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        }
+      },
+      "description" : "Model to create dependent artifact"
+    },
+    "PostField" : {
+      "type" : "object",
+      "required" : [ "fieldDisplayType", "fieldName" ],
+      "properties" : {
+        "fieldName" : {
+          "type" : "string",
+          "description" : "Field Name"
+        },
+        "fieldDisplayType" : {
+          "type" : "string",
+          "description" : "Field Display Type",
+          "readOnly" : true,
+          "enum" : [ "TEXT", "DROPDOWN", "MULTISELECT", "DATE", "USER" ]
+        },
+        "displaySize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Size"
+        },
+        "displayLines" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Display Lines"
+        },
+        "isRequired" : {
+          "type" : "boolean",
+          "description" : "Is Required"
+        },
+        "isDisabled" : {
+          "type" : "boolean",
+          "description" : "Is Disabled"
+        },
+        "isHiddenOnCreate" : {
+          "type" : "boolean",
+          "description" : "Is Hidden on create"
+        },
+        "fieldValues" : {
+          "type" : "array",
+          "description" : "Field Values",
+          "items" : {
+            "$ref" : "#/definitions/FieldValue"
+          }
+        },
+        "helpText" : {
+          "type" : "string",
+          "description" : "Help Text"
+        },
+        "pattern" : {
+          "type" : "string",
+          "description" : "Pattern"
+        },
+        "defaultUsers" : {
+          "type" : "array",
+          "description" : "Default users",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "defaultTextValue" : {
+          "type" : "string",
+          "description" : "Default Text Value",
+          "readOnly" : true
+        },
+        "userFilter" : {
+          "type" : "string",
+          "description" : "User filter",
+          "readOnly" : true,
+          "enum" : [ "user_proj_member", "user_all" ]
+        }
+      },
+      "description" : "Model to create a new field"
+    },
+    "PostLayoutSeparator" : {
+      "type" : "object",
+      "required" : [ "separatorLabel", "separatorType" ],
+      "properties" : {
+        "separatorLabel" : {
+          "type" : "string",
+          "description" : "Separator Label"
+        },
+        "separatorType" : {
+          "type" : "string",
+          "description" : "Separator Type",
+          "readOnly" : true,
+          "enum" : [ "sectionSeparator", "columnSeparator", "rowSeparator" ]
+        }
+      },
+      "description" : "Model to create a layout separator"
+    },
+    "PostSavedSearch" : {
+      "type" : "object",
+      "required" : [ "folderId", "name", "searchFields", "searchType" ],
+      "properties" : {
+        "folderId" : {
+          "type" : "string",
+          "description" : "Project or Folder Id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "searchType" : {
+          "type" : "string",
+          "description" : "Search type",
+          "readOnly" : true,
+          "enum" : [ "public_search", "search" ]
+        },
+        "searchFields" : {
+          "type" : "object",
+          "description" : "Search fields",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      },
+      "description" : "Model to create a saved search"
+    },
+    "PostTracker" : {
+      "type" : "object",
+      "required" : [ "title" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Tracker name",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Tracker title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Tracker description",
+          "readOnly" : true
+        },
+        "icon" : {
+          "type" : "string",
+          "description" : "Tracker icon",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "description" : "Tracker unit id",
+          "readOnly" : true
+        },
+        "autosumForeignChildren" : {
+          "type" : "boolean",
+          "description" : "Autosum Foreign children",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a tracker"
+    },
+    "PostTrackerUnit" : {
+      "type" : "object",
+      "required" : [ "baseUnit", "multiplier", "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "Unit name",
+          "readOnly" : true
+        },
+        "multiplier" : {
+          "type" : "string",
+          "description" : "Multiplier",
+          "readOnly" : true
+        },
+        "baseUnit" : {
+          "type" : "string",
+          "description" : "Baseunit",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to create a unit"
+    },
+    "RequiredFields" : {
+      "type" : "object",
+      "properties" : {
+        "parentFieldId" : {
+          "type" : "string",
+          "description" : "ParentFieldId",
+          "readOnly" : true
+        },
+        "childrenIds" : {
+          "type" : "array",
+          "description" : "ChildrenIds",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "Value",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for Required Fields"
+    },
+    "SavedSearchList" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetSavedSearchEntity"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model for list of saved tracker searches"
+    },
+    "Simple Artifact" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Artifact Id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Project Id",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "String",
+          "readOnly" : true
+        },
+        "folderId" : {
+          "type" : "string",
+          "description" : "FolderId",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "statusClass" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort",
+          "readOnly" : true
+        },
+        "actualEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Actual Effort",
+          "readOnly" : true
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort",
+          "readOnly" : true
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points",
+          "readOnly" : true
+        },
+        "autoSummingPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "closeDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Close Date",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "Assigned To (Username)",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Team id",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "Planning folder id",
+          "readOnly" : true
+        },
+        "flexFields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "Created By (Username)",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Last Modified Date",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Created Date",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Version",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "folderTitle" : {
+          "type" : "string",
+          "description" : "Tracker title"
+        },
+        "folderPath" : {
+          "type" : "string",
+          "description" : "Tracker path"
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "description" : "Project title"
+        },
+        "projectPath" : {
+          "type" : "string",
+          "description" : "Project path"
+        },
+        "createdByFullname" : {
+          "type" : "string",
+          "description" : "Created by (Fullname)"
+        },
+        "assignedToFullname" : {
+          "type" : "string",
+          "description" : "Assigned to (Fullname)"
+        },
+        "teamTitle" : {
+          "type" : "string",
+          "description" : "Team title"
+        },
+        "planningFolderTitle" : {
+          "type" : "string",
+          "description" : "Planning folder title"
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Artifact model with basic properties"
+    },
+    "SimpleUserData" : {
+      "type" : "object",
+      "properties" : {
+        "userId" : {
+          "type" : "string"
+        },
+        "userName" : {
+          "type" : "string"
+        },
+        "fullName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Sort" : {
+      "type" : "object",
+      "required" : [ "column" ],
+      "properties" : {
+        "column" : {
+          "type" : "string",
+          "description" : "Column name to sort by",
+          "readOnly" : true
+        },
+        "isAscending" : {
+          "type" : "boolean",
+          "description" : "Order to sort either ascending or desending",
+          "readOnly" : true,
+          "enum" : [ false, true ]
+        }
+      },
+      "description" : "Model to describe sort by columnname"
+    },
+    "TeamArtifact" : {
+      "type" : "object",
+      "required" : [ "description", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "trackerId" : {
+          "type" : "string",
+          "description" : "Tracker id",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "PlanningFolderId",
+          "readOnly" : true
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort"
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort"
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points"
+        },
+        "autoSummingPoints" : {
+          "type" : "boolean",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "Assigned To",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "description" : "Release Id",
+          "readOnly" : true
+        },
+        "flexfields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "tagIds",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to create artifact"
+    },
+    "Tracker" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "description",
+          "readOnly" : true
+        },
+        "icon" : {
+          "type" : "string",
+          "description" : "icon",
+          "readOnly" : true
+        },
+        "trackerUnitId" : {
+          "type" : "string",
+          "description" : "trackerUnitId",
+          "readOnly" : true
+        },
+        "autosumForeignChildren" : {
+          "type" : "boolean",
+          "description" : "autosumForeignChildren",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "projectId",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "path",
+          "readOnly" : true
+        },
+        "parentFolderId" : {
+          "type" : "string",
+          "description" : "parentFolderId",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "description" : "createdBy",
+          "readOnly" : true
+        },
+        "modifiedBy" : {
+          "type" : "string",
+          "description" : "modifiedBy",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "modifiedDate1",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "version",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "trackerId" : {
+          "type" : "string",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "createdDate",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the Tracker details"
+    },
+    "TrackerArtifact" : {
+      "type" : "object",
+      "required" : [ "description", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "description" : "Title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description",
+          "readOnly" : true
+        },
+        "category" : {
+          "type" : "string",
+          "description" : "Category",
+          "readOnly" : true
+        },
+        "group" : {
+          "type" : "string",
+          "description" : "Group",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status",
+          "readOnly" : true
+        },
+        "customer" : {
+          "type" : "string",
+          "description" : "Customer",
+          "readOnly" : true
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Priority",
+          "readOnly" : true
+        },
+        "teamId" : {
+          "type" : "string",
+          "description" : "Team id",
+          "readOnly" : true
+        },
+        "planningFolderId" : {
+          "type" : "string",
+          "description" : "planningFolderId",
+          "readOnly" : true
+        },
+        "tagIds" : {
+          "type" : "array",
+          "description" : "tagIds",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "estimatedEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Estimated Effort"
+        },
+        "remainingEffort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Remaining Effort"
+        },
+        "autoSumming" : {
+          "type" : "boolean",
+          "description" : "Auto Summing",
+          "readOnly" : true
+        },
+        "points" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Points"
+        },
+        "autoSummingPoints" : {
+          "type" : "boolean",
+          "description" : "Auto Summing Points",
+          "readOnly" : true
+        },
+        "assignedTo" : {
+          "type" : "string",
+          "description" : "Assigned To",
+          "readOnly" : true
+        },
+        "releaseId" : {
+          "type" : "string",
+          "description" : "Release Id",
+          "readOnly" : true
+        },
+        "flexfields" : {
+          "type" : "array",
+          "description" : "Flex fields",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/FlexField"
+          }
+        }
+      },
+      "description" : "Model to create artifact"
+    },
+    "TrackerSummary" : {
+      "type" : "object",
+      "properties" : {
+        "trackerId" : {
+          "type" : "string",
+          "description" : "trackerId",
+          "readOnly" : true
+        },
+        "trackerTitle" : {
+          "type" : "string",
+          "description" : "trackerTitle",
+          "readOnly" : true
+        },
+        "trackerDescription" : {
+          "type" : "string",
+          "description" : "trackerDescription",
+          "readOnly" : true
+        },
+        "trackerFormattedDescription" : {
+          "type" : "string",
+          "description" : "trackerFormattedDescription",
+          "readOnly" : true
+        },
+        "trackerIcon" : {
+          "type" : "string",
+          "description" : "trackerIcon",
+          "readOnly" : true
+        },
+        "trackerUnitName" : {
+          "type" : "string",
+          "description" : "trackerUnitName",
+          "readOnly" : true
+        },
+        "trackerVersion" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "trackerVersion",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "projectId",
+          "readOnly" : true
+        },
+        "projectPath" : {
+          "type" : "string",
+          "description" : "projectPath",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "description" : "projectTitle",
+          "readOnly" : true
+        },
+        "pointsDisabled" : {
+          "type" : "boolean",
+          "description" : "pointsDisabled",
+          "readOnly" : true
+        },
+        "closedArtifactsCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "closedArtifactsCount",
+          "readOnly" : true
+        },
+        "closedArtifactsPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "closedArtifactsPoints",
+          "readOnly" : true
+        },
+        "openArtifactsCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCount",
+          "readOnly" : true
+        },
+        "openArtifactsPoints" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsPoints",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority0" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCountByPriority0",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority1" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCountByPriority1",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority2" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCountByPriority2",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority3" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCountByPriority3",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority4" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCountByPriority4",
+          "readOnly" : true
+        },
+        "openArtifactsCountByPriority5" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "openArtifactsCountByPriority5",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the Tracker summary details"
+    },
+    "TrackerUnit" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name",
+          "readOnly" : true
+        },
+        "isBaseUnit" : {
+          "type" : "boolean",
+          "description" : "baseUnit",
+          "readOnly" : true
+        },
+        "multiplier" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "multiplier",
+          "readOnly" : true
+        },
+        "displayOrder" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "displayOrder",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "baseUnit" : {
+          "type" : "string",
+          "description" : "baseUnit",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model describes the Tracker unit details"
+    },
+    "TrackerUnits" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/TrackerUnit"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of tracker units"
+    },
+    "listFieldValues" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetFieldValue"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of field values"
+    },
+    "listFields" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/GetField"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of field"
+    },
+    "listRequiredFields" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RequiredFields"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of required field"
+    },
+    "listTrackers" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/DetailedTracker"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to describe about list of trackers"
+    }
+  }
+}

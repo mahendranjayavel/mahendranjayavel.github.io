@@ -1,0 +1,2070 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.3.397",
+    "title" : "Discussion API"
+  },
+  "basePath" : "/ctfrest/discussion/v1",
+  "tags" : [ {
+    "name" : "Forums"
+  }, {
+    "name" : "Posts"
+  }, {
+    "name" : "Topics"
+  }, {
+    "name" : "v20.2"
+  } ],
+  "paths" : {
+    "/forums/{forumid}" : {
+      "get" : {
+        "tags" : [ "Forums", "v20.2" ],
+        "summary" : "Gets forum data.",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getForum",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forumid",
+          "in" : "path",
+          "description" : "Forum identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "forum(\\d+)"
+        }, {
+          "name" : "moderators",
+          "in" : "query",
+          "description" : "Whether to include moderators info",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "trustedUsers",
+          "in" : "query",
+          "description" : "Whether to include trusted-users info",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/forum"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Forum data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Forum not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Forums", "v20.2" ],
+        "summary" : "Deletes a forum",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "deleteForum",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forumid",
+          "in" : "path",
+          "description" : "Forum identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "forum(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Forum is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Invalid forum identifier",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "409" : {
+            "description" : "Forum is in use for notifications"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Forums", "v20.2" ],
+        "summary" : "Update forum details",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "updateForum",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Forum Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchForumEntity"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Forum data version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "forumid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "forum(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/forum"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Forum version"
+              }
+            }
+          },
+          "304" : {
+            "description" : "Forum data is not modified",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Forum/User data not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "System Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/forums/{forumid}/topics" : {
+      "get" : {
+        "tags" : [ "Topics", "v20.2" ],
+        "summary" : "Gets forum topics.",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getTopics",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "forumid",
+          "in" : "path",
+          "description" : "Forum identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "forum(\\d+)"
+        }, {
+          "name" : "withSummary",
+          "in" : "query",
+          "description" : "Include topic summary",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort by column name ('lastPostDate' is valid only if withSummary is true)",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "id", "-id", "title", "-title", "dateCreated", "-dateCreated", "lastPostDate", "-lastPostDate" ]
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of topics to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Topics retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Topics"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Forum not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Topics", "v20.2" ],
+        "summary" : "Creates a topic",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "createTopic",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Topic Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostMessageEntity"
+          }
+        }, {
+          "name" : "forumid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "forum(\\d+)"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Topic created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/topic"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "System Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/posts" : {
+      "get" : {
+        "tags" : [ "Posts", "v20.2" ],
+        "summary" : "Search discussion posts",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "searchPosts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Comma separated project ids/paths",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "searchText",
+          "in" : "query",
+          "description" : "Search text",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "searchAttachments",
+          "in" : "query",
+          "description" : "Whether to include attachments in search",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of posts to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Posts"
+            }
+          },
+          "400" : {
+            "description" : "Invalid search",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Invalid project id/path",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/posts/{postid}" : {
+      "get" : {
+        "tags" : [ "Posts", "v20.2" ],
+        "summary" : "Gets post data.",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getPost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "postid",
+          "in" : "path",
+          "description" : "Post identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "post(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/topic"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Post data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Post not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Posts", "v20.2" ],
+        "summary" : "Deletes a post",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "deletePost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "postid",
+          "in" : "path",
+          "description" : "Post identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "post(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Post is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Invalid post identifier",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "405" : {
+            "description" : "First post cannot be deleted",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/posts/{postid}/replies" : {
+      "post" : {
+        "tags" : [ "Posts", "v20.2" ],
+        "summary" : "Replies to a topic post",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "createPostReply",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Post Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostMessageEntity"
+          }
+        }, {
+          "name" : "postid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "post(\\d+)"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Post created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/post"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Post not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "System Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/forums" : {
+      "get" : {
+        "tags" : [ "Forums", "v20.2" ],
+        "summary" : "Gets discussion forums associated with a project.",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getProjectForums",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier (id or path)",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "recursive",
+          "in" : "query",
+          "description" : "Whether to include forums from subprojects",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "monitoring",
+          "in" : "query",
+          "description" : "Whether to include monitoring info for the current user",
+          "required" : false,
+          "type" : "boolean",
+          "default" : true
+        }, {
+          "name" : "moderators",
+          "in" : "query",
+          "description" : "Whether to include moderators info",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "trustedUsers",
+          "in" : "query",
+          "description" : "Whether to include trusted-users info",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort by column name",
+          "required" : false,
+          "type" : "string",
+          "default" : "dateCreated",
+          "enum" : [ "id", "title", "dateCreated" ]
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of forums to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Forums retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Forums"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Forums", "v20.2" ],
+        "summary" : "Creates a forum",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "createForum",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Forum Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostForumEntity"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Forum created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/forum"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "System Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/posts" : {
+      "get" : {
+        "tags" : [ "Posts", "v20.2" ],
+        "summary" : "Search discussion posts",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "searchProjectPosts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier (id or path)",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "forumId",
+          "in" : "query",
+          "description" : "Comma separated forum ids",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "searchText",
+          "in" : "query",
+          "description" : "Search text",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "searchAttachments",
+          "in" : "query",
+          "description" : "Whether to include attachments in search",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of posts to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Forums retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Forums"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project/forum",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/topics/{topicid}" : {
+      "get" : {
+        "tags" : [ "Topics", "v20.2" ],
+        "summary" : "Gets topic data.",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getTopic",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "topicid",
+          "in" : "path",
+          "description" : "Topic identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "topc(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/topic"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Topic data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Topic not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Topics", "v20.2" ],
+        "summary" : "Deletes a topic",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "deleteTopic",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "topicid",
+          "in" : "path",
+          "description" : "Topic identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "topc(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Topic is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Topic not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/topics/{topicid}/posts" : {
+      "get" : {
+        "tags" : [ "Topics", "v20.2" ],
+        "summary" : "Gets posts.",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getPosts",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "topicid",
+          "in" : "path",
+          "description" : "Topic identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "topc(\\d+)"
+        }, {
+          "name" : "threaded",
+          "in" : "query",
+          "description" : "Whether to group threaded posts together",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of posts to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Posts retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Posts"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Topic not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Topics", "v20.2" ],
+        "summary" : "Creates a topic post",
+        "description" : "",
+        "operationId" : "createPost",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Post Data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostMessageEntity"
+          }
+        }, {
+          "name" : "topicid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "topc(\\d+)"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Post created successfully",
+            "schema" : {
+              "$ref" : "#/definitions/post"
+            }
+          },
+          "400" : {
+            "description" : "Invalid request",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Topic not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "System Error",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "AttachmentFileEntity" : {
+      "type" : "object",
+      "required" : [ "fileId", "fileName", "mimeType" ],
+      "properties" : {
+        "fileId" : {
+          "type" : "string",
+          "description" : "Temporary file id obtained via uploading through file storage API",
+          "readOnly" : true
+        },
+        "fileName" : {
+          "type" : "string",
+          "description" : "File name",
+          "readOnly" : true
+        },
+        "mimeType" : {
+          "type" : "string",
+          "description" : "Mime type",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to describe an uploaded attachment file (for POST and PATCH)"
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Forums" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/forum-row"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Forum collection"
+    },
+    "GetDiscussionUserEntity" : {
+      "type" : "object",
+      "required" : [ "fullname", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "fullname" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PatchForumEntity" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "listName" : {
+          "type" : "string",
+          "description" : "Mailing list name associated with this forum",
+          "readOnly" : true
+        },
+        "listEnabled" : {
+          "type" : "boolean",
+          "description" : "Whether the mailing list is enabled or not",
+          "readOnly" : true
+        },
+        "footer" : {
+          "type" : "string",
+          "description" : "Custom text to be appended at the bottom of each mail for mailing list",
+          "readOnly" : true
+        },
+        "prefix" : {
+          "type" : "string",
+          "description" : "The custom prefix for mail subject",
+          "readOnly" : true
+        },
+        "moderated" : {
+          "type" : "boolean",
+          "description" : "Whether the forum is moderated (MF) or not (UF)",
+          "readOnly" : true
+        },
+        "privateForum" : {
+          "type" : "boolean",
+          "description" : "Whether the forum is private (true) or public (false)",
+          "readOnly" : true
+        },
+        "replyTo" : {
+          "type" : "string",
+          "description" : "The 'reply to' behavior",
+          "readOnly" : true
+        },
+        "messageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The maximum size a post/topic including attachments",
+          "readOnly" : true
+        },
+        "emailMonitoring" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could monitor the forum",
+          "readOnly" : true
+        },
+        "emailPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum",
+          "readOnly" : true
+        },
+        "webPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum via web UI",
+          "readOnly" : true
+        },
+        "captcha" : {
+          "type" : "string",
+          "description" : "This indicates for which web posts CAPTCHA is to be enforced",
+          "readOnly" : true,
+          "enum" : [ "NO", "AN", "AL" ]
+        },
+        "moderators" : {
+          "type" : "array",
+          "description" : "Collection of user ids who can moderate the forum (replaces existing moderators)",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "trustedUsers" : {
+          "type" : "array",
+          "description" : "Collection of user ids who are trusted users (replaces existing trusted users)",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "PostForumEntity" : {
+      "type" : "object",
+      "required" : [ "listEnabled", "moderated", "privateForum", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "listName" : {
+          "type" : "string",
+          "description" : "Mailing list name associated with this forum",
+          "readOnly" : true
+        },
+        "listEnabled" : {
+          "type" : "boolean",
+          "description" : "Whether the mailing list is enabled or not",
+          "readOnly" : true
+        },
+        "footer" : {
+          "type" : "string",
+          "description" : "Custom text to be appended at the bottom of each mail for mailing list",
+          "readOnly" : true
+        },
+        "prefix" : {
+          "type" : "string",
+          "description" : "The custom prefix for mail subject",
+          "readOnly" : true
+        },
+        "moderated" : {
+          "type" : "boolean",
+          "description" : "Whether the forum is moderated (MF) or not (UF)",
+          "readOnly" : true
+        },
+        "privateForum" : {
+          "type" : "boolean",
+          "description" : "Whether the forum is private (true) or public (false)",
+          "readOnly" : true
+        },
+        "replyTo" : {
+          "type" : "string",
+          "description" : "The 'reply to' behavior",
+          "readOnly" : true
+        },
+        "messageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The maximum size a post/topic including attachments",
+          "readOnly" : true
+        },
+        "emailMonitoring" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could monitor the forum",
+          "readOnly" : true
+        },
+        "emailPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum",
+          "readOnly" : true
+        },
+        "webPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum via web UI",
+          "readOnly" : true
+        },
+        "captcha" : {
+          "type" : "string",
+          "description" : "This indicates for which web posts CAPTCHA is to be enforced",
+          "readOnly" : true,
+          "enum" : [ "NO", "AN", "AL" ]
+        },
+        "moderators" : {
+          "type" : "array",
+          "description" : "Collection of user ids who can moderate the forum",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "trustedUsers" : {
+          "type" : "array",
+          "description" : "Collection of user ids who are trusted users",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "PostMessageEntity" : {
+      "type" : "object",
+      "required" : [ "message", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "ccRecipients" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "attachments" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/AttachmentFileEntity"
+          }
+        }
+      }
+    },
+    "Posts" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/post"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Post collection"
+    },
+    "Topics" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/topic-row"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Topic collection"
+    },
+    "forum" : {
+      "type" : "object",
+      "required" : [ "createdByUsername", "createdDate", "description", "id", "lastModifiedByUsername", "lastModifiedDate", "listEnabled", "messageSize", "path", "projectId", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was created.",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was modified last.",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "listName" : {
+          "type" : "string",
+          "description" : "Mailing list name associated with this forum",
+          "readOnly" : true
+        },
+        "listEnabled" : {
+          "type" : "boolean",
+          "description" : "Whether the mailing list is enabled or not",
+          "readOnly" : true
+        },
+        "footer" : {
+          "type" : "string",
+          "description" : "Custom text to be appended at the bottom of each mail for mailing list",
+          "readOnly" : true
+        },
+        "prefix" : {
+          "type" : "string",
+          "description" : "The custom prefix for mail subject",
+          "readOnly" : true
+        },
+        "forumType" : {
+          "type" : "string",
+          "description" : "Type of the forum; moderated or un-moderated",
+          "readOnly" : true,
+          "enum" : [ "MF", "UN" ]
+        },
+        "privateForum" : {
+          "type" : "boolean",
+          "description" : "Whether the forum is private (true) or public (false)",
+          "readOnly" : true
+        },
+        "replyTo" : {
+          "type" : "string",
+          "description" : "The 'reply to' behavior",
+          "readOnly" : true
+        },
+        "messageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The maximum size a post/topic including attachments",
+          "readOnly" : true
+        },
+        "emailMonitoring" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could monitor the forum",
+          "readOnly" : true
+        },
+        "emailPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum",
+          "readOnly" : true
+        },
+        "webPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum via web UI",
+          "readOnly" : true
+        },
+        "captcha" : {
+          "type" : "string",
+          "description" : "This indicates for which web posts CAPTCHA is to be enforced",
+          "readOnly" : true,
+          "enum" : [ "NO", "AN", "AL" ]
+        },
+        "monitoringUserId" : {
+          "type" : "string"
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "createdByUsername" : {
+          "type" : "string",
+          "description" : "User who created the folder",
+          "readOnly" : true
+        },
+        "lastModifiedByUsername" : {
+          "type" : "string",
+          "description" : "User who modified the folder last",
+          "readOnly" : true
+        },
+        "moderators" : {
+          "type" : "array",
+          "description" : "Collection of moderator users",
+          "items" : {
+            "$ref" : "#/definitions/GetDiscussionUserEntity"
+          }
+        },
+        "trustedUsers" : {
+          "type" : "array",
+          "description" : "Collection of trusted users",
+          "items" : {
+            "$ref" : "#/definitions/GetDiscussionUserEntity"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to represent a discussion forum in a TeamForge project"
+    },
+    "forum-row" : {
+      "type" : "object",
+      "required" : [ "createdByFullname", "createdByUsername", "createdDate", "description", "id", "lastModifiedByFullname", "lastModifiedByUsername", "lastModifiedDate", "listEnabled", "messageSize", "path", "projectId", "projectPath", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdByUsername" : {
+          "type" : "string",
+          "description" : "User who created the folder",
+          "readOnly" : true
+        },
+        "createdByFullname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was created.",
+          "readOnly" : true
+        },
+        "lastModifiedByUsername" : {
+          "type" : "string",
+          "description" : "User who modified the folder last",
+          "readOnly" : true
+        },
+        "lastModifiedByFullname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was modified last.",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "listName" : {
+          "type" : "string",
+          "description" : "Mailing list name associated with this forum",
+          "readOnly" : true
+        },
+        "listEnabled" : {
+          "type" : "boolean",
+          "description" : "Whether the mailing list is enabled or not",
+          "readOnly" : true
+        },
+        "footer" : {
+          "type" : "string",
+          "description" : "Custom text to be appended at the bottom of each mail for mailing list",
+          "readOnly" : true
+        },
+        "prefix" : {
+          "type" : "string",
+          "description" : "The custom prefix for mail subject",
+          "readOnly" : true
+        },
+        "forumType" : {
+          "type" : "string",
+          "description" : "Type of the forum; moderated or un-moderated",
+          "readOnly" : true,
+          "enum" : [ "MF", "UN" ]
+        },
+        "privateForum" : {
+          "type" : "boolean",
+          "description" : "Whether the forum is private (true) or public (false)",
+          "readOnly" : true
+        },
+        "replyTo" : {
+          "type" : "string",
+          "description" : "The 'reply to' behavior",
+          "readOnly" : true
+        },
+        "messageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The maximum size a post/topic including attachments",
+          "readOnly" : true
+        },
+        "emailMonitoring" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could monitor the forum",
+          "readOnly" : true
+        },
+        "emailPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum",
+          "readOnly" : true
+        },
+        "webPosting" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "This setting determines which users could post to the forum via web UI",
+          "readOnly" : true
+        },
+        "captcha" : {
+          "type" : "string",
+          "description" : "This indicates for which web posts CAPTCHA is to be enforced",
+          "readOnly" : true,
+          "enum" : [ "NO", "AN", "AL" ]
+        },
+        "monitoringUserId" : {
+          "type" : "string"
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "moderators" : {
+          "type" : "array",
+          "description" : "Collection of moderator users",
+          "items" : {
+            "$ref" : "#/definitions/GetDiscussionUserEntity"
+          }
+        },
+        "trustedUsers" : {
+          "type" : "array",
+          "description" : "Collection of trusted users",
+          "items" : {
+            "$ref" : "#/definitions/GetDiscussionUserEntity"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to represent a discussion forum row in a TeamForge project"
+    },
+    "post" : {
+      "type" : "object",
+      "required" : [ "content", "createdByFullname", "createdByUsername", "createdDate", "deleted", "forumId", "forumPath", "forumTitle", "id", "path", "posterId", "posterType", "privateForum", "projectId", "projectPath", "projectTitle", "replyPath", "title", "topicId", "topicTitle" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge post id",
+          "readOnly" : true
+        },
+        "createdByUsername" : {
+          "type" : "string",
+          "description" : "User who created the post",
+          "readOnly" : true
+        },
+        "createdByFullname" : {
+          "type" : "string",
+          "description" : "Full name of the user who created the post",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Date on which the post was created",
+          "readOnly" : true
+        },
+        "lastModifiedByUsername" : {
+          "type" : "string",
+          "description" : "User who modified the post last",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The data on which the post was modified last",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Post data version",
+          "readOnly" : true
+        },
+        "topicId" : {
+          "type" : "string",
+          "description" : "Id of the topic which the post belongs to",
+          "readOnly" : true
+        },
+        "topicTitle" : {
+          "type" : "string",
+          "description" : "Title of the container topic",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "Post object path",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "description" : "Id of the containing TeamForge project",
+          "readOnly" : true
+        },
+        "projectPath" : {
+          "type" : "string",
+          "description" : "Path of the container project",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "description" : "Title of the container project",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Title of the post",
+          "readOnly" : true
+        },
+        "content" : {
+          "type" : "string",
+          "description" : "Content of the post",
+          "readOnly" : true
+        },
+        "forumId" : {
+          "type" : "string",
+          "description" : "Id of the container forum",
+          "readOnly" : true
+        },
+        "forumPath" : {
+          "type" : "string",
+          "description" : "Path of the container forum",
+          "readOnly" : true
+        },
+        "forumTitle" : {
+          "type" : "string",
+          "description" : "Title of the containing forum",
+          "readOnly" : true
+        },
+        "messageId" : {
+          "type" : "string",
+          "description" : "Message id",
+          "readOnly" : true
+        },
+        "posterId" : {
+          "type" : "string",
+          "description" : "Id of the poster",
+          "readOnly" : true
+        },
+        "posterType" : {
+          "type" : "string",
+          "description" : "Poster type",
+          "readOnly" : true
+        },
+        "replyPath" : {
+          "type" : "string",
+          "description" : "Reply path",
+          "readOnly" : true
+        },
+        "replyToId" : {
+          "type" : "string",
+          "description" : "Id of the post for which this post is a reply",
+          "readOnly" : true
+        },
+        "deleted" : {
+          "type" : "boolean",
+          "description" : "Is the post deleted",
+          "readOnly" : true
+        },
+        "privateForum" : {
+          "type" : "boolean",
+          "description" : "Is the container forum private",
+          "readOnly" : true
+        },
+        "searchScore" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "Search score",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to represent a post under a topic in a TeamForge project"
+    },
+    "topic" : {
+      "type" : "object",
+      "required" : [ "createdByUsername", "createdDate", "description", "id", "lastModifiedByUsername", "lastModifiedDate", "path", "projectId", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdByUsername" : {
+          "type" : "string",
+          "description" : "User who created the folder",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was created.",
+          "readOnly" : true
+        },
+        "lastModifiedByUsername" : {
+          "type" : "string",
+          "description" : "User who modified the folder last",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was modified last.",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "viewCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "lastPostId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastPostByUserName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastPostDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to represent a forum topic in a TeamForge project"
+    },
+    "topic-row" : {
+      "type" : "object",
+      "required" : [ "createdByFullname", "createdByUsername", "createdDate", "description", "id", "lastModifiedByFullname", "lastModifiedByUsername", "lastModifiedDate", "path", "projectId", "projectPath", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdByUsername" : {
+          "type" : "string",
+          "description" : "User who created the folder",
+          "readOnly" : true
+        },
+        "createdByFullname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was created.",
+          "readOnly" : true
+        },
+        "lastModifiedByUsername" : {
+          "type" : "string",
+          "description" : "User who modified the folder last",
+          "readOnly" : true
+        },
+        "lastModifiedByFullname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date this folder was modified last.",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "forumTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "searchScore" : {
+          "type" : "number",
+          "format" : "float",
+          "readOnly" : true
+        },
+        "monitoringUserId" : {
+          "type" : "string"
+        },
+        "postCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "viewCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "lastPostByPosterId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastPostByUserName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastPostByFullName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastPostDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "posterId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Model to represent a forum topic row in a TeamForge project"
+    }
+  }
+}

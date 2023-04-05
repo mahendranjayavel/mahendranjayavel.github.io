@@ -1,0 +1,7 @@
+<div id="toc">
+<p>
+<br>
+{% for tag in site.data.tags.allowed-tags %}
+<a href="{{ "tag_" | append: tag | append: ".html" }}"><button class="btn btn-default btn-sm navbar-btn" type="button" href="{{ "tag_" | append: tag | append: ".html" }}">{{site.data.tags.allowed-tags.tagName}}{{tag}}</button></a>
+{% endfor %}</p>
+</div>

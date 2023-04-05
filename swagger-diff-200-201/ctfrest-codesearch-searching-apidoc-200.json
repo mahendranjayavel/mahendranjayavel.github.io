@@ -1,0 +1,664 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.0.321",
+    "title" : "REST CodeSearch Query API"
+  },
+  "basePath" : "/ctfrest/codesearch/v1",
+  "tags" : [ {
+    "name" : "Get Index Data"
+  }, {
+    "name" : "Highlighted excerpts of search results"
+  }, {
+    "name" : "Search"
+  } ],
+  "paths" : {
+    "/highlight" : {
+      "post" : {
+        "tags" : [ "Highlighted excerpts of search results" ],
+        "summary" : "Highlights search results for all accessible repositories",
+        "description" : "",
+        "operationId" : "codesearch_highlight_site_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria for highlighting results"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/highlight/{projectId}" : {
+      "post" : {
+        "tags" : [ "Highlighted excerpts of search results" ],
+        "summary" : "Highlights search results for a project's repositories",
+        "description" : "",
+        "operationId" : "codesearch_highlight_project_id_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "proj(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria for highlighting results"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/highlight/{projectPath}" : {
+      "post" : {
+        "tags" : [ "Highlighted excerpts of search results" ],
+        "summary" : "Highlights search results for a project's repositories",
+        "description" : "",
+        "operationId" : "codesearch_highlight_project_path_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria for highlighting results"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/highlight/{projectPath}/{scmPath}" : {
+      "post" : {
+        "tags" : [ "Highlighted excerpts of search results" ],
+        "summary" : "Highlights search results for a single repository",
+        "description" : "",
+        "operationId" : "codesearch_highlight_repository_path_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "description" : "Repository folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria for highlighting results"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/highlight/{repositoryId}" : {
+      "post" : {
+        "tags" : [ "Highlighted excerpts of search results" ],
+        "summary" : "Highlights search results for a single repository",
+        "description" : "",
+        "operationId" : "codesearch_highlight_repository_id_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria for highlighting results"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/latestindex/{projectPath}/{scmPath}" : {
+      "get" : {
+        "tags" : [ "Get Index Data" ],
+        "summary" : "Gets last indexed revision/sha",
+        "description" : "",
+        "operationId" : "getindexdata_repository_path_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "description" : "Repository folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/latestindex/{repositoryId}" : {
+      "get" : {
+        "tags" : [ "Get Index Data" ],
+        "summary" : "Gets last indexed revision/sha",
+        "description" : "",
+        "operationId" : "getindexdata_repository_id_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for all accessible repositories",
+        "description" : "",
+        "operationId" : "codesearch_site_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "description" : "Search criteria",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for all accessible repositories",
+        "description" : "",
+        "operationId" : "codesearch_site_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/search/{projectId}" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a project's repositories",
+        "description" : "",
+        "operationId" : "codesearch_project_id_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "proj(\\d+)"
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "description" : "Search criteria",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a project's repositories",
+        "description" : "",
+        "operationId" : "codesearch_project_id_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "proj(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/search/{projectPath}" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a project's repositories",
+        "description" : "",
+        "operationId" : "codesearch_project_path_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "description" : "Search criteria",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a project's repositories",
+        "description" : "",
+        "operationId" : "codesearch_project_path_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/search/{projectPath}/{scmPath}" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a single repository",
+        "description" : "",
+        "operationId" : "codesearch_repository_path_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "description" : "Repository folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "description" : "Search criteria",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a single repository",
+        "description" : "",
+        "operationId" : "codesearch_repository_path_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectPath",
+          "in" : "path",
+          "description" : "Project folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "projects\\..+"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "description" : "Repository folder identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    },
+    "/search/{repositoryId}" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a single repository",
+        "description" : "",
+        "operationId" : "codesearch_repository_id_get",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "description" : "Search criteria",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Search" ],
+        "summary" : "Submits search criteria for a single repository",
+        "description" : "",
+        "operationId" : "codesearch_repository_id_post",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search criteria",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Search criteria"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SearchResult"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Search criteria" : {
+      "type" : "object",
+      "required" : [ "query" ],
+      "properties" : {
+        "query" : {
+          "type" : "string",
+          "description" : "search string",
+          "readOnly" : true
+        },
+        "extensions" : {
+          "type" : "array",
+          "description" : "file extension filter",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "Search criteria for highlighting results" : {
+      "type" : "object",
+      "required" : [ "document_ids", "query" ],
+      "properties" : {
+        "query" : {
+          "type" : "string",
+          "description" : "search string",
+          "readOnly" : true
+        },
+        "extensions" : {
+          "type" : "array",
+          "description" : "file extension filter",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "document_ids" : {
+          "type" : "array",
+          "description" : "document IDs",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "SearchHit" : {
+      "type" : "object",
+      "properties" : {
+        "contentExcerpts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "index" : {
+          "type" : "string"
+        },
+        "text" : {
+          "type" : "string"
+        },
+        "repositoryId" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "path" : {
+          "type" : "string"
+        },
+        "extension" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SearchResult" : {
+      "type" : "object",
+      "properties" : {
+        "totalCount" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "hits" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SearchHit"
+          }
+        }
+      }
+    }
+  }
+}

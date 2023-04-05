@@ -1,0 +1,3628 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "20.2.556",
+    "title" : "Source Code Management API"
+  },
+  "basePath" : "/ctfrest/scm/v1",
+  "tags" : [ {
+    "name" : "Commits"
+  }, {
+    "name" : "Recent Activities"
+  }, {
+    "name" : "Replica Servers"
+  }, {
+    "name" : "Repositories"
+  }, {
+    "name" : "Repository Replicas"
+  }, {
+    "name" : "Servers"
+  }, {
+    "name" : "Webhooks"
+  } ],
+  "paths" : {
+    "/myself/recent/repositories" : {
+      "get" : {
+        "tags" : [ "Recent Activities" ],
+        "summary" : "Gets recent repository list for the current user",
+        "description" : "",
+        "operationId" : "getMyRecentRepositories",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of repositories to be returned",
+          "required" : false,
+          "type" : "integer",
+          "default" : 10,
+          "minimum" : 1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/RecentRepositories"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets project repository list.",
+        "description" : "Supported detail fields are 'checkoutCommands', 'commitsThisWeek', 'monitoring', 'scmServer', 'unusedReplicas', 'usedReplicas'. 'all' special value is the shortcut to include all available  details.",
+        "operationId" : "getProjectRepositories",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "detail",
+          "in" : "query",
+          "description" : "Include detail",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "detailFields",
+          "in" : "query",
+          "description" : "Comma-separated list of detail fields to include in the response",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "sortby",
+          "in" : "query",
+          "description" : "Sort by column name",
+          "required" : false,
+          "type" : "string",
+          "default" : "dateCreated",
+          "enum" : [ "id", "dateCreated", "title", "lastCommitDate" ]
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of repositories to be returned in one call (-1 for all)",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of repositories"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Invalid sort column",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Creates repository",
+        "description" : "",
+        "operationId" : "createProjectRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New repository data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostRepository"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Repository data version"
+              },
+              "Location" : {
+                "type" : "string",
+                "format" : "uri",
+                "description" : "New repository resource"
+              }
+            }
+          },
+          "202" : {
+            "description" : "Repository creation is requested, waiting for admin approval ",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Repository already exists/invalid name/SCM limitation.",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories/filter" : {
+      "post" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Filters project repository list",
+        "description" : "Supported detail fields are 'checkoutCommands', 'commitsThisWeek', 'monitoring', 'scmServer', 'unusedReplicas', 'usedReplicas'. 'all' special value is the shortcut to include all available  details.",
+        "operationId" : "filterProjectRepositories",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "detail",
+          "in" : "query",
+          "description" : "Include detail",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "detailFields",
+          "in" : "query",
+          "description" : "Comma-separated list of detail fields to include in the response",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "filter repositories",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/FilterRepositoriesRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of repositories"
+            }
+          },
+          "400" : {
+            "description" : "Invalid sort field",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories/replicas" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets project repository replica list.",
+        "description" : "",
+        "operationId" : "getProjectRepositoriesReplicas",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of Replica servers"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories/summary" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets a summary of project repositories features.",
+        "description" : "",
+        "operationId" : "getProjectRepositoriesSummary",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Repositories Summary"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories/{repositoryId}" : {
+      "put" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Moves a repository into a project",
+        "description" : "",
+        "operationId" : "moveRepositoryIntoProject",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "repositoryId",
+          "in" : "path",
+          "description" : "Repository id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Repository is moved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "404" : {
+            "description" : "Invalid project or repository identifier"
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories/{scmPath}" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets repository data by repository path.",
+        "description" : "Provide replicaId in order to get replica specific checkout commands and API endpoint",
+        "operationId" : "getProjectRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project identifier",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        }, {
+          "name" : "replicaId",
+          "in" : "query",
+          "description" : "Replica server id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "includeWebhooks",
+          "in" : "query",
+          "description" : "Include repository webhook configuration",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Repository data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository/replica server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Deletes a repository by repository path",
+        "description" : "",
+        "operationId" : "deleteProjectRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Repository deletion is requested, waiting for admin approval"
+          },
+          "204" : {
+            "description" : "Repository is deleted."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project/repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/repositories/{scmPath}/commits/by-native-id/{revision}/commitid" : {
+      "get" : {
+        "tags" : [ "Commits" ],
+        "summary" : "Gets commit id by projectpath/scmpath/revision",
+        "description" : "",
+        "operationId" : "getCommitIdByPath",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project path or id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        }, {
+          "name" : "scmPath",
+          "in" : "path",
+          "description" : "Repository path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "scm\\..+"
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "description" : "Revision",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/CommitId"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project/repository/commit",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/webhooks" : {
+      "get" : {
+        "tags" : [ "Webhooks" ],
+        "summary" : "Gets project webhook configuration.",
+        "description" : "",
+        "operationId" : "getProjectWebhookConfiguration",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/WebhookConfiguration"
+            }
+          },
+          "400" : {
+            "description" : "Invalid configuration/parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Invalid configuration",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Webhooks" ],
+        "summary" : "Sets project level SCM webhook configuration",
+        "description" : "",
+        "operationId" : "setProjectWebhookConfiguration",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New webhook configuration",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PutWebhookConfiguration"
+          }
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "((?:proj(?:\\d+))|(projects\\.[-a-z0-9_]+))"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Webhook configuration is set"
+          },
+          "304" : {
+            "description" : "Webhook configuration is not modified"
+          },
+          "400" : {
+            "description" : "Invalid configuration/parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/replicas" : {
+      "get" : {
+        "tags" : [ "Replica Servers" ],
+        "summary" : "Gets replica server list.",
+        "description" : "",
+        "operationId" : "getReplicaServers",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "includeApiEndpoint",
+          "in" : "query",
+          "description" : "Include SCM API endpoint data?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of Replica servers"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/replicas/{replicaId}" : {
+      "get" : {
+        "tags" : [ "Replica Servers" ],
+        "summary" : "Gets replica server data.",
+        "description" : "",
+        "operationId" : "getReplicaServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "replicaId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "replica(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ReplicaServer"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such replica server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Replica Servers" ],
+        "summary" : "Deletes a replica server.",
+        "description" : "",
+        "operationId" : "deleteReplicaServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "replicaId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "replica(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Replica server is deleted.",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such replica server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets repository list",
+        "description" : "",
+        "operationId" : "getRepositories",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "detail",
+          "in" : "query",
+          "description" : "Include detail",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "sortby",
+          "in" : "query",
+          "description" : "Sort by column name",
+          "required" : false,
+          "type" : "string",
+          "default" : "dateCreated",
+          "enum" : [ "id", "dateCreated", "title", "lastCommitDate" ]
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of repositories to be returned in one call (-1 for all)",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of repositories"
+            }
+          },
+          "500" : {
+            "description" : "Invalid sort column",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Creates repository",
+        "description" : "",
+        "operationId" : "createRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New repository data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostRepository"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            },
+            "headers" : {
+              "Location" : {
+                "type" : "string",
+                "format" : "uri",
+                "description" : "New repository resource"
+              }
+            }
+          },
+          "202" : {
+            "description" : "Repository creation is requested, waiting for admin approval ",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such project",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Repository already exists/invalid name/SCM limitation.",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/updateSubmodulesUsage" : {
+      "post" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Update list of submodules used by given repositories",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.1</div><br>",
+        "operationId" : "updateSubmodulesUsage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Repository submodule usage data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/RepositorySubmoduleUsageEntities"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully updated list of submodules used by given repositories"
+          },
+          "400" : {
+            "description" : "Invalid arguments",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets repository data by id.",
+        "description" : "Provide replicaId in order to get replica specific checkout commands and API endpoint",
+        "operationId" : "getRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "name" : "replicaId",
+          "in" : "query",
+          "description" : "Replica server id",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "includeWebhooks",
+          "in" : "query",
+          "description" : "Include repository webhook configuration",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            },
+            "headers" : {
+              "ETag" : {
+                "type" : "string",
+                "description" : "Repository data version"
+              }
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository/replica server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Deletes a repository by id",
+        "description" : "",
+        "operationId" : "deleteRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Repository deletion is requested, waiting for admin approval"
+          },
+          "204" : {
+            "description" : "Repository is deleted"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Updates repository data by id",
+        "description" : "",
+        "operationId" : "updateRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated repository info",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchRepository"
+          }
+        }, {
+          "name" : "If-Match",
+          "in" : "header",
+          "description" : "Repository version",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Repository"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "409" : {
+            "description" : "Conflict",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "412" : {
+            "description" : "Missing If-Match header",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/checkout-commands" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets repository checkout commands",
+        "description" : "",
+        "operationId" : "getCheckoutCommands",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/List of checkout commands"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/commits/by-native-id/{revision}/commitid" : {
+      "get" : {
+        "tags" : [ "Commits" ],
+        "summary" : "Gets commit id.",
+        "description" : "",
+        "operationId" : "getCommitId",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "description" : "Revision",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/CommitId"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/importParams" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets the import parameters required to import this Git repository on TF Git Integration",
+        "description" : "",
+        "operationId" : "getImportParams",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully received import params"
+          },
+          "204" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Deletes import params",
+        "description" : "",
+        "operationId" : "deleteImportParams",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "name" : "repoDeleteStatus",
+          "in" : "query",
+          "description" : "Gerrit repository deletion failed",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Import params deletion is requested, waiting for admin approval"
+          },
+          "204" : {
+            "description" : "Import params row is deleted"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/notificationSubscriptionStatus" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Get notification subscription status for user",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getNotificationSubscriptionStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Subscription status of user for this repository's notifications",
+            "schema" : {
+              "$ref" : "#/definitions/NotificationSubscriptionStatus"
+            }
+          },
+          "404" : {
+            "description" : "Repository not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/replicas" : {
+      "get" : {
+        "tags" : [ "Repository Replicas" ],
+        "summary" : "Gets list of available replica servers for the given repository",
+        "description" : "",
+        "operationId" : "getRepositoryReplicas",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "description" : "Repository id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(?:\\d+)"
+        }, {
+          "name" : "excludeUnused",
+          "in" : "query",
+          "description" : "Whether to exclude unused replica servers",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of repository replicas"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/replicas/{replicaId}" : {
+      "get" : {
+        "tags" : [ "Repository Replicas" ],
+        "summary" : "Gets repository replica information.",
+        "description" : "",
+        "operationId" : "getRepositoryReplica",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "description" : "Repository id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(?:\\d+)"
+        }, {
+          "name" : "replicaId",
+          "in" : "path",
+          "description" : "Replica server id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "replica(?:\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/RepositoryReplica"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository/repository replica",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Repository Replicas" ],
+        "summary" : "Replicates a repository on replica server.",
+        "description" : "",
+        "operationId" : "replicateRepository",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "description" : "Repository id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(?:\\d+)"
+        }, {
+          "name" : "replicaId",
+          "in" : "path",
+          "description" : "Replica server id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "replica(?:\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Repository is replicated successfully"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such replica server/repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Repository Replicas" ],
+        "summary" : "Stops repository replication on a replica server.",
+        "description" : "",
+        "operationId" : "stopRepositoryReplication",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "description" : "Repository id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(?:\\d+)"
+        }, {
+          "name" : "replicaId",
+          "in" : "path",
+          "description" : "Replica server id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "replica(?:\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Replication is stopped successfully."
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such replica server/repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/replicas/{replicaId}/checkout-commands" : {
+      "get" : {
+        "tags" : [ "Repository Replicas" ],
+        "summary" : "Gets repository checkout commands",
+        "description" : "",
+        "operationId" : "getCheckoutCommandsOnReplica",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(?:\\d+)"
+        }, {
+          "name" : "replicaId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "replica(?:\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/List of checkout commands"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such replica server/repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/repositoryConsumers" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Get a list of repositories that use given repository as submodule",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.1</div><br>",
+        "operationId" : "getRepositoryConsumers",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of repositories that use this repository as submodule",
+            "schema" : {
+              "$ref" : "#/definitions/Repository consumers"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Repository not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/status" : {
+      "patch" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Updates the import status for the given repository",
+        "description" : "",
+        "operationId" : "updateImportStatus",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Patch entity containing import status and error message",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully received import params"
+          },
+          "400" : {
+            "description" : "Invalid Parameters supplied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/submoduleNotificationsForum" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Get submodule notifications forum",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "getSubmoduleNotificationsForum",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Submodule notifications forum for this repository",
+            "schema" : {
+              "$ref" : "#/definitions/SubmoduleNotificationsForum"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Repository not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/subscribeToNotifications" : {
+      "put" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Subscribe user to repository notifications",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "subscribeToNotifications",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Subscribed successfully"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Repository not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/unsubscribeFromNotifications" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Unsubscribe user from repository notifications",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.2</div><br>",
+        "operationId" : "unsubscribeFromNotifications",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Unsubscribed successfully"
+          },
+          "404" : {
+            "description" : "Repository not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/updateSubmodulesUsage" : {
+      "patch" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Update list of repositories that use given repository as submodule",
+        "description" : "<div><b>Since:</b><br><br>&nbsp;&nbsp;&nbsp;&nbsp;20.1</div><br>",
+        "operationId" : "updateSubmodulesUsage",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Repository submodule modifications",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/RepositorySubmoduleUsageModifications"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "list of repositories that use this repository as submodule"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "Repository not found",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/repositories/{repositoryId}/webhooks" : {
+      "get" : {
+        "tags" : [ "Webhooks" ],
+        "summary" : "Gets repository webhook configuration.",
+        "description" : "",
+        "operationId" : "getRepositoryWebhookConfiguration",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        }, {
+          "name" : "includeInherited",
+          "in" : "query",
+          "description" : "Whether to include webhooks from project and server level",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/WebhookConfiguration"
+            }
+          },
+          "400" : {
+            "description" : "Invalid configuration/parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Invalid configuration",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Webhooks" ],
+        "summary" : "Sets repository level webhook configuration",
+        "description" : "",
+        "operationId" : "setRepositoryWebhookConfiguration",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New webhook configuration",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PutWebhookConfiguration"
+          }
+        }, {
+          "name" : "repositoryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "reps(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Webhook configuration is set"
+          },
+          "304" : {
+            "description" : "Webhook configuration is not modified"
+          },
+          "400" : {
+            "description" : "Invalid configuration/parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such repository",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/servers" : {
+      "get" : {
+        "tags" : [ "Servers" ],
+        "summary" : "List SCM servers",
+        "description" : "",
+        "operationId" : "getSCMServers",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "includeApiEndpoint",
+          "in" : "query",
+          "description" : "Include SCM API endpoint data (SVN/Git servers)?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        }, {
+          "name" : "excludeFrozen",
+          "in" : "query",
+          "description" : "Exclude SCM servers where new repository creation is disabled for caller?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of SCM servers"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Servers" ],
+        "summary" : "Create server",
+        "description" : "",
+        "operationId" : "createSCMServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New SCM server data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PostServer"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/IntegrationServer"
+            },
+            "headers" : {
+              "Location" : {
+                "type" : "string",
+                "format" : "uri",
+                "description" : "Server endpoint"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid server data",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such SCM adapter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/servers/{serverId}" : {
+      "get" : {
+        "tags" : [ "Servers" ],
+        "summary" : "Get SCM server details",
+        "description" : "",
+        "operationId" : "getSCMServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/SCMServer"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such SCM server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Servers" ],
+        "summary" : "Delete SCM server",
+        "description" : "",
+        "operationId" : "deleteSCMServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Server is deleted"
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such SCM server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Servers" ],
+        "summary" : "Modify server configuration",
+        "description" : "",
+        "operationId" : "updateSCMServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated server data",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PatchServer"
+          }
+        }, {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/IntegrationServer"
+            }
+          },
+          "400" : {
+            "description" : "Invalid server data",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such SCM server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/servers/{serverId}/replicas" : {
+      "get" : {
+        "tags" : [ "Replica Servers" ],
+        "summary" : "Gets replica server list for a SCM server.",
+        "description" : "",
+        "operationId" : "getReplicaServersForSCMServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serverId",
+          "in" : "path",
+          "description" : "SCM server id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(?:\\d+)"
+        }, {
+          "name" : "includeApiEndpoint",
+          "in" : "query",
+          "description" : "Include SCM API endpoint data?",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of Replica servers"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Replica Servers" ],
+        "summary" : "Registers replica server with a SCM server",
+        "description" : "",
+        "operationId" : "registerReplicaWithSCMServer",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Registration parameters",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Replica"
+          }
+        }, {
+          "name" : "serverId",
+          "in" : "path",
+          "description" : "SCM server id",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(?:\\d+)"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/servers/{serverId}/repositories" : {
+      "get" : {
+        "tags" : [ "Repositories" ],
+        "summary" : "Gets repository list on a SCM server",
+        "description" : "The list will include only the repositories which current user can view.",
+        "operationId" : "getServerRepositories",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(?:\\d+)"
+        }, {
+          "name" : "detail",
+          "in" : "query",
+          "description" : "Include detail",
+          "required" : false,
+          "type" : "boolean"
+        }, {
+          "name" : "sortby",
+          "in" : "query",
+          "description" : "Sort by column name",
+          "required" : false,
+          "type" : "string",
+          "default" : "dateCreated",
+          "enum" : [ "id", "dateCreated", "title", "lastCommitDate" ]
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offset",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "description" : "Max. number of repositories to be returned in one call (-1 for all)",
+          "required" : false,
+          "type" : "integer",
+          "default" : -1,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Collection of repositories"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Invalid sort column",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    },
+    "/servers/{serverId}/webhooks" : {
+      "get" : {
+        "tags" : [ "Webhooks" ],
+        "summary" : "Gets SCM server webhook configuration.",
+        "description" : "",
+        "operationId" : "getServerWebhookConfiguration",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(?:\\d+)"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/WebhookConfiguration"
+            }
+          },
+          "400" : {
+            "description" : "Invalid configuration/parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "500" : {
+            "description" : "Invalid configuration",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Webhooks" ],
+        "summary" : "Sets server level SCM webhook configuration",
+        "description" : "",
+        "operationId" : "setServerWebhookConfiguration",
+        "consumes" : [ "application/json", "application/json+v2" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "New webhook configuration",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PutWebhookConfiguration"
+          }
+        }, {
+          "name" : "serverId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "exsy(?:\\d+)"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Webhook configuration is set"
+          },
+          "304" : {
+            "description" : "Webhook configuration is not modified"
+          },
+          "400" : {
+            "description" : "Invalid configuration/parameter",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "403" : {
+            "description" : "Permission denied",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          },
+          "404" : {
+            "description" : "No such server",
+            "schema" : {
+              "$ref" : "#/definitions/ErrorEntity"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AbstractEntity" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Collection of Replica servers" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/ReplicaServer"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Collection of SCM servers" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/SCMServer"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Collection of repositories" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/SimpleRepository"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Collection of repository replicas" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryReplica"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Commit" : {
+      "type" : "object",
+      "properties" : {
+        "commitId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CommitId" : {
+      "type" : "object",
+      "required" : [ "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        }
+      },
+      "description" : "SCM commit id"
+    },
+    "ErrorEntity" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "FilterRepositoriesRequest" : {
+      "type" : "object",
+      "properties" : {
+        "sort" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        },
+        "filter" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "offset" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to filter repository entity fields based on values"
+    },
+    "IntegrationServer" : {
+      "type" : "object",
+      "required" : [ "adapterCategory", "adapterName", "adapterParameterTypes", "adapterParameters", "description", "id", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Server title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Server description",
+          "readOnly" : true
+        },
+        "adapterName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "adapterCategory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "adapterParameters" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "adapterParameterTypes" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "apiEndpoint" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Server information"
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "href" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "method" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "templated" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "List of checkout commands" : {
+      "type" : "object",
+      "required" : [ "commands", "defaultProtocol", "urls" ],
+      "properties" : {
+        "defaultProtocol" : {
+          "type" : "string",
+          "description" : "Default checkout protocol",
+          "readOnly" : true
+        },
+        "urls" : {
+          "type" : "object",
+          "description" : "Protocol to URL map",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "commands" : {
+          "type" : "object",
+          "description" : "Protocol to checkout command map",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "NotificationSubscriptionStatus" : {
+      "type" : "object",
+      "properties" : {
+        "subscribed" : {
+          "type" : "boolean"
+        },
+        "canViewRepository" : {
+          "type" : "boolean"
+        }
+      },
+      "description" : "Information about subscription for repository's notifications"
+    },
+    "PatchRepository" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "idRequiredOnCommit" : {
+          "type" : "boolean",
+          "description" : "Will be set to false if not provided.",
+          "readOnly" : true
+        },
+        "searchEnabled" : {
+          "type" : "boolean",
+          "description" : "Will be set to false if not provided.",
+          "readOnly" : true
+        },
+        "hideMonitoringDetails" : {
+          "type" : "boolean",
+          "description" : "Will be set to false if not provided.",
+          "readOnly" : true
+        },
+        "parameters" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryParam"
+          }
+        },
+        "webhookConfiguration" : {
+          "description" : "Webhook configuration specific for this repository",
+          "$ref" : "#/definitions/PutWebhookConfiguration"
+        }
+      },
+      "description" : "Model to update repository data"
+    },
+    "PatchServer" : {
+      "type" : "object",
+      "required" : [ "description", "parameters", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "parameters" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to update SCM Server data"
+    },
+    "PostRepository" : {
+      "type" : "object",
+      "required" : [ "projectId", "repositoryDirectory", "systemId", "title" ],
+      "properties" : {
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "repositoryDirectory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "idRequiredOnCommit" : {
+          "type" : "boolean",
+          "description" : "Will be set to false if not provided.",
+          "readOnly" : true
+        },
+        "systemId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "searchEnabled" : {
+          "type" : "boolean",
+          "description" : "Will be set to false if not provided.",
+          "readOnly" : true
+        },
+        "hideMonitoringDetails" : {
+          "type" : "boolean",
+          "description" : "Will be set to false if not provided.",
+          "readOnly" : true
+        },
+        "parameters" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryParam"
+          }
+        },
+        "comment" : {
+          "type" : "string",
+          "description" : "Comment for approval request"
+        },
+        "webhookConfiguration" : {
+          "description" : "Webhook configuration specific for this repository",
+          "$ref" : "#/definitions/PutWebhookConfiguration"
+        }
+      },
+      "description" : "Model to create a repository"
+    },
+    "PostServer" : {
+      "type" : "object",
+      "required" : [ "adapterName", "adapterParameters", "description", "title" ],
+      "properties" : {
+        "adapterName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "adapterParameters" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Model to create SCM Server"
+    },
+    "PutWebhookConfiguration" : {
+      "type" : "object",
+      "properties" : {
+        "webhooks" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryWebhookConfig"
+          }
+        }
+      },
+      "description" : "Model to set webhook configuration"
+    },
+    "RecentRepositories" : {
+      "type" : "object",
+      "properties" : {
+        "items" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RecentRepositoryEntity"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "paged" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Recent repository collection"
+    },
+    "RecentRepositoryEntity" : {
+      "type" : "object",
+      "required" : [ "id", "projectPath", "projectTitle", "repositoryName", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge Id",
+          "readOnly" : true
+        },
+        "repositoryName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      }
+    },
+    "Replica" : {
+      "type" : "object",
+      "required" : [ "contextPath", "hostname", "title" ],
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "hostname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "consolePort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "port" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "ssl" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "contextPath" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Replica server information"
+    },
+    "ReplicaServer" : {
+      "type" : "object",
+      "required" : [ "approved", "commandConcurrencyLong", "commandConcurrencyShort", "commandPollPeriod", "consolePort", "contextPath", "health", "hostname", "id", "lastContactDate", "managedByUserName", "masterSystemAdapterName", "masterSystemId", "masterSystemTitle", "pending", "port", "ssl", "title", "viewerPath" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "hostname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "masterSystemId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "masterSystemTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "masterSystemAdapterName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "managedByFullName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "approved" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "pending" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "ssl" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "contextPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "viewerPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "consolePort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "port" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "commandPollPeriod" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "commandConcurrencyLong" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "commandConcurrencyShort" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "lastContactDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "health" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "apiEndpoint" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "managedByUserName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Replica Server resource"
+    },
+    "Repositories Summary" : {
+      "type" : "object",
+      "properties" : {
+        "searchEnabled" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "gitReviewsEnabled" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "serverIds" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Summary of project repositories features"
+    },
+    "Repository" : {
+      "type" : "object",
+      "required" : [ "canEditRepository", "createdBy", "createdDate", "description", "hideMonitoringDetails", "id", "idRequiredOnCommit", "isOnManagedScmServer", "lastModifiedBy", "lastModifiedDate", "path", "projectId", "repositoryDirectory", "repositoryName", "scmAdapterName", "systemId", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "idRequiredOnCommit" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "isOnManagedScmServer" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "searchEnabled" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "repositoryDirectory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "scmAdapterName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "scmViewerUrl" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "systemId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "systemTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "hideMonitoringDetails" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "canEditRepository" : {
+          "type" : "boolean",
+          "description" : "Whether the calling user can edit repository data or not.",
+          "readOnly" : true
+        },
+        "parameters" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryParam"
+          }
+        },
+        "checkoutCommands" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/List of checkout commands"
+        },
+        "apiEndpoint" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "repositoryName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "webhookConfiguration" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/WebhookConfiguration"
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Repository resource"
+    },
+    "Repository consumer" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "systemId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "sha1" : {
+          "type" : "array",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "Repository consumers" : {
+      "type" : "object",
+      "properties" : {
+        "host" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "consumers" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Repository consumer"
+          }
+        },
+        "isPermissionDenied" : {
+          "type" : "boolean",
+          "readOnly" : true
+        }
+      }
+    },
+    "RepositoryLocation" : {
+      "type" : "object",
+      "properties" : {
+        "host" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model to represent name and host of repository"
+    },
+    "RepositoryParam" : {
+      "type" : "object",
+      "required" : [ "key", "value" ],
+      "properties" : {
+        "key" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      },
+      "description" : "Repository parameter"
+    },
+    "RepositoryReplica" : {
+      "type" : "object",
+      "required" : [ "adapterName", "contextPath", "health", "hostname", "id", "initialized", "managedByUsername", "port", "ssl", "status", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "adapterName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "contextPath" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "initialized" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "health" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "hostname" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "managedByUsername" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "managedByFullName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "port" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "ssl" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "apiEndpoint" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Repository replica information"
+    },
+    "RepositorySubmoduleUsage" : {
+      "type" : "object",
+      "properties" : {
+        "consumerRepository" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/RepositoryLocation"
+        },
+        "submoduleCommits" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/SubmoduleUsage"
+          }
+        }
+      },
+      "description" : "List of commits with submodule usage in a repository"
+    },
+    "RepositorySubmoduleUsageEntities" : {
+      "type" : "object",
+      "properties" : {
+        "usages" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositorySubmoduleUsage"
+          }
+        }
+      },
+      "description" : "A list of repository submodule usage entities"
+    },
+    "RepositorySubmoduleUsageModifications" : {
+      "type" : "object",
+      "properties" : {
+        "added" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/SubmoduleUsage"
+          }
+        },
+        "deleted" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Commit"
+          }
+        }
+      },
+      "description" : "List of modifications to submodules usage in a repository"
+    },
+    "RepositoryWebhookConfig" : {
+      "type" : "object",
+      "properties" : {
+        "url" : {
+          "type" : "string",
+          "description" : "Webhook URL",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "Webhook type"
+        },
+        "eventTypes" : {
+          "type" : "array",
+          "description" : "SCM event types",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "ignoreSslWarnings" : {
+          "type" : "boolean",
+          "description" : "Ignore SSL warnings"
+        },
+        "connectTimeout" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Connection timeout in milliseconds"
+        },
+        "readTimeout" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Read timeout in milliseconds"
+        },
+        "maxRetryCount" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Number of times the call will be tried"
+        },
+        "filter" : {
+          "description" : "Webhook filter",
+          "$ref" : "#/definitions/RepositoryWebhookFilter"
+        }
+      },
+      "description" : "Repository webhook configuration"
+    },
+    "RepositoryWebhookFilter" : {
+      "type" : "object",
+      "properties" : {
+        "adapter" : {
+          "type" : "string",
+          "description" : "Adapter name for which the webhook is"
+        },
+        "servers" : {
+          "type" : "array",
+          "description" : "SCM server ids",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Repository webhook filter"
+    },
+    "SCMServer" : {
+      "type" : "object",
+      "required" : [ "adapterCategory", "adapterName", "description", "id", "requiresApproval", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Server title",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Server description",
+          "readOnly" : true
+        },
+        "adapterName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "adapterCategory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "requiresApproval" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "apiEndpoint" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "scmViewerUrl" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "frozen" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "repositoryNamePrefix" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "SCM server information"
+    },
+    "SimpleRepository" : {
+      "type" : "object",
+      "required" : [ "commitsThisWeek", "createdBy", "createdDate", "description", "id", "lastModifiedBy", "lastModifiedDate", "path", "projectId", "projectTitle", "repositoryDirectory", "repositoryName", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "TeamForge id",
+          "readOnly" : true
+        },
+        "createdBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "createdDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "lastModifiedBy" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastModifiedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "readOnly" : true
+        },
+        "path" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "projectTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "repositoryDirectory" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "commitsThisWeek" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "checkoutCommands" : {
+          "description" : "Checkout commands",
+          "$ref" : "#/definitions/List of checkout commands"
+        },
+        "monitoring" : {
+          "type" : "boolean",
+          "description" : "Is current user monitoring this repository"
+        },
+        "scmServer" : {
+          "description" : "SCM Server info",
+          "$ref" : "#/definitions/SCMServer"
+        },
+        "usedReplicas" : {
+          "description" : "List of replicas used by this repository",
+          "$ref" : "#/definitions/Collection of repository replicas"
+        },
+        "unusedReplicas" : {
+          "description" : "List of available replicas not used by this repository",
+          "$ref" : "#/definitions/Collection of repository replicas"
+        },
+        "repositoryName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "disabled" : {
+          "type" : "boolean"
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Basic repository information"
+    },
+    "SubmoduleNotificationsForum" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        }
+      },
+      "description" : "Discussion forum configured for submodule notifications"
+    },
+    "SubmoduleUsage" : {
+      "type" : "object",
+      "properties" : {
+        "commitId" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "consumedRepositories" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryLocation"
+          }
+        }
+      },
+      "description" : "Commit with submodules usage"
+    },
+    "WebhookConfiguration" : {
+      "type" : "object",
+      "properties" : {
+        "webhooks" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/RepositoryWebhookConfig"
+          }
+        },
+        "_links" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "_embedded" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/AbstractEntity"
+          }
+        }
+      },
+      "description" : "Webhook configuration"
+    }
+  }
+}
