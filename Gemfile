@@ -2,4 +2,12 @@
 
 source "https://rubygems.org"
 
-# gem "rails"
+gem "github-pages"
+gem "rails"
+gem "jekyll"
+gem "jekyll-algolia"
+gem "jekyll-responsive-image"
+gem "jekyll-sass-converter"
+gem "jekyll-watch"
+gem "libv8"
+gem "nokogiri"
