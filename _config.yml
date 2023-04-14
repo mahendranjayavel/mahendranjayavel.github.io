@@ -2,14 +2,16 @@
 output: web
 # this property is useful for conditional filtering of content that is separate from the PDF.
 
-url: https://docs.collab.net
+url: https://bright-beignet-d2cc1c.netlify.app/
 
-sitemapurl: http://docs.collab.net/teamforge221
+baseurl: /teamforge/221
+
+sitemapurl: https://bright-beignet-d2cc1c.netlify.app/teamforge221
 
 topnav_title: Help Center
 # this appears on the top navigation bar next to the home button
 
-site_title: docs.collab.net
+site_title: docs.digital.ai
 # this appears in the html browser tab for the site title (seen mostly by search engines, not users)
 
 company_name: Digital.ai Inc
