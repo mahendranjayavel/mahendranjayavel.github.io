@@ -2,11 +2,9 @@
 output: web
 # this property is useful for conditional filtering of content that is separate from the PDF.
 
-url: https://bright-beignet-d2cc1c.netlify.app/
+url: https://teamforge.netlify.app/
 
-baseurl: /teamforge/221
-
-sitemapurl: https://bright-beignet-d2cc1c.netlify.app/teamforge221
+sitemapurl: https://teamforge.netlify.app
 
 topnav_title: Help Center
 # this appears on the top navigation bar next to the home button
