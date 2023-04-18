@@ -4,6 +4,8 @@ output: web
 
 url: https://teamforge.netlify.app/
 
+baseurl: /teamforge221
+
 sitemapurl: https://teamforge.netlify.app
 
 topnav_title: Help Center
